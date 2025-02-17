@@ -2,7 +2,6 @@
 public class T04_2 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		int N=30;
 		double A=25.5, result=0;
 		char C=107;
