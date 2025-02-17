@@ -26,7 +26,7 @@ public class T04_3 {
 		System.out.println("El Doble de N es " +(N * 2));
 		System.out.println("El Doble de M es " +(M * 2));
 		System.out.println("La Suma de todas las Variavles da "+(X + Y + N + M));
-		System.out.println("El Producto de todas las Variables da "+(X * Y * N * M));
+		System.out.println("El Producto de todas las Variables da "+(X * Y * N * M) );
 	}
 
 }
