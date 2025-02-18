@@ -1,4 +1,4 @@
-
+package TA2;
 public class ClaseInteger1 {
 
 	public static void main(String[] args) {
