@@ -1,6 +1,6 @@
+package TA5;
 
-
-public class Testing {
+public class T05_1 {
 
 	public static void main(String[] args) {
 
@@ -10,6 +10,7 @@ public class Testing {
 		if (A<B) {System.out.println(B +" es mayor que "+ A);}
 		else if (B<A) {System.out.println(A +" es mayor que "+ B);}
 		else if (A==B) {System.out.println(A + " es igual a " + B);}
+	
 
 	}
 
