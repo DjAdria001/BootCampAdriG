@@ -2,7 +2,7 @@ package TA5;
 
 import javax.swing.JOptionPane;
 
-public class T05_3 {
+public class T05_03 {
 
 	public static void main(String[] args) {
 

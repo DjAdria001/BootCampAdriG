@@ -2,7 +2,7 @@ package TA5;
 
 import javax.swing.JOptionPane;
 
-public class T05_4 {
+public class T05_04 {
 
 	public static void main(String[] args) {
 		final double pi = Math.PI;

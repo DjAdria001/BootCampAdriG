@@ -2,7 +2,7 @@ package TA5;
 
 import java.util.Scanner;
 
-public class T05_2 {
+public class T05_02 {
 
 	public static void main(String[] args) {
 
