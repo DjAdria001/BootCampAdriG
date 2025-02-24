@@ -1,5 +1,7 @@
 package TA5;
+
 import javax.swing.JOptionPane;
+
 public class T05_10 {
 
 	public static void main(String[] args) {
@@ -15,7 +17,7 @@ public class T05_10 {
 			i++;
 		}
 		JOptionPane.showMessageDialog(null, "El total de ventas es: " + TotalVentas);
-		
+
 	}
 
 }
