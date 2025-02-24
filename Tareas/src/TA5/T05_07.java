@@ -8,8 +8,7 @@ public class T05_07 {
 		while (num <= 100) {
 			System.out.print(num + " ");
 			num++;
-		}
-		;
+		};
 
 	}
 }
