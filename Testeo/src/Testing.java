@@ -6,12 +6,13 @@ public class Testing {
 //		String Pregunta = JOptionPane.showInputDialog(" ");
 //		int PregNum = Integer.parseInt(Pregunta);
 //		javax.swing.JOptionPane.showMessageDialog(null,"");
-		int num[]= new int[10];
-		num[0]=5;
-		num[1]=9;
-		num[2]=10;
-		System.out.println(num[0]);
-		System.out.println(num[1]);
-		System.out.println(num[2]);
-	}
+		
+		int RandomNum = (int) (Math.random() * 10);
+		for (int Div = 2; Div <= (RandomNum - 1); Div++) {
+			if(RandomNum % Div == 0 || RandomNum == 1) {
+				
+			}
+//			System.out.println("numero primo -->" + RandomNum);
+		}
+		}
 }
