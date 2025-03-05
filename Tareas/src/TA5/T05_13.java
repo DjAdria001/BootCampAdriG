@@ -8,7 +8,7 @@ public class T05_13 {
 		String Num1 = JOptionPane.showInputDialog("Introduce el primer numero de la operacion: ");
 		int Num1Int = Integer.parseInt(Num1);
 		String Operacion = JOptionPane
-				.showInputDialog("Introduce el simbolo(+ - * / %) la operacion que deseas realizar: ");
+				.showInputDialog("Introduce el simbolo(+ - * / % ^) la operacion que deseas realizar: ");
 		String Num2 = JOptionPane.showInputDialog("Introduce el segundo numero de la operacion: ");
 		int Num2Int = Integer.parseInt(Num2);
 		int Resultado = 0;
