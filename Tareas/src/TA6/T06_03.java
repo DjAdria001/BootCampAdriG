@@ -9,9 +9,9 @@ public class T06_03 {
 		int num = Integer.parseUnsignedInt(InsNum);
 		boolean Resultado = esPrimo(num);
 		if (Resultado == true) {
-			JOptionPane.showMessageDialog(null, "True");
+			JOptionPane.showMessageDialog(null, "Es primo");
 		} else if (Resultado == false) {
-			JOptionPane.showMessageDialog(null, "False");
+			JOptionPane.showMessageDialog(null, "No es primo");
 		}
 		
 
