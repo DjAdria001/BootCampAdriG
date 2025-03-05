@@ -17,6 +17,7 @@ public class T06_10 {
 		System.out.println("El valor maximo del array es: " + Maximo(num));
 	}
 
+	//	Generar un valor aleatorio primo
 	public static int ValorRandPrimo() {
 		int RandomNum = (int) (Math.random() * 100);
 		boolean primo = false;
@@ -24,7 +25,7 @@ public class T06_10 {
 			RandomNum = (int) (Math.random() * 100);
 			primo = true;
 			for (int Div = 2; Div <= (RandomNum - 1); Div++) {
-				if (RandomNum % Div == 0 || RandomNum == 1 || RandomNum == 0) {
+				if (RandomNum % Div == 0 || RandomNum == 1) {
 					primo = false;
 				}
 			}
@@ -32,19 +33,22 @@ public class T06_10 {
 		return RandomNum;
 	}
 
+	//	Mostrar los valores del array
 	public static int Mostrar(int[] num, int Longitud) {
 		for (int i = 0; i < Longitud; i++) {
 			System.out.println("El valor de num[" + i + "] es " + num[i]);
 		}
 		return 0;
 	}
+
+	//	Busqueda del valor maximo del array
 	public static int Maximo(int[] num) {
-        int max = num[0];
-        for (int i = 1; i < num.length; i++) {
-            if (num[i] > max) {
-                max = num[i];
-            }
-        }
-        return max;
-    }
+		int max = num[0];
+		for (int i = 1; i < num.length; i++) {
+			if (num[i] > max) {
+				max = num[i];
+			}
+		}
+		return max;
+	}
 }
