@@ -27,6 +27,9 @@ public class T05_13 {
 		} else if (Operacion.equals("%")) {
 			Resultado = Num1Int % Num2Int;
 			javax.swing.JOptionPane.showMessageDialog(null, "El resultado de la operacion es: " + Resultado);
+		} else if (Operacion.equals("^")) {
+			Resultado = (int) Math.pow(Num1Int, Num2Int);
+			javax.swing.JOptionPane.showMessageDialog(null, "El resultado de la operacion es: " + Resultado);
 		}
 	}
 
