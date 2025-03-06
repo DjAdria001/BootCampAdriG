@@ -39,8 +39,9 @@ public class T06_11 {
 	public static int Mostrar(int[][] num, int Longitud, int Longitud2) {
 		for (int i = 0; i < Longitud; i++) {
 			for (int j = 0; j < Longitud2; j++) {
-				System.out.println("El valor de num[" + i + "][" + j + "] es " + num[i][j]);
+//				System.out.println("El valor de num[" + i + "][" + j + "] es " + num[i][j]);
 //			System.out.println("El valor de num[" + i + "] es " + num[i][j]);
+				System.out.print(num[i][j]+" ");
 			}
 		}
 		return 0;
@@ -51,7 +52,8 @@ public class T06_11 {
         for (int i = 0; i < Filas; i++) {
             for (int j = 0; j < Columnas; j++) {
                 Array3[i][j] = Array1[i][j] * Array2[i][j];
-				System.out.println("El valor de num[" + i + "][" + j + "] es " + Array3[i][j]);
+//				System.out.println("El valor de num[" + i + "][" + j + "] es " + Array3[i][j]);
+                System.out.print(Array3[i][j]+" ");
             }
         }
         
