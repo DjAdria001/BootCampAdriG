@@ -25,33 +25,37 @@ public class T06_11 {
 		Mostrar(array, array.length, array[0].length);
 		System.out.println("Array 2");
 		Mostrar(array2, array2.length, array2[0].length);
-        int [][] array3 = new int[Integer.parseInt(Filas)][Integer.parseInt(Columnas)];
+		int[][] array3 = new int[Integer.parseInt(Filas)][Integer.parseInt(Columnas)];
 		System.out.println("Array 3");
-		
+		array3 = multipliArrays(array, array2, array3, array.length, array[0].length);
+
 	}
+
 	public static int ValorRand() {
 		int RandomNum = (int) (Math.random() * 10);
 		return RandomNum;
 	}
+
 	public static int Mostrar(int[][] num, int Longitud, int Longitud2) {
-		for ( int i = 0; i < Longitud; i++) {
+		for (int i = 0; i < Longitud; i++) {
 			for (int j = 0; j < Longitud2; j++) {
-			System.out.println("El valor de num[" + i + "]["+ j+"] es " + num[i][j]);
+				System.out.println("El valor de num[" + i + "][" + j + "] es " + num[i][j]);
 //			System.out.println("El valor de num[" + i + "] es " + num[i][j]);
 			}
 		}
 		return 0;
 	}
-	public static int [][] multipliArrays(){
 
-        for (int i = 0; i < array.length; i++) {
-        	for (int j = 0; j < Longitud2; j++) {
-            array3[i][j] = array[i][j] * array2[i][j];
+	public static int[][] multipliArrays(int Array1[][], int Array2[][],int Array3[][], int Filas, int Columnas) {
+		   
+        for (int i = 0; i < Filas; i++) {
+            for (int j = 0; j < Columnas; j++) {
+                Array3[i][j] = Array1[i][j] * Array2[i][j];
+				System.out.println("El valor de num[" + i + "][" + j + "] es " + Array3[i][j]);
+            }
         }
-        }
-        System.out.println("El array multiplicado es: " + array3);
-        return array3;
-
+        
+        
+		return Array3;
     }
 }
-
