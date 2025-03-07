@@ -1,3 +1,4 @@
+
 package TA6;
 
 import javax.swing.JOptionPane;
@@ -22,7 +23,12 @@ public class T06_11 {
 			}
 			i++;
 		}
-		array2 = array;
+		// Copiar array en array2
+		for (i = 0; i < Largo; i++) {
+			for (int j = 0; j < Alto; j++) {
+				array2[i][j] = array[i][j];
+			}
+		}
 		System.out.println("Array 1");
 		Mostrar(array, Largo, Alto);
 		System.out.println("Array 2");
