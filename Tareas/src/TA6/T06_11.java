@@ -43,6 +43,7 @@ public class T06_11 {
 //			System.out.println("El valor de num[" + i + "] es " + num[i][j]);
 				System.out.print(num[i][j]+" ");
 			}
+			System.out.println();
 		}
 		return 0;
 	}
@@ -55,6 +56,7 @@ public class T06_11 {
 //				System.out.println("El valor de num[" + i + "][" + j + "] es " + Array3[i][j]);
                 System.out.print(Array3[i][j]+" ");
             }
+            System.out.println();
         }
         
         
