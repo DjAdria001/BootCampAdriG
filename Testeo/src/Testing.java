@@ -6,7 +6,7 @@ public class Testing {
 
 	public static void main(String[] args) {
 		int a=5, b=6;
-	System.out.printf("Numero %d y %d", a , b);
+	System.out.printf("Numero %d y %d", a , b);//%d es una variable y %n es salto de linea
 	}
 
 }
