@@ -22,9 +22,9 @@ public class T06_11 {
 		}
 		array2 = array;
 		System.out.println("Array 1");
-		Mostrar(array, array.length, array[0].length);
+		Mostrar(array, array.length, array.length);
 		System.out.println("Array 2");
-		Mostrar(array2, array2.length, array2[0].length);
+		Mostrar(array2, array2.length, array2.length);
 		int[][] array3 = new int[Integer.parseInt(Filas)][Integer.parseInt(Columnas)];
 		System.out.println("Array 3");
 		array3 = multipliArrays(array, array2, array3, array.length, array[0].length);
@@ -36,9 +36,9 @@ public class T06_11 {
 		return RandomNum;
 	}
 
-	public static int Mostrar(int[][] num, int Longitud, int Longitud2) {
+	public static int Mostrar(int[][] num, int Longitud, int Altitud) {
 		for (int i = 0; i < Longitud; i++) {
-			for (int j = 0; j < Longitud2; j++) {
+			for (int j = 0; j < Altitud; j++) {
 //				System.out.println("El valor de num[" + i + "][" + j + "] es " + num[i][j]);
 //			System.out.println("El valor de num[" + i + "] es " + num[i][j]);
 				System.out.print(num[i][j]+" ");
