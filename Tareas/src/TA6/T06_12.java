@@ -15,7 +15,8 @@ public class T06_12 {
     int array[][] = new int[Integer.parseInt(Filas)][Integer.parseInt(Columnas)];
     int i = 0;
 
-    // Filtro para que el usuario introduzca un número mayor que 0 y menos de 10, es decir, un número de una cifra
+    // Filtro para que el usuario introduzca un número mayor que 0 y menos de 10, 
+    // es decir, un número de una cifra
     do {
       cifra = JOptionPane.showInputDialog("Inserte la cifra final deseada: ");
     } while (Integer.parseInt(cifra) < 0 || Integer.parseInt(cifra) > 9);
@@ -71,9 +72,10 @@ public class T06_12 {
       for (int j = 0; j < longitud2; j++) {
         if (num[i][j] % 10 == cifra) {
           System.out.println("El valor de num[" + i + "][" + j + "] es " + num[i][j]);
-        } else {
-          System.out.println("no hay ningun " + cifra);
-        }
+        } 
+//        else {
+//          System.out.println("no hay ningun " + cifra);
+//        }
       }
     }
   }
