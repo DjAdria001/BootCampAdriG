@@ -13,7 +13,7 @@ public class T07_02 {
 		int Cantidad = 0;
 		do {
 			String Añadir = JOptionPane.showInputDialog("Que producto desea comprar? "
-					+ "\nmanzana pera pizza salchica lasaña huevos" + "\nescribe final para acabar tu cesta.");
+					+ "\nmanzana pera pizza salchicha lasaña huevos" + "\nescribe final para acabar tu cesta.");
 			String producto = Añadir.toLowerCase();
 
 			switch (producto) {
