@@ -7,7 +7,8 @@ import javax.swing.JOptionPane;
 public class Testing {
 
 	public static void main(String[] args) {
-		
+		ArrayList<String> Producto = new ArrayList<>();
+		Producto.add("Hola");
 	}
 
 }
