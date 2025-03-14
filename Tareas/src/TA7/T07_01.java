@@ -33,11 +33,6 @@ public class T07_01 {
 		   Integer Nota = Clase.get(Nombre);
 		   System.out.println("Alumno: " + Nombre + ", Nota: " + Nota);
 		  }
-		
-//		for (Object o : Notas) {
-//			System.out.println("La nota del alumno" + j + " es " + o);
-//			j++;
-//		}
 		System.out.println("La nota media de la clase es "+(Media(Notas)));
 	}
 	 public static double Media(ArrayList<Integer> notas) {
