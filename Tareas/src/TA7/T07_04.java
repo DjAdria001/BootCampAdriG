@@ -7,10 +7,6 @@ public class T07_04 {
 
 	public static void main(String[] args) {
 //Interfaz Empleado
-//		int StockP;
-//		double PrecioP;
-//		Hashtable<Integer, Double> Conjunto=new Hashtable<>();
-//		Conjunto.put(StockP, PrecioP);
 		Hashtable<String, Double> Precio = new Hashtable<>();
 		Precio.put("manzana", 2.5);
 		Precio.put("pera", 2.5);
