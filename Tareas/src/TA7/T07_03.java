@@ -7,8 +7,6 @@ import java.util.Scanner;
 
 public class T07_03 {
 	public static void main(String[] args) {
-		ArrayList<String> Producto = new ArrayList<>();
-		Producto.add("manzana");
 		Hashtable<Object, Double> Precio = new Hashtable<>();
 		Precio.put("manzana", 2.5);
 		Precio.put("pera", 2.5);
