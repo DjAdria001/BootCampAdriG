@@ -85,13 +85,14 @@ public class T07_04 {
 				double Pago;
 				do {
 					String Pagar = JOptionPane
-						.showInputDialog("El total es de " + PrecioFinal + "€" + "\nCon cuanto piensa pagar?");
-				Pago = Double.parseDouble(Pagar);
-				}while(Pago<PrecioFinal);
+							.showInputDialog("El total es de " + PrecioFinal + "€" + "\nCon cuanto piensa pagar?");
+					Pago = Double.parseDouble(Pagar);
+				} while (Pago < PrecioFinal);
 				double Cambio = Pago - PrecioFinal;
 				double Cambio2 = Math.round(Cambio * 100.0) / 100.0;
-				javax.swing.JOptionPane.showMessageDialog(null, "Gracias por su compra" + "\nEl total es de "
-						+ PrecioFinal + "€" + "\nHa pagado con " + Pago + "€" + "\nSu cambio es de " + Cambio2 + "€"+ "\nVuelva pronto");
+				javax.swing.JOptionPane.showMessageDialog(null,
+						"Gracias por su compra" + "\nEl total es de " + PrecioFinal + "€" + "\nHa pagado con " + Pago
+								+ "€" + "\nSu cambio es de " + Cambio2 + "€" + "\nVuelva pronto");
 				Cesta.clear();
 
 				break;
@@ -104,7 +105,7 @@ public class T07_04 {
 				Scanner scanner = new Scanner(System.in);
 				do {
 					System.out.println(
-							"2.Que desea hacer?" + "\n a)Consultar o b)Añadir" + "\nEscriba Salir para finalizar");
+							"2.Que desea hacer?" + "\n a)Consultar b)Añadir c)Nuevo" + "\nEscriba Salir para finalizar");
 					System.out.println("");
 					String Respuesta = scanner.nextLine().toLowerCase();
 					switch (Respuesta) {
@@ -138,8 +139,39 @@ public class T07_04 {
 						} while (!Acabar);
 						break;
 					case "añadir", "b":
+						do {
+							System.out.println("");
+							System.out.println("b)Añadir Stock");
+							System.out.println("----b1)Que producto desea añadir Stock?");
+							System.out.println("(((Escriba salir para finalizar)))");
+							System.out.print("       ");
+							String producto2 = scanner.nextLine().toLowerCase();
+							Acabar = false;
+							switch (producto2) {
+							case "salir":
+								Acabar = true;
+								break;
+							default:
+								if (Stock.containsKey(producto2)) {
+									System.out.println("----b2)Cuantas unidades desea añadir?");
+									System.out.print("       ");
+									String PregProd = scanner.nextLine();
+									int PregProd2 = Integer.parseInt(PregProd);
+									int StockActual = Stock.get(producto2);
+									Stock.put(producto2, StockActual + PregProd2);
+									System.out.println("");
+								} else {
+									System.out.println("");
+									System.out.println("		 No está bien escrito o no existe");
+									System.out.println("");
+								}
+								break;
+							}
+						} while (!Acabar);
+						break;
+					case "nuevo", "c":
 						System.out.println("");
-						System.out.println("b)Añadir Producto");
+						System.out.println("b)Nuevo Producto");
 						System.out.println("----b1) Introduce el Nombre del Producto nuevo");
 						System.out.print("       ");
 						String ProductoNuevo = scanner.nextLine().toLowerCase();
