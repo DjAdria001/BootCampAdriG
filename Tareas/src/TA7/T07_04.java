@@ -35,39 +35,62 @@ public class T07_04 {
 		Hashtable<String, Double> Cesta = new Hashtable<>();
 		boolean Volver = false;
 		do {
-		String Inicio = JOptionPane
-				.showInputDialog("Bienvenido:" + "\nQuien es usted?" + "\n1.Cliente" + "\n2.Empleado");
-		String respuesta = Inicio.toLowerCase();
-		
-		
+			String Inicio = JOptionPane
+					.showInputDialog("Bienvenido:" + "\nQuien es usted?" + "\n1.Cliente" + "\n2.Empleado");
+			String respuesta = Inicio.toLowerCase();
+
 			switch (respuesta) {
 //------------------------------------------------------------------------------------------------------------------------
 //		Interfaz Usuario
 			case "1", "cliente":
-				
-				
-				String Añadir = JOptionPane.showInputDialog("Bienvenido a la tienda" + "\nQue producto desea comprar?"
-						+ "\nmanzana pera pizza salchicha lasaña huevos" + "\npiña lomo berenjena platano patatas"
-						+ "\nescribe final para acabar tu cesta.");
-			
-			
-			
-				String producto = Añadir.toLowerCase();
-				switch (producto) {
-				default:
-					if (Stock.containsKey(producto)) {
-						System.out.println("");
-						System.out.println("		" + producto.toUpperCase());
-						System.out.println("		" + Stock.get(producto) + " en stock");
-						System.out.println("		" + Precio.get(producto) + "€/u");
-						System.out.println("");
-					} else {
-						System.out.println("");
-						System.out.println("		 No está bien escrito o no existe");
-						System.out.println("");
+				boolean FinCesta = false;
+				do {
+					String Añadir = JOptionPane.showInputDialog("Bienvenido a la tienda"
+							+ "\nQue producto desea comprar?" + "\nescribe final para acabar tu cesta.");
+					String producto = Añadir.toLowerCase();
+					switch (producto) {
+					case "final":
+						FinCesta = true;
+						break;
+					default:
+						if (Stock.containsKey(producto)) {
+							String PregProd = JOptionPane
+									.showInputDialog("Introduzca la cantidad de " + producto + " deseada");
+							int PregProd2 = Integer.parseInt(PregProd);
+							if (PregProd2 > Stock.get(producto)) {
+								javax.swing.JOptionPane.showMessageDialog(null, "No hay suficiente stock");
+								break;
+							} else if (PregProd2 <= 0) {
+								javax.swing.JOptionPane.showMessageDialog(null, "No puede comprar 0 o menos productos");
+								break;
+							} else {
+								double PrecioProducto = Precio.get(producto);
+								double PrecioProducto2 = PrecioProducto * PregProd2;
+								Cesta.put(producto, PrecioProducto2);
+								Stock.put(producto, Stock.get(producto) - PregProd2);
+								javax.swing.JOptionPane.showMessageDialog(null, "Ha añadido " + producto + " a su cesta"
+										+ "\nEl precio total es de " + PrecioProducto2 + "€");
+								break;
+							}
+
+						} else {
+							javax.swing.JOptionPane.showMessageDialog(null, "No esta bien escrito o no existe.");
+						}
+						break;
 					}
-					break;
-				}
+				} while (!FinCesta);
+				FinCesta = false;
+				final double IVA = 0.21;
+				double PrecioFinal = añadirIVA(sumarPrecios(Cesta), IVA);
+				String Pagar = JOptionPane
+						.showInputDialog("El total es de " + PrecioFinal + "€" + "\nCon cuanto piensa pagar?");
+				double Pago = Double.parseDouble(Pagar);
+				double Cambio = Pago - PrecioFinal;
+				double Cambio2 = Math.round(Cambio * 100.0) / 100.0;
+				javax.swing.JOptionPane.showMessageDialog(null, "Gracias por su compra" + "\nEl total es de "
+						+ PrecioFinal + "€" + "\nHa pagado con " + Pago + "€" + "\nSu cambio es de " + Cambio2 + "€"+ "\nVuelva pronto");
+				Cesta.clear();
+
 				break;
 //------------------------------------------------------------------------------------------------------------------------
 //		Interfaz Empleado
@@ -141,6 +164,7 @@ public class T07_04 {
 				break;
 			}
 		} while (!Volver);
+
 	}
 
 	public static double sumarPrecios(Hashtable<String, Double> productos) {
@@ -150,6 +174,7 @@ public class T07_04 {
 		while (precios.hasMoreElements()) {
 			suma += precios.nextElement();
 		}
+
 		return suma;
 	}
 
