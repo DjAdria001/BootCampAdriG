@@ -7,17 +7,24 @@ import javax.swing.JOptionPane;
 public class Testing {
 
 	public static void main(String[] args) {
-		ArrayList<String> Producto = new ArrayList<>();
-		Producto.add("Hola");
-		Producto.add("Hola2");
-		Hashtable<Object, String> Stock = new Hashtable<>();
-		Stock.put(Producto.get(0), "Manzana");
-		Stock.put(Producto.get(1), "Pera");
-		Hashtable<Object, String> Stock2 = new Hashtable<>();
-		Stock.put(Stock.get(0), "Manzana2");
-		Stock.put(Stock.get(1), "Pera2");
+		Hashtable<String, Double> Precio = new Hashtable<>();
+		Precio.put("manzana", 2.5);
+		Precio.put("pera", 2.5);
+		Precio.put("pizza", 4.35);
+		Precio.put("salchicha", 6.25);
+		Precio.put("lasaña", 5.1);
+		Precio.put("piña", 3.0);
+		Precio.put("lomo", 4.2);
+		Precio.put("berenjena", 2.35);
+		Precio.put("platano", 1.25);
+		Precio.put("patatas", 5.0);
 		
-		System.out.println(Stock2);
+		Enumeration<String> enumeration = Precio. keys() ;
+		while (enumeration. hasMoreElements () ) {
+		System. out. println ("hashtable valores: " + enumeration. nextElement ()) ;
+//			javax.swing.JOptionPane.showMessageDialog(null,"");
+		}
+
 	}
 
 }
