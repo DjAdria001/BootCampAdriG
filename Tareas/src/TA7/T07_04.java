@@ -82,9 +82,12 @@ public class T07_04 {
 				FinCesta = false;
 				final double IVA = 0.21;
 				double PrecioFinal = añadirIVA(sumarPrecios(Cesta), IVA);
-				String Pagar = JOptionPane
+				double Pago;
+				do {
+					String Pagar = JOptionPane
 						.showInputDialog("El total es de " + PrecioFinal + "€" + "\nCon cuanto piensa pagar?");
-				double Pago = Double.parseDouble(Pagar);
+				Pago = Double.parseDouble(Pagar);
+				}while(Pago<PrecioFinal);
 				double Cambio = Pago - PrecioFinal;
 				double Cambio2 = Math.round(Cambio * 100.0) / 100.0;
 				javax.swing.JOptionPane.showMessageDialog(null, "Gracias por su compra" + "\nEl total es de "
