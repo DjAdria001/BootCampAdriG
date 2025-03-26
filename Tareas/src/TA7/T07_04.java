@@ -22,13 +22,11 @@ public class T07_04 {
             String respuesta = Inicio != null ? Inicio.toLowerCase() : "";
 
             switch (respuesta) {
-                case "1":
-                case "cliente":
+                case "1","cliente":
                     interfazCliente(Precio, Stock, Cesta);
                     Volver = true;
                     break;
-                case "2":
-                case "empleado":
+                case "2","empleado":
                     interfazEmpleado(Stock, Precio);
                     break;
                 default:
@@ -123,12 +121,10 @@ public class T07_04 {
             Respuesta = Respuesta != null ? Respuesta.toLowerCase() : "";
 
             switch (Respuesta) {
-                case "1":
-                case "consultar":
+                case "1","consultar":
                     consultarProductos(Stock, Precio);
                     break;
-                case "2":
-                case "añadir":
+                case "2","añadir":
                     añadirProducto(Stock, Precio);
                     break;
                 case "salir":
