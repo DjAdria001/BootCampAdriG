@@ -6,11 +6,12 @@ public class T08_02_Password {
 
 	public T08_02_Password() {
 		this.Longitud = 8;
-		this.Contraseña = "";
+		this.Contraseña = GenPass(Longitud);
 	}
 
 	public String GenPass(int longitud2) {
 		this.Longitud = longitud2;
+		String Contraseña;
 		StringBuilder pass = new StringBuilder();
 		String caracteres = "abcdefghijklmnopqrstuvwxyz" 
 		+ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -18,8 +19,7 @@ public class T08_02_Password {
 			int randomIndex = (int) (Math.random() * caracteres.length());
 			pass.append(caracteres.charAt(randomIndex));
 		}
-		this.Contraseña = pass.toString();
-		System.out.println("La contraseña generada es: " + this.Contraseña);
+		Contraseña = pass.toString();
 		return Contraseña;
 	}
 }
