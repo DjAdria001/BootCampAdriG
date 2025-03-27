@@ -6,6 +6,7 @@ public class T08_03 {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
+		System.out.println("Default Electrodomestico:"+);
 
 		System.out.println("Introduce el precio base:");
 		Double precioBase = scanner.nextDouble();
