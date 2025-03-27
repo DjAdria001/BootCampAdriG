@@ -1,15 +1,16 @@
 package TA8;
 
 public class T08_01_Empleados {
-
+	
 	String Nombre;
 	String Apellidos;
-	Integer Edad;
+	int Edad;
 	String Sexo;
 	String DNI;
-	Double Peso;
-	Double Altura;
+	double Peso;
+	double Altura;
 
+	// Constructor por defecto
 	public T08_01_Empleados() {
 		this.Nombre = "";
 		this.Apellidos = "";
@@ -19,8 +20,9 @@ public class T08_01_Empleados {
 		this.Altura = 0.0;
 	}
 
-	public T08_01_Empleados(String nombre, String apellidos, Integer edad, String sexo, String dni, Double peso,
-			Double altura) {
+	// Constructor con parámetros
+	public T08_01_Empleados(String nombre, String apellidos, int edad, String sexo, String dni, double peso,
+			double altura) {
 		this.Nombre = nombre;
 		this.Apellidos = apellidos;
 		this.Edad = edad;
@@ -29,5 +31,4 @@ public class T08_01_Empleados {
 		this.Peso = peso;
 		this.Altura = altura;
 	}
-
 }
