@@ -6,7 +6,21 @@ public class T08_03 {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Default Electrodomestico:"+);
+		T08_03_Electrodomestico electrodomestico = new T08_03_Electrodomestico();
+		System.out.println("Electrodomestico por defecto:" + "\nPrecio base: " + electrodomestico.getPrecioBase()
+				+ "\nColor: " + electrodomestico.color + "\nConsumo energetico: " + electrodomestico.consumoEnergetico
+				+ "\nPeso: " + electrodomestico.peso);
+		
+		System.out.println("Introduce el precio base:");
+		Double precioBase1 = scanner.nextDouble();
+		System.out.println("Introduce el peso:");
+		Double peso1 = scanner.nextDouble();
+		
+		T08_03_Electrodomestico electrodomestico1 = new T08_03_Electrodomestico(precioBase1, electrodomestico.color,
+				electrodomestico.consumoEnergetico, peso1);
+		System.out.println("Electrodomestico 1:" + "\nPrecio base: " + electrodomestico1.getPrecioBase() + "\nColor: "
+				+ electrodomestico1.color + "\nConsumo energetico: " + electrodomestico1.consumoEnergetico + "\nPeso: "
+				+ electrodomestico1.peso);
 
 		System.out.println("Introduce el precio base:");
 		Double precioBase = scanner.nextDouble();
@@ -26,7 +40,7 @@ public class T08_03 {
 		T08_03_Electrodomestico electrodomestico2 = new T08_03_Electrodomestico(precioBase, color, consumoEnergetico,
 				peso);
 		System.out.println("");
-		System.out.println("Informacion del electrodomestico:" + "\nPrecio base: " + electrodomestico2.getPrecioBase()
+		System.out.println("Electrodomestico 2" + "\nPrecio base: " + electrodomestico2.getPrecioBase()
 				+ "\nColor: " + electrodomestico2.color + "\nConsumo energetico: " + electrodomestico2.consumoEnergetico
 				+ "\nPeso: " + electrodomestico2.peso);
 
