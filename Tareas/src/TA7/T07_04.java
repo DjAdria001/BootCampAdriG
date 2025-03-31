@@ -128,7 +128,8 @@ public class T07_04 {
 		boolean Final = false;
 		do {
 			String Respuesta = JOptionPane.showInputDialog(
-					"Interfaz Empleado:\n¿Qué desea hacer?\n1. Consultar Productos\n2. Añadir Producto\nEscriba 'salir' para finalizar.");
+					"Interfaz Empleado:\n¿Qué desea hacer?\n1. Consultar Productos\n2. Añadir Producto"
+					+ "\nEscriba 'salir' para finalizar.");
 			Respuesta = Respuesta != null ? Respuesta.toLowerCase() : "";
 
 			switch (Respuesta) {
