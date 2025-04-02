@@ -1,4 +1,4 @@
-package TA9;
+package TA9_01;
 
 public class T09_01_Electrodomestico {
 	protected Double precioBase;
@@ -72,7 +72,6 @@ public class T09_01_Electrodomestico {
 		return letra;
 
 	}
-
 	public Double precioFinal(char consumoEnergetico, Double peso) {
 		switch (consumoEnergetico) {
 		case 'A':
@@ -103,6 +102,11 @@ public class T09_01_Electrodomestico {
 		} else if (peso >= 79) {
 			precioBase += 100;
 		}
+		
+		
 		return precioBase;
 	}
+
+
+
 }
