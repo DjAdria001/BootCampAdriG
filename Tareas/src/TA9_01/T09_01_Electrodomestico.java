@@ -1,10 +1,10 @@
 package TA9_01;
 
-public class T09_01_Electrodomestico {
-	protected Double precioBase;
-	protected String color;
-	protected char consumoEnergetico;
-	protected Double peso;
+public class T09_01_Electrodomestico extends T09_01 {
+	Double precioBase;
+	String color;
+	 char consumoEnergetico;
+	Double peso;
 
 	public T09_01_Electrodomestico() {
 		this.precioBase = 100.0;
@@ -48,8 +48,15 @@ public class T09_01_Electrodomestico {
 		return color;
 
 	}
+	public static Double getPeso(Double peso) {
+		// TODO Auto-generated method stub
+		return peso;
+	}
 
-	public char comprobarConsumoEnergetico(char letra) {
+	public static char getConsumoEnergetico(char consumoEnergetico) {
+		return consumoEnergetico;
+	}
+	public static char comprobarConsumoEnergetico(char letra) {
 		
 		do {
 			switch (letra) {

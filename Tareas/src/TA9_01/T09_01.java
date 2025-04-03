@@ -57,6 +57,7 @@ public class T09_01 {
 				 +"\nResolucion:"+television2.Resolucion+"\nSintonizador TDT:"+television2.TDT +"\nPrecio Final: "
 				+ television2.precioFinal(television2.consumoEnergetico, television2.peso,television2.Resolucion, television2.TDT));
 		System.out.println("-------------------------------------------------");
+				
 		
 	}
 

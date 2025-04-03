@@ -19,6 +19,14 @@ public class T09_01_Television extends T09_01_Electrodomestico {
 		this.TDT = TDT;
 	}
 
+	public double getResolucion(double Resolucion) {
+		return Resolucion;
+	}
+
+	public boolean getTDT(boolean TDT) {
+		return TDT;
+	}
+
 	public Double precioFinal(char consumoEnergetico, Double peso, double Resolucion, boolean TDT) {
 
 		switch (consumoEnergetico) {

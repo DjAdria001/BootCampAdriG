@@ -3,8 +3,8 @@ package TA9_01;
 public class T09_01_Lavadora extends T09_01_Electrodomestico {
 
 	protected Double carga;
-	
-	public T09_01_Lavadora(){
+
+	public T09_01_Lavadora() {
 
 		this.carga = 5.0;
 	}
@@ -17,9 +17,12 @@ public class T09_01_Lavadora extends T09_01_Electrodomestico {
 		this.carga = carga;
 	}
 
+	public Double getCarga(double carga) {
+		return carga;
+	}
 
 	public Double precioFinal(char consumoEnergetico, Double peso, Double carga) {
-		
+
 		switch (consumoEnergetico) {
 		case 'A':
 			precioBase += 100;
@@ -54,9 +57,8 @@ public class T09_01_Lavadora extends T09_01_Electrodomestico {
 		} else if (carga <= 30) {
 			precioBase += 0;
 		}
-		
+
 		return precioBase;
 	}
-
 
 }
