@@ -1,4 +1,5 @@
-package UD09;
+
+package TA9_06;
 
 public class Spectator {
     private String name;
