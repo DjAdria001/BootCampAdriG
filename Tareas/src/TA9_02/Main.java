@@ -10,27 +10,27 @@ public class Main {
 		System.out.println("Series:");
 		// Defecto
 		System.out.println(" Serie por defecto");
-		System.out.println(" Titulo: " + DefectoS.getTitle());
+		System.out.println(" Titulo: " + DefectoS.getTitulo());
 		System.out.println(" Temporadas: " + DefectoS.getSeasons());
 		System.out.println(" Entregada: " + DefectoS.isEntregado());
-		System.out.println(" Genero: " + DefectoS.getGenre());
-		System.out.println(" Creador: " + DefectoS.getCreator());
+		System.out.println(" Genero: " + DefectoS.getGenero());
+		System.out.println(" Creador: " + DefectoS.getCreador());
 		System.out.println();
 		// Arcane
 		System.out.println(" Serie 1");
-		System.out.println(" Titulo: " + Arcane.getTitle());
+		System.out.println(" Titulo: " + Arcane.getTitulo());
 		System.out.println(" Temporadas: " + DefectoS.getSeasons());
 		System.out.println(" Entregada: " + DefectoS.isEntregado());
-		System.out.println(" Genero: " + DefectoS.getGenre());
-		System.out.println(" Creador: " + Arcane.getCreator());
+		System.out.println(" Genero: " + DefectoS.getGenero());
+		System.out.println(" Creador: " + Arcane.getCreador());
 		System.out.println();
 		// Invencible
 		System.out.println(" Serie 2");
-		System.out.println(" Titulo: " + Invencible.getTitle());
+		System.out.println(" Titulo: " + Invencible.getTitulo());
 		System.out.println(" Temporadas: " + Invencible.getSeasons());
 		System.out.println(" Entregada: " + Invencible.isEntregado());
-		System.out.println(" Genero: " + Invencible.getGenre());
-		System.out.println(" Creador: " + Invencible.getCreator());
+		System.out.println(" Genero: " + Invencible.getGenero());
+		System.out.println(" Creador: " + Invencible.getCreador());
 		System.out.println();
 		Videojuego DefectoV = new Videojuego();
 		Videojuego Ghostrunner = new Videojuego("GhostRunner", 7, true, "Accion", "One More Level");

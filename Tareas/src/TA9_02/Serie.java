@@ -2,70 +2,63 @@
 package TA9_02;
 
 public class Serie extends Entregable {
-	private String title;
-	private int seasons;
-	private boolean isCompleted;
-	private String genre;
-	private String creator;
+	private String Titulo;
+	private int Temporadas;
+	private String Genero;
+	private String Creador;
 	private boolean entregado;
 
 	public Serie() {
-		this.title = "Sin Especificar";
-		this.seasons = 1;
-		this.isCompleted = false;
-		this.genre = "Sin Especificar";
-		this.creator = "Sin Especificar";
+		this.Titulo = "Sin Especificar";
+		this.Temporadas = 1;
+
+		this.Genero = "Sin Especificar";
+		this.Creador = "Sin Especificar";
 		this.entregado = false;
 	}
 
-	public Serie(String title, int seasons, boolean isCompleted, String genre, String creator) {
-		this.title = title;
-		this.seasons = seasons;
-		this.isCompleted = isCompleted;
-		this.genre = genre;
-		this.creator = creator;
+	public Serie(String title, int seasons, boolean isEntregado, String genre, String creator) {
+		this.Titulo = title;
+		this.Temporadas = seasons;
+
+		this.Genero = genre;
+		this.Creador = creator;
 		this.entregado = isEntregado();
 	}
 
 	// Getters and setters
-	public String getTitle() {
-		return title;
+	public String getTitulo() {
+		return Titulo;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setTitulo(String titulo) {
+		this.Titulo = titulo;
 	}
 
 	public int getSeasons() {
-		return seasons;
+		return Temporadas;
 	}
 
-	public void setSeasons(int seasons) {
-		this.seasons = seasons;
+	public void setSeasons(int temporadas) {
+		this.Temporadas = temporadas;
 	}
 
-	public boolean isCompleted() {
-		return isCompleted;
+
+
+	public String getGenero() {
+		return Genero;
 	}
 
-	public void setCompleted(boolean completed) {
-		isCompleted = completed;
+	public void setGenero(String genero) {
+		this.Genero = genero;
 	}
 
-	public String getGenre() {
-		return genre;
-	}
-
-	public void setGenre(String genre) {
-		this.genre = genre;
-	}
-
-	public String getCreator() {
-		return creator;
+	public String getCreador() {
+		return Creador;
 	}
 	
-	public void setCreator(String creator) {
-		this.creator = creator;
+	public void setCreador(String creador) {
+		this.Creador = creador;
 	}
 
 	@Override
@@ -98,8 +91,8 @@ public class Serie extends Entregable {
 
 	@Override
 	public String toString() {
-		return "Serie [title=" + title + ", seasons=" + seasons + ", isCompleted=" + isCompleted + ", genre=" + genre
-				+ ", creator=" + creator + ", entregado=" + entregado + "]";
+		return "Serie [title=" + Titulo + ", seasons=" + Temporadas + ", genre=" + Genero
+				+ ", creator=" + Creador + ", entregado=" + entregado + "]";
 	}
 
 }
