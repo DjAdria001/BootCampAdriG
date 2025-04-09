@@ -1,6 +1,7 @@
 
 package TA9_02;
-
+import java.util.Scanner;
+import javax.swing.JOptionPane;
 public class Ejecutable {
 	Serie[] series = new Serie[5];
 	{
@@ -40,5 +41,6 @@ public class Ejecutable {
 		for (Videojuego videojuego : ejecutable.videojuegos) {
 			System.out.println("Videojuego: " + videojuego.getTitle() + " - Entregado: " + videojuego.isEntregado());
 		}
+		System.out.println("El videojuego con más horas estimadas es: " + ejecutable.videojuegos[2].getTitle());
 	}
 }
