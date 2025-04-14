@@ -86,17 +86,17 @@ public class Main {
 
 					if (occupiedSeats.contains(seat)) {
 						button.setIcon(resizeIcon(new ImageIcon(
-								"C:\\Users\\Mati\\Documents\\repositorioGithub\\BootCampAdriG\\Tareas\\bin\\UD09\\fotos\\asiento ocupado.png"),
+								"C:\\Users\\Mati\\Documents\\repositorioGithub\\BootCampAdriG\\Tareas\\src\\imagenes\\asiento_ocupado.png"),
 								40, 40));
 						button.setEnabled(false);
 					} else {
 						if (rowNumber == 4 || rowNumber == 5 || rowNumber == 6) {
 							button.setIcon(resizeIcon(new ImageIcon(
-									"C:\\Users\\Mati\\Documents\\repositorioGithub\\BootCampAdriG\\Tareas\\bin\\UD09\\fotos\\asiento disponible.png"),
+									"C:\\Users\\Mati\\Documents\\repositorioGithub\\BootCampAdriG\\Tareas\\src\\imagenes\\asiento_disponible.png"),
 									40, 40));
 						} else {
 							button.setIcon(resizeIcon(new ImageIcon(
-									"C:\\Users\\Mati\\Documents\\repositorioGithub\\BootCampAdriG\\Tareas\\bin\\UD09\\fotos\\asiento ocupado.png"),
+									"C:\\Users\\Mati\\Documents\\repositorioGithub\\BootCampAdriG\\Tareas\\src\\imagenes\\asiento_ocupado.png"),
 									40, 40));
 						}
 					}

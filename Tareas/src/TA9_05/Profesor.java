@@ -6,7 +6,7 @@ public class Profesor {
 	private Integer Edad;
 	private String Sexo;
 	private String Materia;
-	private String Asistencia;
+	private boolean Asistencia;
 	
 	public Profesor(String nombre, String apellido, Integer edad, String sexo, String Materia) {
 		this.Nombre = nombre;
@@ -14,15 +14,64 @@ public class Profesor {
 		this.Edad = edad;
 		this.Sexo = sexo;
 		this.Materia = Materia;
+		this.Asistencia = ConfirmarAsistencia();
 	}
 
-	public String ConfirmarAsistencia() {
-		String asistenciaValida = null;
+	public String getNombre() {
+		return Nombre;
+	}
+
+	public String getApellido() {
+		return Apellido;
+	}
+
+	public Integer getEdad() {
+		return Edad;
+	}
+
+	public String getSexo() {
+		return Sexo;
+	}
+
+	public String getMateria() {
+		return Materia;
+	}
+
+	public boolean getAsistencia() {
+		return Asistencia;
+	}
+
+	public void setNombre(String nombre) {
+		this.Nombre = nombre;
+	}
+
+	public void setApellido(String apellido) {
+		this.Apellido = apellido;
+	}
+
+	public void setEdad(Integer edad) {
+		this.Edad = edad;
+	}
+
+	public void setSexo(String sexo) {
+		this.Sexo = sexo;
+	}
+
+	public void setMateria(String materia) {
+		this.Materia = materia;
+	}
+
+	public void setAsistencia(boolean asistencia) {
+		this.Asistencia = asistencia;
+	}
+	
+	public boolean ConfirmarAsistencia() {
+		boolean asistenciaValida = false;
 		int random = (int) (Math.random() * 100) + 1;
 		if (random > 20) {
-			asistenciaValida = "Asitencia Confirmada";
+			asistenciaValida = true;
 		} else if (random <= 20) {
-			asistenciaValida = "Asistencia No Confirmada";
+			asistenciaValida = false;
 		}
 		
 		return asistenciaValida;
