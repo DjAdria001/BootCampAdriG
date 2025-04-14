@@ -1,19 +1,12 @@
-package TA9_04;
 
-//scanner
-import java.util.Scanner;
+package TA9_04;
 
 public class main {
 	public static void main(String[] args) {
-		Raices raices = new Raices();
-		int a = 1;
-		System.out.println("Introduce el valor de b: ");
-		Scanner scanner = new Scanner(System.in);
-		int b = scanner.nextInt();
-		int c = 2;
-		
+		// Crear una instancia de la clase Raices con los coeficientes a, b y c
+		Raices ecuacion = new Raices(1, -3, 2);
 
-
+		// Llamar al método calcular para mostrar las soluciones
+		ecuacion.calcular();
 	}
-
 }
