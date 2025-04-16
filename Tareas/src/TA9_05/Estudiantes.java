@@ -9,12 +9,13 @@ public class Estudiantes {
 	private boolean Asistencia;
 
 	
-	public Estudiantes(String nombre, String apellido, Integer edad, String sexo, Double calificacion) {
+	public Estudiantes(String nombre, String apellido, Integer edad, String sexo, Double calificacion, boolean asistencia) {
 		this.Nombre = nombre;
 		this.Apellido = apellido;
 		this.Edad = edad;
 		this.Sexo = sexo;
 		this.Calificacion = calificacion;
+
 	}
 	public String getNombre() {
 		return Nombre;
@@ -61,9 +62,9 @@ public class Estudiantes {
 	}
 
 	public void setAsistencia(boolean asistencia) {
-		this.Asistencia = asistencia;
+		this.Asistencia = ConfirmarAsistencia();
 	}
-	public boolean ConfirmarAsistencia() {
+	public static boolean ConfirmarAsistencia() {
 		boolean asistenciaValida = false;
 		int random = (int) (Math.random() * 100) + 1;
 		if (random > 50) {

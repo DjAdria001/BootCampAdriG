@@ -8,7 +8,7 @@ public class Profesor {
 	private String Materia;
 	private boolean Asistencia;
 	
-	public Profesor(String nombre, String apellido, Integer edad, String sexo, String Materia) {
+	public Profesor(String nombre, String apellido, Integer edad, String sexo, String Materia, boolean asistencia) {
 		this.Nombre = nombre;
 		this.Apellido = apellido;
 		this.Edad = edad;
@@ -65,7 +65,7 @@ public class Profesor {
 		this.Asistencia = asistencia;
 	}
 	
-	public boolean ConfirmarAsistencia() {
+	public static boolean ConfirmarAsistencia() {
 		boolean asistenciaValida = false;
 		int random = (int) (Math.random() * 100) + 1;
 		if (random > 20) {

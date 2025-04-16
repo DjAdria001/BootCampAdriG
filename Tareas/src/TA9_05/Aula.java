@@ -1,60 +1,63 @@
+
 package TA9_05;
 
+import java.util.List;
+
 public class Aula {
-	private Integer id;
-	private Integer numeroMax;
-	private String Materia;
-	private Boolean Projector;
+	private String materia;
+	private Profesor profesor;
+	private List<Estudiantes> alumnos;
 
-	public Aula(Integer id, Integer numeroMax, String materia, Boolean projector) {
-		this.id = id;
-		this.numeroMax = numeroMax;
-		this.Materia = materia;
-		this.Projector = projector;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public Integer getNumeroMax() {
-		return numeroMax;
+	public Aula(String materia, Profesor profesor, List<Estudiantes> alumnos) {
+		this.materia = materia;
+		this.profesor = profesor;
+		this.alumnos = alumnos;
 	}
 
 	public String getMateria() {
-		return Materia;
+		return materia;
 	}
 
-	public Boolean getProjector() {
-		return Projector;
+	public Profesor getProfesor() {
+		return profesor;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public List<Estudiantes> getAlumnos() {
+		return alumnos;
 	}
+
+	public boolean puedeDarseClase() {
+		// Check if the professor is available
+		if (!Profesor.ConfirmarAsistencia()) {
+			return false;
+		}
+
+		// Check if the professor's subject matches the classroom's subject
+		if (!profesor.getMateria().equalsIgnoreCase(materia)) {
+			return false;
+		}
+		// Check if the number of students is higher than 5
+		if (alumnos.size() < 6) {
+			return false;
+		}
+		return true;
+	}
+
+
+	public void mostrarAprobados() {
+		int hombresAprobados = 0;
+		int mujeresAprobadas = 0;
+		for (Estudiantes estudiante : alumnos) {
+			if (estudiante.getCalificacion() >= 5.5) {
+				if (estudiante.getSexo().equalsIgnoreCase("Hombre")) {
+					hombresAprobados++;
+				} else if (estudiante.getSexo().equalsIgnoreCase("Mujer")) {
+					mujeresAprobadas++;
+				}
+			}
+		}
 		
-	public void setNumeroMax(Integer numeroMax) {
-		this.numeroMax = numeroMax;
+		System.out.println("Hombres aprobados: " + hombresAprobados);
+		System.out.println("Mujeres aprobadas: " + mujeresAprobadas);
 	}
-
-	public void setMateria(String materia) {
-		this.Materia = materia;
-	}
-
-	public void setProjector(Boolean projector) {
-		this.Projector = projector;
-	}
-
-	public Boolean puedeDarseClase() {
-		return this.numeroMax > 0 && this.Projector;
-	}
-
-
-
-	
-
-
-
-
-	
 }

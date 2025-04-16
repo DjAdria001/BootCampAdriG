@@ -28,7 +28,7 @@ public class Raices {
 
 	// Método para calcular el discriminante
 	public double getDiscriminante() {
-		return (b * b) - (4 * a * c);
+		return (Math.pow(b, 2)) - (4 * a * c);
 	}
 
 	// Método para verificar si tiene dos soluciones
