@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
-		// Generate students
+		
 		Estudiantes[] estudiantes = {
 				new Estudiantes("Pedro", "Pérez", 20, "Hombre", 2.5, Estudiantes.ConfirmarAsistencia()),
 				new Estudiantes("Luis", "Gómez", 21, "Hombre", 9.0, Estudiantes.ConfirmarAsistencia()),
@@ -23,13 +23,13 @@ public class Main {
 				new Estudiantes("Carmen", "Morales", 24, "Mujer", 9.5, Estudiantes.ConfirmarAsistencia()),
 				new Estudiantes("Laura", "Reyes", 25, "Mujer", 7.0, Estudiantes.ConfirmarAsistencia()) };
 
-		// Generate professors
+		
 		Profesor profesor1 = new Profesor("Juan", "Apellido", 30, "Hombre", "Matemáticas",
 				Profesor.ConfirmarAsistencia());
 		Profesor profesor2 = new Profesor("Ana", "Apellido", 30, "Mujer", "Filosofía", Profesor.ConfirmarAsistencia());
 		Profesor profesor3 = new Profesor("Luis", "Apellido", 30, "Hombre", "Historia", Profesor.ConfirmarAsistencia());
 
-		// Generate classrooms
+		
 		Aula aula1 = new Aula("Matemáticas", profesor1, Arrays.asList(estudiantes));
 		Aula aula2 = new Aula("Filosofía", profesor2, Arrays.asList(estudiantes));
 		Aula aula3 = new Aula("Historia", profesor3, Arrays.asList(estudiantes));

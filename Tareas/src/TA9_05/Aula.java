@@ -27,16 +27,16 @@ public class Aula {
 	}
 
 	public boolean puedeDarseClase() {
-		// Check if the professor is available
+		
 		if (!Profesor.ConfirmarAsistencia()) {
 			return false;
 		}
 
-		// Check if the professor's subject matches the classroom's subject
+
 		if (!profesor.getMateria().equalsIgnoreCase(materia)) {
 			return false;
 		}
-		// Check if the number of students is higher than 5
+	
 		if (alumnos.size() < 6) {
 			return false;
 		}
