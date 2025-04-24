@@ -22,8 +22,7 @@ public class Main {
 					JOptionPane.showMessageDialog(null, "El número es mayor");
 				} else {
 					intentos++;
-					JOptionPane.showMessageDialog(null, "Has acertado el número en "
-												 		+ intentos + " intentos");
+					JOptionPane.showMessageDialog(null, "Has acertado el número en " + intentos + " intentos");
 					NumCorr = true;
 				}
 			} catch (NumberFormatException e) {
