@@ -12,6 +12,7 @@ public class Aula {
 		this.materia = materia;
 		this.profesor = profesor;
 		this.alumnos = alumnos;
+
 	}
 
 	public String getMateria() {
@@ -27,22 +28,20 @@ public class Aula {
 	}
 
 	public boolean puedeDarseClase() {
-		
+
 		if (!Profesor.ConfirmarAsistencia()) {
 			return false;
 		}
 
-
 		if (!profesor.getMateria().equalsIgnoreCase(materia)) {
 			return false;
 		}
-	
+
 		if (alumnos.size() < 6) {
 			return false;
 		}
 		return true;
 	}
-
 
 	public void mostrarAprobados() {
 		int hombresAprobados = 0;
@@ -56,8 +55,19 @@ public class Aula {
 				}
 			}
 		}
-		
+
 		System.out.println("Hombres aprobados: " + hombresAprobados);
 		System.out.println("Mujeres aprobadas: " + mujeresAprobadas);
 	}
+
+	public Integer ContarPresentes(Estudiantes[] estudiantes) {
+		int contador = 0;
+		for (Estudiantes estudiante : estudiantes) {
+			if (estudiante.getAsistencia()) {
+				contador++;
+			}
+		}
+		return contador;
+	}
+
 }
