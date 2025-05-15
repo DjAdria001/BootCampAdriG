@@ -1,0 +1,16 @@
+CREATE DATABASE t14_ej4;
+USE t14_ej4;
+
+CREATE TABLE EMPLEADOS (
+    DNI CHAR(8) PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Apellidos VARCHAR(255),
+    Departamento INT(11),
+)
+
+CREATE TABLE DEPARTAMENTOS (
+    ID INT(11) PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Presupuesto INT(11),
+    FOREIGN KEY (Departamento) REFERENCES DEPARTAMENTOS(ID)
+);
