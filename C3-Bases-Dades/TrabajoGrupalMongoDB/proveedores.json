@@ -1,0 +1,20 @@
+[
+    {
+        "_id": 501,
+        "nombre": "TechDistribuciones S.A.",
+        "telefono": "111223344",
+        "email": "contacto@techdistrib.com"
+    },
+    {
+        "_id": 502,
+        "nombre": "ElectronikPro",
+        "telefono": "222334455",
+        "email": "ventas@electronikpro.com"
+    },
+    {
+        "_id": 503,
+        "nombre": "InsumosGlobales",
+        "telefono": "333445566",
+        "email": "info@insumosglobales.net"
+    }
+]

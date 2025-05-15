@@ -1,0 +1,23 @@
+[
+    {
+        "_id": 101,
+        "nombre": "Teclado Mecánico",
+        "precio": 45.99,
+        "stock": 25,
+        "id_proveedor": 501
+    },
+    {
+        "_id": 102,
+        "nombre": "Ratón Inalámbrico",
+        "precio": 19.5,
+        "stock": 40,
+        "id_proveedor": 502
+    },
+    {
+        "_id": 103,
+        "nombre": "Monitor 24 pulgadas",
+        "precio": 149.99,
+        "stock": 15,
+        "id_proveedor": 501
+    }
+]

@@ -1,0 +1,23 @@
+[
+    {
+        "_id": 1,
+        "nombre": "Juan Pérez",
+        "email": "juan.perez@gmail.com",
+        "telefono": "123456789",
+        "direccion": "Calle Falsa 123, Ciudad A"
+    },
+    {
+        "_id": 2,
+        "nombre": "María Gómez",
+        "email": "maria.gomez@hotmail.com",
+        "telefono": "987654321",
+        "direccion": "Av. Central 45, Ciudad B"
+    },
+    {
+        "_id": 3,
+        "nombre": "Carlos Ruiz",
+        "email": "carlos.ruiz@yahoo.com",
+        "telefono": "456789123",
+        "direccion": "Calle Norte 12, Ciudad C"
+    }
+]

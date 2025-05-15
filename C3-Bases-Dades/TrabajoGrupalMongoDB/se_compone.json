@@ -1,0 +1,20 @@
+[
+    {
+        "id_factura": 1001,
+        "id_producto": 101,
+        "cantidad": 10,
+        "precio_unitario": 40.0
+    },
+    {
+        "id_factura": 1001,
+        "id_producto": 103,
+        "cantidad": 5,
+        "precio_unitario": 145.0
+    },
+    {
+        "id_factura": 1002,
+        "id_producto": 102,
+        "cantidad": 20,
+        "precio_unitario": 19.5
+    }
+]
