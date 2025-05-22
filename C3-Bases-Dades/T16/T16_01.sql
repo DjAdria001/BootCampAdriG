@@ -69,8 +69,8 @@ WHERE A.Precio = (
 );
 
 -- 17
-INSERT INTO Articulos (Nombre, Precio, Fabricante)
-VALUES ('Altavoces', 70, 2);
+INSERT INTO Articulos (Nombre, Precio, Fabricante, Codigo)
+VALUES ('Altavoces', 70, 2, Codigo);
 
 -- 18
 UPDATE Articulos
