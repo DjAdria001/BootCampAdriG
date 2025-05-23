@@ -36,10 +36,25 @@ public class VentanaCalculadora extends JFrame {
         // Crea cada botón y le añade su evento
         for (String texto : botones) {
             JButton btn = new JButton(texto);
-            btn.setFont(new Font("Arial", Font.BOLD, 18));
+            btn.setFont(new Font("SansSerif", Font.BOLD, 18));
+
+            // Estilo basado en tipo de botón
+            if (texto.matches("[0-9\\.=]")) {
+                btn.setBackground(new Color(106, 79, 179)); // violeta fuerte
+                btn.setForeground(Color.WHITE);
+            } else if (texto.matches("[\\+\\-\\*/]")) {
+                btn.setBackground(new Color(255, 215, 0)); // amarillo dorado
+                btn.setForeground(Color.BLACK);
+            } else if (texto.equals("C")) {
+                btn.setBackground(new Color(244, 163, 0)); // naranja suave
+                btn.setForeground(Color.BLACK);
+            }
+
             btn.addActionListener(this::botonPresionado);
             panel.add(btn);
         }
+
+
 
         add(panel, BorderLayout.CENTER);
 
