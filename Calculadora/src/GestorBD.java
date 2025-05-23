@@ -1,10 +1,11 @@
 import java.sql.*;
 
 public class GestorBD {
-    private static final String URL = "jdbc:mysql://localhost:3306/CalculadoraDB";
-    private static final String USUARIO = "root";
-    private static final String CONTRASENA = ""; // Modifica según tu configuración
+    private static final String URL = "jdbc:mysql://localhost:3306/CalculadoraDB"; // dirección de la BD
+    private static final String USUARIO = "root"; // tu usuario MySQL
+    private static final String CONTRASENA = ""; // tu contraseña MySQL
 
+    // Guarda la operación y el resultado en la tabla Historico
     public static void guardarOperacion(String operacion, double resultado) {
         try (Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA)) {
             String sql = "INSERT INTO Historico (operacion, resultado) VALUES (?, ?)";
@@ -18,6 +19,7 @@ public class GestorBD {
         }
     }
 
+    // Devuelve una cadena con las últimas operaciones guardadas
     public static String obtenerHistorial() {
         StringBuilder historial = new StringBuilder();
 
