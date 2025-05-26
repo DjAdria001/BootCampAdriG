@@ -1,0 +1,33 @@
+[
+  {
+    "insert": "despachos",
+    "documents": [
+      { "_id": 101, "capacidad": 3 },
+      { "_id": 102, "capacidad": 2 },
+      { "_id": 103, "capacidad": 4 }
+    ]
+  },
+  {
+    "insert": "directores",
+    "documents": [
+      {
+        "_id": "12345678",
+        "nomApels": "Carlos García",
+        "dniJefe": null,
+        "despacho": 101
+      },
+      {
+        "_id": "87654321",
+        "nomApels": "Laura Pérez",
+        "dniJefe": "12345678",
+        "despacho": 102
+      },
+      {
+        "_id": "11223344",
+        "nomApels": "Ana Torres",
+        "dniJefe": "12345678",
+        "despacho": 103
+      }
+    ]
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "insert": "fabricantes",
+    "documents": [
+      { "_id": 1, "nombre": "Lenovo" },
+      { "_id": 2, "nombre": "HP" },
+      { "_id": 3, "nombre": "Asus" }
+    ]
+  },
+  {
+    "insert": "articulos",
+    "documents": [
+      { "nombre": "Portátil IdeaPad", "precio": 750, "fabricante": 1 },
+      { "nombre": "Monitor HP 24\"", "precio": 180, "fabricante": 2 },
+      { "nombre": "Teclado Asus Pro", "precio": 45, "fabricante": 3 },
+      { "nombre": "Ratón inalámbrico", "precio": 20, "fabricante": 1 }
+    ]
+  }
+]
+
