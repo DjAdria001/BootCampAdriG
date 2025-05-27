@@ -2,7 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public class TiendaInformatica {
+public class T18_TiendaInformatica {
 
     public static void main(String[] args) {
         String url = "jdbc:mysql://localhost:3306/";
@@ -13,9 +13,9 @@ public class TiendaInformatica {
              Statement stmt = conn.createStatement()) {
 
             // Crear base de datos
-            stmt.executeUpdate("DROP DATABASE IF EXISTS TiendaInformatica");
-            stmt.executeUpdate("CREATE DATABASE TiendaInformatica");
-            stmt.executeUpdate("USE TiendaInformatica");
+            stmt.executeUpdate("DROP DATABASE IF EXISTS T18_TiendaInformatica");
+            stmt.executeUpdate("CREATE DATABASE T18_TiendaInformatica");
+            stmt.executeUpdate("USE T18_TiendaInformatica");
 
             // Crear tabla FABRICANTES
             stmt.executeUpdate(
@@ -47,8 +47,6 @@ public class TiendaInformatica {
             stmt.executeUpdate("INSERT INTO ARTICULOS (Nombre, Precio, Fabricante) VALUES ('Router Asus AX3000', 130, 3)");
             stmt.executeUpdate("INSERT INTO ARTICULOS (Nombre, Precio, Fabricante) VALUES ('Teclado Acer', 40, 4)");
             stmt.executeUpdate("INSERT INTO ARTICULOS (Nombre, Precio, Fabricante) VALUES ('Mouse Lenovo', 25, 5)");
-
-            System.out.println("Base de datos creada y datos insertados con éxito.");
 
         } catch (Exception e) {
             e.printStackTrace();
