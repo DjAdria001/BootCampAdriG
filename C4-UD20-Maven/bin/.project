@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Testing</name>
+	<name>C4-UD20-Maven</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -36,7 +36,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1748515176150</id>
+			<id>1747913840700</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
