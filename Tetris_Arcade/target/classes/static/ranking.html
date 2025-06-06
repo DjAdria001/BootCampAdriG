@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ranking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 class="neon">🏆 TOP SCORES</h1>
+    <ul id="ranking"></ul>
+
+    <script>
+        fetch('/api/scores')
+            .then(res => res.json())
+            .then(data => {
+                const list = document.getElementById('ranking');
+                data.forEach(s => {
+                    const li = document.createElement('li');
+                    li.textContent = `${s.initials} — ${s.points}`;
+                    list.appendChild(li);
+                });
+            });
+    </script>
+</body>
+</html>
