@@ -1,94 +1,152 @@
-import java.awt.Color;
+package com.tetris;
+
+import java.awt.*;
 import java.util.Random;
 
 public class Tetromino {
-    // Definir los diferentes tipos con matrices de bloques y su color
-    public static final Color[] COLORS = {
-        Color.cyan,    // I
-        Color.blue,    // J
-        Color.orange,  // L
-        Color.yellow,  // O
-        Color.green,   // S
-        Color.magenta, // T
-        Color.red      // Z
+
+    private Point[] blocks = new Point[4]; // posiciones relativas
+    private int type; // 1 a 7 para cada tipo
+    private int rotation; // estado de rotación (0-3)
+    private Point position; // posición en tablero (fila, columna)
+
+    // Formas básicas de cada tipo en rotación 0
+    private static final Point[][] SHAPES = {
+        // I
+        {new Point(0,1), new Point(1,1), new Point(2,1), new Point(3,1)},
+        // J
+        {new Point(0,0), new Point(1,0), new Point(2,0), new Point(2,1)},
+        // L
+        {new Point(0,1), new Point(1,1), new Point(2,1), new Point(2,0)},
+        // O
+        {new Point(0,0), new Point(0,1), new Point(1,0), new Point(1,1)},
+        // S
+        {new Point(0,1), new Point(0,2), new Point(1,0), new Point(1,1)},
+        // T
+        {new Point(0,1), new Point(1,0), new Point(1,1), new Point(1,2)},
+        // Z
+        {new Point(0,0), new Point(0,1), new Point(1,1), new Point(1,2)},
     };
 
-    private Color color;
-    private int[][] shape;
-    private int x, y; // posición en tablero
-
-    // Constructor privado para usar en fábrica
-    private Tetromino(int[][] shape, Color color) {
-        this.shape = shape;
-        this.color = color;
-        this.x = 3; // posición inicial, ajustar según shape
-        this.y = 0;
+    public Tetromino(int type) {
+        this.type = type;
+        this.rotation = 0;
+        this.position = new Point(0, 3); // empieza en fila 0, columna 3 (casi centro)
+        copyShape();
     }
 
-    public Color getColor() {
-        return color;
+    private void copyShape() {
+        Point[] shape = SHAPES[type - 1];
+        for (int i = 0; i < 4; i++) {
+            blocks[i] = new Point(shape[i]);
+        }
     }
 
-    // Método estático para crear una pieza aleatoria
-    public static Tetromino getRandomTetromino(int boardWidth) {
+    // Genera una nueva pieza aleatoria
+    public static Tetromino getRandomTetromino() {
         Random rand = new Random();
-        int index = rand.nextInt(7);
-
-        switch (index) {
-            case 0: // I
-                return new Tetromino(new int[][]{
-                    {1, 1, 1, 1}
-                }, COLORS[0]);
-            case 1: // J
-                return new Tetromino(new int[][]{
-                    {1, 0, 0},
-                    {1, 1, 1}
-                }, COLORS[1]);
-            case 2: // L
-                return new Tetromino(new int[][]{
-                    {0, 0, 1},
-                    {1, 1, 1}
-                }, COLORS[2]);
-            case 3: // O
-                return new Tetromino(new int[][]{
-                    {1, 1},
-                    {1, 1}
-                }, COLORS[3]);
-            case 4: // S
-                return new Tetromino(new int[][]{
-                    {0, 1, 1},
-                    {1, 1, 0}
-                }, COLORS[4]);
-            case 5: // T
-                return new Tetromino(new int[][]{
-                    {0, 1, 0},
-                    {1, 1, 1}
-                }, COLORS[5]);
-            case 6: // Z
-                return new Tetromino(new int[][]{
-                    {1, 1, 0},
-                    {0, 1, 1}
-                }, COLORS[6]);
-        }
-
-        // Por defecto (no debería pasar)
-        return null;
+        return new Tetromino(rand.nextInt(7) + 1);
     }
 
-    // Implementa draw para usar el color
+    // Intenta mover la pieza hacia abajo, devuelve false si choca
+    public boolean moveDown(int[][] board) {
+        position.x++;
+        if (!isValidPosition(board)) {
+            position.x--;
+            return false;
+        }
+        return true;
+    }
+
+    // Intenta mover a la izquierda
+    public void moveLeft(int[][] board) {
+        position.y--;
+        if (!isValidPosition(board)) {
+            position.y++;
+        }
+    }
+
+    // Intenta mover a la derecha
+    public void moveRight(int[][] board) {
+        position.y++;
+        if (!isValidPosition(board)) {
+            position.y--;
+        }
+    }
+
+    // Rota la pieza 90 grados en sentido horario
+    public void rotate(int[][] board) {
+        rotation = (rotation + 1) % 4;
+        rotateBlocks();
+        if (!isValidPosition(board)) {
+            // si no es válido, vuelve atrás
+            rotation = (rotation + 3) % 4;
+            rotateBlocks();
+        }
+    }
+
+    // Aplica la rotación a los bloques
+    private void rotateBlocks() {
+        // El bloque O no rota
+        if (type == 4) return;
+
+        for (int i = 0; i < 4; i++) {
+            int x = blocks[i].x;
+            int y = blocks[i].y;
+            // rotación 90° clockwise respecto al centro (1,1)
+            blocks[i].x = y;
+            blocks[i].y = 3 - x;
+        }
+    }
+
+    // Verifica si la pieza está en posición válida dentro del tablero
+    public boolean isValidPosition(int[][] board) {
+        for (Point p : blocks) {
+            int x = position.x + p.x;
+            int y = position.y + p.y;
+            if (x < 0 || x >= board.length || y < 0 || y >= board[0].length)
+                return false;
+            if (board[x][y] != 0)
+                return false;
+        }
+        return true;
+    }
+
+    // Mezcla la pieza con el tablero (fija la pieza)
+    public void merge(int[][] board) {
+        for (Point p : blocks) {
+            int x = position.x + p.x;
+            int y = position.y + p.y;
+            board[x][y] = type;
+        }
+    }
+
+    // Dibuja la pieza en el panel
     public void draw(Graphics g, int blockSize) {
-        g.setColor(color);
-        for (int i = 0; i < shape.length; i++) {
-            for (int j = 0; j < shape[i].length; j++) {
-                if (shape[i][j] != 0) {
-                    g.fillRect((x + j) * blockSize, (y + i) * blockSize, blockSize, blockSize);
-                    g.setColor(Color.BLACK);
-                    g.drawRect((x + j) * blockSize, (y + i) * blockSize, blockSize, blockSize);
-                    g.setColor(color);
-                }
-            }
+        g.setColor(getColor(type));
+        for (Point p : blocks) {
+            int x = (position.y + p.y) * blockSize;
+            int y = (position.x + p.x) * blockSize;
+            g.fillRect(x, y, blockSize, blockSize);
+            g.setColor(Color.BLACK);
+            g.drawRect(x, y, blockSize, blockSize);
+            g.setColor(getColor(type));
         }
     }
 
-    // Resto de métodos: moveDown, moveLeft, moveRight, rotate, merge, isValidPosition...
-}
+    // Color para cada tipo de pieza
+    private Color getColor(int type) {
+        switch (type) {
+            case 1: return Color.CYAN;    // I
+            case 2: return Color.BLUE;    // J
+            case 3: return Color.ORANGE;  // L
+            case 4: return Color.YELLOW;  // O
+            case 5: return Color.GREEN;   // S
+            case 6: return Color.MAGENTA; // T
+            case 7: return Color.RED;     // Z
+            default: return Color.GRAY;
+        }
+    }
+
+    }
+

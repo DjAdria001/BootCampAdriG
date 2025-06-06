@@ -3,142 +3,159 @@ package com.tetris;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class GamePanel extends JPanel implements KeyListener {
+public class GamePanel extends JPanel implements ActionListener {
 
     private final int ROWS = 20;
     private final int COLS = 10;
     private final int BLOCK_SIZE = 30;
+
     private int[][] board = new int[ROWS][COLS];
     private Tetromino currentPiece;
-
     private Timer timer;
+    private boolean gameOver = false;
 
     public GamePanel() {
-        setFocusable(true);
-        requestFocusInWindow();
-        addKeyListener(this);
-
         setPreferredSize(new Dimension(COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE));
+        setBackground(Color.BLACK);
 
-        currentPiece = Tetromino.getRandomTetromino(COLS);
-        startGameLoop();
+        initGame();
+
+        timer = new Timer(500, this); // mueve pieza cada 500ms
+        timer.start();
+
+        addKeyListener(new KeyAdapter() {
+            @Override
+			public void keyPressed(KeyEvent e) {
+				if (gameOver)
+					return;
+
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_LEFT:
+					currentPiece.moveLeft(board);
+					break;
+				case KeyEvent.VK_RIGHT:
+					currentPiece.moveRight(board);
+					break;
+				case KeyEvent.VK_DOWN:
+					currentPiece.moveDown(board);
+					break;
+				case KeyEvent.VK_UP:
+					currentPiece.rotate(board);
+					break;
+				case KeyEvent.VK_SPACE:
+					while (currentPiece.moveDown(board)) {
+					} // cae rápido hasta el fondo
+					placePiece();
+					break;
+				}
+				repaint();
+			}
+        });
+
+        setFocusable(true);
     }
 
-    private void startGameLoop() {
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                update();
-                repaint();
-            }
-        }, 0, 500);
+    private void initGame() {
+        // limpia el tablero
+        for (int r = 0; r < ROWS; r++)
+            for (int c = 0; c < COLS; c++)
+                board[r][c] = 0;
+
+        currentPiece = Tetromino.getRandomTetromino();
+        gameOver = false;
     }
 
-    private void update() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (gameOver) {
+            timer.stop();
+            return;
+        }
+
         if (!currentPiece.moveDown(board)) {
-            currentPiece.merge(board);
-            clearLines();
-            currentPiece = Tetromino.getRandomTetromino(COLS);
-            if (!currentPiece.isValidPosition(board)) {
-                timer.cancel();
-                JOptionPane.showMessageDialog(this, "¡Fin del juego!");
-                System.exit(0);
-            }
-        }
-    }
-
-    private void clearLines() {
-        for (int i = ROWS - 1; i >= 0; i--) {
-            boolean fullLine = true;
-            for (int j = 0; j < COLS; j++) {
-                if (board[i][j] == 0) {
-                    fullLine = false;
-                    break;
-                }
-            }
-            if (fullLine) {
-                for (int k = i; k > 0; k--) {
-                    board[k] = board[k - 1].clone();
-                }
-                board[0] = new int[COLS];
-                i++; // Rechequear la misma línea
-            }
-        }
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), getHeight());
-
-        // Dibujar tablero
-        g.setColor(Color.CYAN);
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
-                if (board[i][j] != 0) {
-                    g.fillRect(j * BLOCK_SIZE, i * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-                    g.setColor(Color.BLACK);
-                    g.drawRect(j * BLOCK_SIZE, i * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-                    g.setColor(Color.CYAN);
-                }
-            }
-        }
-
-        // Dibujar pieza actual
-        currentPiece.draw(g, BLOCK_SIZE);
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_LEFT:
-                currentPiece.moveLeft(board);
-                break;
-            case KeyEvent.VK_RIGHT:
-                currentPiece.moveRight(board);
-                break;
-            case KeyEvent.VK_DOWN:
-                currentPiece.moveDown(board);
-                break;
-            case KeyEvent.VK_UP:
-                currentPiece.rotate(board);
-                break;
-            case KeyEvent.VK_C:
-                saveCurrentPiece();
-                break;
+            placePiece();
         }
         repaint();
     }
 
-
-    @Override
-    public void keyReleased(KeyEvent e) { }
-    @Override
-    public void keyTyped(KeyEvent e) { }
-
-    private Tetromino savedPiece = null;
-    private boolean canSave = true;
-
-    private void saveCurrentPiece() {
-        if (!canSave) return;
-
-        if (savedPiece == null) {
-            savedPiece = currentPiece;
-            currentPiece = Tetromino.getRandomTetromino(COLS);
-        } else {
-            Tetromino temp = currentPiece;
-            currentPiece = savedPiece;
-            savedPiece = temp;
+    private void placePiece() {
+        currentPiece.merge(board);
+        clearLines();
+        currentPiece = Tetromino.getRandomTetromino();
+        if (!currentPiece.isValidPosition(board)) {
+            gameOver = true;
+            timer.stop();
+            JOptionPane.showMessageDialog(this, "Game Over! Press OK to restart.");
+            initGame(); // reinicia el juego
+            repaint();
+            } else {
+            	currentPiece = Tetromino.getRandomTetromino();
+				if (!currentPiece.isValidPosition(board)) {
+					gameOver = true;
+					timer.stop();
+					JOptionPane.showMessageDialog(this, "Game Over! Press OK to restart.");
+					initGame(); // reinicia el juego
+					repaint();
+				}
+				
         }
-        canSave = false;
     }
 
-    // Para permitir guardar solo una vez hasta que la pieza caiga
-    private void resetCanSave() {
-        canSave = true;
+    private void clearLines() {
+        for (int r = ROWS - 1; r >= 0; r--) {
+            boolean full = true;
+            for (int c = 0; c < COLS; c++) {
+                if (board[r][c] == 0) {
+                    full = false;
+                    break;
+                }
+            }
+            if (full) {
+                // Baja todas las filas encima una posición
+                for (int row = r; row > 0; row--) {
+                    System.arraycopy(board[row - 1], 0, board[row], 0, COLS);
+                }
+                // Limpia fila 0
+                for (int c = 0; c < COLS; c++) {
+                    board[0][c] = 0;
+                }
+                r++; // revisa esta fila otra vez (porque bajaron las filas)
+            }
+        }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        // Dibuja tablero
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                if (board[r][c] != 0) {
+                    g.setColor(getColor(board[r][c]));
+                    g.fillRect(c * BLOCK_SIZE, r * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                    g.setColor(Color.BLACK);
+                    g.drawRect(c * BLOCK_SIZE, r * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                }
+            }
+        }
+
+        // Dibuja pieza actual
+        currentPiece.draw(g, BLOCK_SIZE);
+    }
+
+    private Color getColor(int value) {
+        // Aquí deberías mapear valor a color
+        switch (value) {
+            case 1: return Color.CYAN;
+            case 2: return Color.BLUE;
+            case 3: return Color.ORANGE;
+            case 4: return Color.YELLOW;
+            case 5: return Color.GREEN;
+            case 6: return Color.MAGENTA;
+            case 7: return Color.RED;
+            default: return Color.GRAY;
+        }
     }
 }
