@@ -1,6 +1,7 @@
 package com.tetris;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Tetris {
 
@@ -12,8 +13,8 @@ public class Tetris {
             GamePanel gamePanel = new GamePanel();
             frame.add(gamePanel);
 
-            frame.pack();  // Ajusta la ventana al tamaño preferido del panel
-            frame.setLocationRelativeTo(null);  // Centrar ventana
+            frame.pack();
+            frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
     }

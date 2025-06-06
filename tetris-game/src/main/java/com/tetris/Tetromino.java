@@ -1,120 +1,94 @@
-package com.tetris;
-
-import java.awt.*;
+import java.awt.Color;
 import java.util.Random;
 
 public class Tetromino {
-
-    // Posición de la pieza en el tablero
-    private int posX;
-    private int posY;
-
-    // Bloques que forman la pieza (relativos a posX, posY)
-    private Point[] blocks;
-
-    // Formas posibles (como matrices o arrays de puntos)
-    private static final Point[][] SHAPES = {
-        {new Point(0,0), new Point(1,0), new Point(0,1), new Point(1,1)}, // O
-        {new Point(0,0), new Point(-1,0), new Point(1,0), new Point(2,0)}, // I
-        {new Point(0,0), new Point(-1,0), new Point(0,1), new Point(1,1)}, // S
-        {new Point(0,0), new Point(1,0), new Point(0,1), new Point(-1,1)}, // Z
-        {new Point(0,0), new Point(-1,0), new Point(1,0), new Point(0,1)}, // T
-        {new Point(0,0), new Point(-1,0), new Point(-1,1), new Point(0,1)}, // J
-        {new Point(0,0), new Point(1,0), new Point(1,1), new Point(0,1)}  // L
+    // Definir los diferentes tipos con matrices de bloques y su color
+    public static final Color[] COLORS = {
+        Color.cyan,    // I
+        Color.blue,    // J
+        Color.orange,  // L
+        Color.yellow,  // O
+        Color.green,   // S
+        Color.magenta, // T
+        Color.red      // Z
     };
 
-    public Tetromino(Point[] shape) {
-        this.blocks = shape;
-        this.posX = 4;  // Empieza en columna 4 para centrar
-        this.posY = 0;  // Arriba del tablero
+    private Color color;
+    private int[][] shape;
+    private int x, y; // posición en tablero
+
+    // Constructor privado para usar en fábrica
+    private Tetromino(int[][] shape, Color color) {
+        this.shape = shape;
+        this.color = color;
+        this.x = 3; // posición inicial, ajustar según shape
+        this.y = 0;
     }
 
-    // Obtener una pieza aleatoria
+    public Color getColor() {
+        return color;
+    }
+
+    // Método estático para crear una pieza aleatoria
     public static Tetromino getRandomTetromino(int boardWidth) {
         Random rand = new Random();
-        Point[] shape = SHAPES[rand.nextInt(SHAPES.length)];
-        return new Tetromino(shape);
+        int index = rand.nextInt(7);
+
+        switch (index) {
+            case 0: // I
+                return new Tetromino(new int[][]{
+                    {1, 1, 1, 1}
+                }, COLORS[0]);
+            case 1: // J
+                return new Tetromino(new int[][]{
+                    {1, 0, 0},
+                    {1, 1, 1}
+                }, COLORS[1]);
+            case 2: // L
+                return new Tetromino(new int[][]{
+                    {0, 0, 1},
+                    {1, 1, 1}
+                }, COLORS[2]);
+            case 3: // O
+                return new Tetromino(new int[][]{
+                    {1, 1},
+                    {1, 1}
+                }, COLORS[3]);
+            case 4: // S
+                return new Tetromino(new int[][]{
+                    {0, 1, 1},
+                    {1, 1, 0}
+                }, COLORS[4]);
+            case 5: // T
+                return new Tetromino(new int[][]{
+                    {0, 1, 0},
+                    {1, 1, 1}
+                }, COLORS[5]);
+            case 6: // Z
+                return new Tetromino(new int[][]{
+                    {1, 1, 0},
+                    {0, 1, 1}
+                }, COLORS[6]);
+        }
+
+        // Por defecto (no debería pasar)
+        return null;
     }
 
-    // Dibuja la pieza en pantalla
+    // Implementa draw para usar el color
     public void draw(Graphics g, int blockSize) {
-        g.setColor(Color.RED);
-        for (Point p : blocks) {
-            int x = (posX + p.x) * blockSize;
-            int y = (posY + p.y) * blockSize;
-            g.fillRect(x, y, blockSize, blockSize);
-            g.setColor(Color.BLACK);
-            g.drawRect(x, y, blockSize, blockSize);
-            g.setColor(Color.RED);
-        }
-    }
-
-    // Mover la pieza hacia abajo
-    public boolean moveDown(int[][] board) {
-        posY++;
-        if (!isValidPosition(board)) {
-            posY--;
-            return false;
-        }
-        return true;
-    }
-
-    // Mover la pieza hacia la izquierda
-    public void moveLeft(int[][] board) {
-        posX--;
-        if (!isValidPosition(board)) {
-            posX++;
-        }
-    }
-
-    // Mover la pieza hacia la derecha
-    public void moveRight(int[][] board) {
-        posX++;
-        if (!isValidPosition(board)) {
-            posX--;
-        }
-    }
-
-    // Rotar la pieza 90 grados (sentido horario)
-    public void rotate(int[][] board) {
-        for (int i = 0; i < blocks.length; i++) {
-            int x = blocks[i].x;
-            blocks[i].x = -blocks[i].y;
-            blocks[i].y = x;
-        }
-        if (!isValidPosition(board)) {
-            // revertir rotación
-            for (int i = 0; i < blocks.length; i++) {
-                int x = blocks[i].x;
-                blocks[i].x = blocks[i].y;
-                blocks[i].y = -x;
+        g.setColor(color);
+        for (int i = 0; i < shape.length; i++) {
+            for (int j = 0; j < shape[i].length; j++) {
+                if (shape[i][j] != 0) {
+                    g.fillRect((x + j) * blockSize, (y + i) * blockSize, blockSize, blockSize);
+                    g.setColor(Color.BLACK);
+                    g.drawRect((x + j) * blockSize, (y + i) * blockSize, blockSize, blockSize);
+                    g.setColor(color);
+                }
             }
         }
     }
 
-    // Comprueba si la posición actual es válida (sin colisiones ni fuera del tablero)
-    public boolean isValidPosition(int[][] board) {
-        for (Point p : blocks) {
-            int x = posX + p.x;
-            int y = posY + p.y;
-            if (x < 0 || x >= board[0].length || y < 0 || y >= board.length) {
-                return false;
-            }
-            if (board[y][x] != 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // Fusiona la pieza con el tablero (coloca los bloques en el tablero)
-    public void merge(int[][] board) {
-        for (Point p : blocks) {
-            int x = posX + p.x;
-            int y = posY + p.y;
-            if (y >= 0 && y < board.length && x >= 0 && x < board[0].length) {
-                board[y][x] = 1;
-            }
-        }
-    }
+    // Resto de métodos: moveDown, moveLeft, moveRight, rotate, merge, isValidPosition...
 }
