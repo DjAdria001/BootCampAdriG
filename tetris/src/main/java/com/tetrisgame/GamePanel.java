@@ -3,6 +3,7 @@ package com.tetrisgame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 import java.util.Random;
 
 public class GamePanel extends JPanel {
@@ -23,6 +24,10 @@ public class GamePanel extends JPanel {
         setFocusable(true);
 
         board = new Board(cols, rows);
+
+        PuntuacionDAO dao = new PuntuacionDAO();
+        highScore = dao.obtenerMaxPuntuacion();  // Carga récord desde base de datos
+
         spawnPiece();
 
         timer = new Timer(500, e -> {
@@ -64,11 +69,26 @@ public class GamePanel extends JPanel {
 
         if (!board.isValidPosition(currentPiece, pieceX, pieceY)) {
             timer.stop();
-            JOptionPane.showMessageDialog(this, "Game Over\nPuntuación: " + score, "Tetris", JOptionPane.INFORMATION_MESSAGE);
-            score = 0;
-            board.clearLines(); // reseteamos el tablero visual
-            repaint();
-            timer.start();
+            PuntuacionDAO dao = new PuntuacionDAO();
+
+            String nombreJugador = JOptionPane.showInputDialog(this, "Introduce tu nombre (3 caracteres):");
+            while (nombreJugador == null || nombreJugador.length() != 3) {
+                nombreJugador = JOptionPane.showInputDialog(this, "Nombre inválido. Introduce tu nombre (exactamente 3 caracteres):");
+            }
+
+            dao.guardarPuntuacion(nombreJugador, score);
+
+            // Construir mensaje con Top 10
+            StringBuilder mensaje = new StringBuilder();
+            mensaje.append("Game Over\nPuntuación: ").append(score).append("\nRécord: ").append(highScore).append("\n\nTOP 10:\n");
+
+            List<String> top10 = dao.obtenerTop10();
+            for (String entrada : top10) {
+                mensaje.append(entrada).append("\n");
+            }
+
+            JOptionPane.showMessageDialog(this, mensaje.toString(), "Tetris", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
         }
     }
 
