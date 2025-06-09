@@ -19,6 +19,8 @@ public class GamePanel extends JPanel {
     private int initialDelay = 500;
     private Tetromino heldPiece = null;
     private boolean canHold = true;
+    private final SoundPlayer soundPlayer = new SoundPlayer();
+
 
     private int score = 0;
     private int highScore = 0;
@@ -43,6 +45,8 @@ public class GamePanel extends JPanel {
                 score += linesCleared * 100;
 
                 if (linesCleared > 0) {
+                	score += linesCleared * 100;
+                    new SoundPlayer().playEffect("/sounds/line_clear.wav"); // Efecto de sonido al eliminar líneas
                     level++;
                     int newDelay = Math.max(100, initialDelay - level * 20); // Mínimo 100 ms
                     timer.setDelay(newDelay);

@@ -13,5 +13,9 @@ public class Main {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
+        SoundPlayer player = new SoundPlayer();
+        player.playMusic("/sounds/TetrisTheme.wav", true, 0.3f);  // volumen: 30%
+
+
     }
 }
