@@ -14,27 +14,31 @@ public class GamePanel extends JPanel {
     private final Board board;
     private Tetromino currentPiece;
     private Tetromino nextPiece;
-    private Tetromino heldPiece = null;
-    private boolean canHold = true;
-
     private int pieceX, pieceY;
     private Timer timer;
-
+    private int level = 1;
+    private int previousLevel = 1;
+    private int initialDelay = 500;
+    private final int maxScore = 5000;
+    private Tetromino heldPiece = null;
+    private boolean canHold = true;
     private final SoundPlayer soundPlayer = new SoundPlayer();
     private final List<FloatingText> floatingTexts = new ArrayList<>();
 
     private int score = 0;
     private int highScore = 0;
-    private int level = 1;
-    private final int maxScore = 5000;
-    private final int initialDelay = 500;
+
+    // Puntos extra por bajada forzada
+    private final int pointsPerSoftDrop = 1;
+    private final int pointsPerHardDrop = 2;
 
     public GamePanel() {
-        setPreferredSize(new Dimension(cols * tileSize + 200, rows * tileSize + 40));
+        setPreferredSize(new Dimension(cols * tileSize + 150, rows * tileSize + 40));
         setBackground(Color.BLACK);
         setFocusable(true);
 
         board = new Board(cols, rows);
+
         PuntuacionDAO dao = new PuntuacionDAO();
         highScore = dao.obtenerMaxPuntuacion();
 
@@ -46,22 +50,24 @@ public class GamePanel extends JPanel {
                 board.placeTetromino(currentPiece, pieceX, pieceY);
                 int linesCleared = board.clearLines();
                 if (linesCleared > 0) {
-                    double multiplier = switch (linesCleared) {
-                        case 2 -> 1.5;
-                        case 3 -> 1.75;
-                        case 4 -> 2.0;
-                        default -> 1.0;
+                    int multiplier = switch (linesCleared) {
+                        case 2 -> 150;
+                        case 3 -> 175;
+                        case 4 -> 200;
+                        default -> 100;
                     };
-                    int gained = (int)(linesCleared * 100 * multiplier);
+                    int gained = linesCleared * multiplier;
                     score += gained;
                     floatingTexts.add(new FloatingText("+" + gained, pieceX * tileSize, pieceY * tileSize));
                     soundPlayer.playEffect("/sounds/line_clear.wav");
 
-                    int targetLevel = 1 + (int)(((double)score / maxScore) * 9);
-                    if (targetLevel > level) {
-                        level = targetLevel;
-                        int newDelay = Math.max(100, initialDelay - (level - 1) * 40);
+                    int progressPercent = Math.min(100, (score * 100) / maxScore);
+                    level = Math.max(1, progressPercent / 10);
+
+                    if (level != previousLevel) {
+                        int newDelay = Math.max(100, initialDelay - (level - 1) * 30);
                         timer.setDelay(newDelay);
+                        previousLevel = level;
                     }
                 }
                 if (score > highScore) highScore = score;
@@ -78,7 +84,12 @@ public class GamePanel extends JPanel {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT -> tryMove(-1, 0);
                     case KeyEvent.VK_RIGHT -> tryMove(1, 0);
-                    case KeyEvent.VK_DOWN -> tryMove(0, 1);
+                    case KeyEvent.VK_DOWN -> {
+                        boolean movedDown = tryMove(0, 1);
+                        if (movedDown) {
+                            score += pointsPerSoftDrop;
+                        }
+                    }
                     case KeyEvent.VK_UP -> {
                         Tetromino rotated = currentPiece.copy();
                         rotated.rotateClockwise();
@@ -87,6 +98,40 @@ public class GamePanel extends JPanel {
                         }
                     }
                     case KeyEvent.VK_C -> holdPiece();
+                    case KeyEvent.VK_SPACE -> {
+                        int dropDistance = 0;
+                        while (tryMove(0, 1)) {
+                            dropDistance++;
+                        }
+                        if (dropDistance > 0) {
+                            score += dropDistance * pointsPerHardDrop;
+                            board.placeTetromino(currentPiece, pieceX, pieceY);
+                            int linesCleared = board.clearLines();
+                            if (linesCleared > 0) {
+                                int multiplier = switch (linesCleared) {
+                                    case 2 -> 150;
+                                    case 3 -> 175;
+                                    case 4 -> 200;
+                                    default -> 100;
+                                };
+                                int gained = linesCleared * multiplier;
+                                score += gained;
+                                floatingTexts.add(new FloatingText("+" + gained, pieceX * tileSize, pieceY * tileSize));
+                                soundPlayer.playEffect("/sounds/line_clear.wav");
+
+                                int progressPercent = Math.min(100, (score * 100) / maxScore);
+                                level = Math.max(1, progressPercent / 10);
+
+                                if (level != previousLevel) {
+                                    int newDelay = Math.max(100, initialDelay - (level - 1) * 30);
+                                    timer.setDelay(newDelay);
+                                    previousLevel = level;
+                                }
+                            }
+                            if (score > highScore) highScore = score;
+                            spawnPiece();
+                        }
+                    }
                 }
                 repaint();
             }
@@ -102,7 +147,8 @@ public class GamePanel extends JPanel {
 
     private Tetromino generateRandomPiece() {
         Tetromino.Type[] values = Tetromino.Type.values();
-        return new Tetromino(values[new Random().nextInt(values.length)]);
+        Tetromino.Type randomType = values[new Random().nextInt(values.length)];
+        return new Tetromino(randomType);
     }
 
     private void spawnPiece() {
@@ -110,7 +156,9 @@ public class GamePanel extends JPanel {
         nextPiece = generateRandomPiece();
         canHold = true;
 
-        if (!findValidSpawnPosition()) endGame();
+        if (!findValidSpawnPosition()) {
+            endGame();
+        }
     }
 
     private boolean findValidSpawnPosition() {
@@ -135,7 +183,9 @@ public class GamePanel extends JPanel {
             spawnPiece();
         } else {
             currentPiece = temp;
-            if (!findValidSpawnPosition()) endGame();
+            if (!findValidSpawnPosition()) {
+                endGame();
+            }
         }
     }
 
@@ -151,102 +201,103 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
 
         // Fondo del tablero
-        g2.setColor(new Color(30, 30, 30));
-        g2.fillRect(0, 0, cols * tileSize, rows * tileSize);
-        g2.setColor(Color.WHITE);
-        g2.drawRect(0, 0, cols * tileSize, rows * tileSize);
+        g.setColor(new Color(30, 30, 30));
+        g.fillRect(0, 0, cols * tileSize, rows * tileSize);
 
-        // Líneas de cuadrícula
-        g2.setColor(new Color(60, 60, 60));
-        for (int i = 1; i < cols; i++) g2.drawLine(i * tileSize, 0, i * tileSize, rows * tileSize);
-        for (int i = 1; i < rows; i++) g2.drawLine(0, i * tileSize, cols * tileSize, i * tileSize);
+        // Borde y cuadrícula
+        g.setColor(Color.WHITE);
+        g.drawRect(0, 0, cols * tileSize, rows * tileSize);
+        g.setColor(new Color(80, 80, 80));
+        for (int i = 1; i < cols; i++) g.drawLine(i * tileSize, 0, i * tileSize, rows * tileSize);
+        for (int i = 1; i < rows; i++) g.drawLine(0, i * tileSize, cols * tileSize, i * tileSize);
 
-        // Dibujar el tablero
-        board.draw(g2, tileSize);
-
-        // Pieza actual
-        g2.setColor(currentPiece.getColor());
+        // Tablero y pieza actual
+        board.draw(g, tileSize);
+        g.setColor(currentPiece.getColor());
         for (Point p : currentPiece.getBlocks()) {
             int x = (pieceX + p.x) * tileSize;
             int y = (pieceY + p.y) * tileSize;
-            g2.fillRoundRect(x, y, tileSize, tileSize, 6, 6);
-            g2.setColor(Color.DARK_GRAY);
-            g2.drawRoundRect(x, y, tileSize, tileSize, 6, 6);
-            g2.setColor(currentPiece.getColor());
+            g.fillRect(x, y, tileSize, tileSize);
+            g.setColor(Color.DARK_GRAY);
+            g.drawRect(x, y, tileSize, tileSize);
+            g.setColor(currentPiece.getColor());
         }
 
-        // Animaciones flotantes
+        // Textos flotantes
         for (FloatingText ft : floatingTexts) {
-            g2.setColor(new Color(255, 255, 0, ft.alpha));
-            g2.setFont(new Font("Arial", Font.BOLD, 18));
-            g2.drawString(ft.text, ft.x, ft.y);
+            g.setColor(new Color(255, 255, 0, ft.getAlpha()));
+            g.setFont(new Font("Arial", Font.BOLD, 16));
+            g.drawString(ft.getText(), ft.getX(), ft.getY());
         }
 
-        // PANEL LATERAL
-        int offsetX = cols * tileSize + 20;
+        // Área lateral
+        int sideX = cols * tileSize + 10;
+        int panelWidth = 140;
 
-        // Fondo lateral con borde
-        g2.setColor(new Color(40, 40, 50));
-        g2.fillRoundRect(offsetX - 10, 10, 170, 340, 20, 20);
+        // Sección: Siguiente
+        int nextY = 10;
+        g.setColor(new Color(25, 25, 35));
+        g.fillRoundRect(sideX, nextY, panelWidth, 140, 15, 15);
+        g.setColor(Color.CYAN);
+        g.setFont(new Font("Arial", Font.BOLD, 14));
+        g.drawString("Siguiente:", sideX + 10, nextY + 20);
+        drawMiniPiece(g, nextPiece, sideX, nextY + 20);
 
-        // Sombra de texto
-        g2.setFont(new Font("Arial", Font.BOLD, 16));
-        g2.setColor(Color.BLACK);
-        g2.drawString("Siguiente:", offsetX + 1, 30 + 1);
-        g2.setColor(Color.CYAN);
-        g2.drawString("Siguiente:", offsetX, 30);
+        // Sección: Guardada
+        int holdY = nextY + 150;
+        g.setColor(new Color(35, 25, 25));
+        g.fillRoundRect(sideX, holdY, panelWidth, 140, 15, 15);
+        g.setColor(Color.PINK);
+        g.drawString("Guardada:", sideX + 10, holdY + 20);
+        drawMiniPiece(g, heldPiece, sideX, holdY + 20);
 
-        for (Point p : nextPiece.getBlocks()) {
-            int x = offsetX + 10 + (p.x * tileSize);
-            int y = 40 + (p.y * tileSize);
-
-            g2.setColor(nextPiece.getColor());
-            g2.fillRoundRect(x, y, tileSize, tileSize, 6, 6);
-            g2.setColor(Color.DARK_GRAY);
-            g2.drawRoundRect(x, y, tileSize, tileSize, 6, 6);
-        }
-
-        // Separador
-        g2.setColor(new Color(70, 70, 90));
-        g2.fillRect(offsetX - 5, 90, 160, 2);
-
-        // Pieza guardada
-        g2.setColor(Color.BLACK);
-        g2.drawString("Guardada:", offsetX + 1, 120 + 1);
-        g2.setColor(Color.PINK);
-        g2.drawString("Guardada:", offsetX, 120);
-
-        if (heldPiece != null) {
-        	for (Point p : heldPiece.getBlocks()) {
-        	    int x = offsetX + 10 + (p.x * tileSize);
-        	    int y = 130 + (p.y * tileSize);
-
-                g2.setColor(heldPiece.getColor());
-                g2.fillRoundRect(x, y, tileSize, tileSize, 6, 6);
-                g2.setColor(Color.DARK_GRAY);
-                g2.drawRoundRect(x, y, tileSize, tileSize, 6, 6);
-            }
-        }
-
-        // Separador
-        g2.setColor(new Color(70, 70, 90));
-        g2.fillRect(offsetX - 5, 190, 160, 2);
-
-        // Estadísticas
-        g2.setFont(new Font("Arial", Font.BOLD, 14));
-        g2.setColor(Color.ORANGE);
-        g2.drawString("Puntos: " + score, offsetX, 220);
-        g2.setColor(Color.GREEN);
-        g2.drawString("Récord: " + highScore, offsetX, 240);
-        g2.setColor(Color.MAGENTA);
-        g2.drawString("Nivel: " + level, offsetX, 260);
-        g2.setColor(Color.WHITE);
-        g2.drawString("Progreso: " + (int)(((double)score / maxScore) * 100) + "%", offsetX, 280);
+        // Sección: Puntuación
+        int scoreY = holdY + 150;
+        g.setColor(new Color(20, 20, 30));
+        g.fillRoundRect(sideX, scoreY, panelWidth, 130, 15, 15);
+        g.setFont(new Font("Arial", Font.BOLD, 13));
+        g.setColor(Color.ORANGE);
+        g.drawString("Puntos: " + score, sideX + 10, scoreY + 25);
+        g.setColor(Color.GREEN);
+        g.drawString("Récord: " + highScore, sideX + 10, scoreY + 45);
+        g.setColor(Color.MAGENTA);
+        g.drawString("Nivel: " + level, sideX + 10, scoreY + 65);
+        int progress = Math.min(100, (score * 100) / maxScore);
+        g.setColor(Color.WHITE);
+        g.drawString("Progreso: " + progress + "%", sideX + 10, scoreY + 85);
     }
 
+    private void drawMiniPiece(Graphics g, Tetromino piece, int areaX, int areaY) {
+        if (piece == null) return;
+
+        int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE, maxY = Integer.MIN_VALUE;
+
+        for (Point p : piece.getBlocks()) {
+            if (p.x < minX) minX = p.x;
+            if (p.y < minY) minY = p.y;
+            if (p.x > maxX) maxX = p.x;
+            if (p.y > maxY) maxY = p.y;
+        }
+
+        int sizeX = maxX - minX + 1;
+        int sizeY = maxY - minY + 1;
+
+        int offsetX = (140 - sizeX * 20) / 2;
+        int offsetY = (120 - sizeY * 20) / 2 + areaY;
+
+        g.setColor(piece.getColor());
+        for (Point p : piece.getBlocks()) {
+            int x = areaX + offsetX + (p.x - minX) * 20;
+            int y = offsetY + (p.y - minY) * 20;
+            g.fillRect(x, y, 20, 20);
+            g.setColor(Color.DARK_GRAY);
+            g.drawRect(x, y, 20, 20);
+            g.setColor(piece.getColor());
+        }
+    }
 
     private void endGame() {
         timer.stop();
@@ -271,10 +322,13 @@ public class GamePanel extends JPanel {
         System.exit(0);
     }
 
-    public static class FloatingText {
-        public String text;
-        public int x, y;
-        public int alpha = 255;
+    // Clase interna para mostrar textos flotantes con fade out
+    private static class FloatingText {
+        private final String text;
+        private int x, y;
+        private int alpha = 255;
+        private final int fadeSpeed = 5;
+        private final int riseSpeed = 1;
 
         public FloatingText(String text, int x, int y) {
             this.text = text;
@@ -283,13 +337,29 @@ public class GamePanel extends JPanel {
         }
 
         public void update() {
-            y -= 2; // velocidad mayor
-            alpha -= 15;
+            y -= riseSpeed;
+            alpha -= fadeSpeed;
+            if (alpha < 0) alpha = 0;
         }
 
         public boolean isVisible() {
             return alpha > 0;
         }
+
+        public int getAlpha() {
+            return alpha;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
     }
 }
-
