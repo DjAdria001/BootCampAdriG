@@ -17,8 +17,8 @@ public class FloatingText {
         this.y = y;
     }
     public boolean update() {
-        y -= 2;
-        alpha -= 15;
+        y -= 4;
+        alpha -= 30;
         return alpha > 0;
     }
 
