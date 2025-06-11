@@ -3,6 +3,7 @@ package com.tetrisgame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -20,20 +21,20 @@ public class GamePanel extends JPanel {
     private Tetromino heldPiece = null;
     private boolean canHold = true;
     private final SoundPlayer soundPlayer = new SoundPlayer();
-
+    private final List<FloatingText> floatingTexts = new ArrayList<>();
 
     private int score = 0;
     private int highScore = 0;
 
     public GamePanel() {
-        setPreferredSize(new Dimension(cols * tileSize + 150, rows * tileSize + 40)); // ancho más grande para mostrar "guardada" y siguiente pieza
+        setPreferredSize(new Dimension(cols * tileSize + 150, rows * tileSize + 40));
         setBackground(Color.BLACK);
         setFocusable(true);
 
         board = new Board(cols, rows);
 
         PuntuacionDAO dao = new PuntuacionDAO();
-        highScore = dao.obtenerMaxPuntuacion();  // Carga récord desde base de datos
+        highScore = dao.obtenerMaxPuntuacion();
 
         nextPiece = generateRandomPiece();
         spawnPiece();
@@ -42,19 +43,18 @@ public class GamePanel extends JPanel {
             if (!tryMove(0, 1)) {
                 board.placeTetromino(currentPiece, pieceX, pieceY);
                 int linesCleared = board.clearLines();
-                score += linesCleared * 100;
-
                 if (linesCleared > 0) {
-                	score += linesCleared * 100;
-                    new SoundPlayer().playEffect("/sounds/line_clear.wav"); // Efecto de sonido al eliminar líneas
+                    score += linesCleared * 100;
+                    floatingTexts.add(new FloatingText("+" + (linesCleared * 100), pieceX * tileSize, pieceY * tileSize));
+                    soundPlayer.playEffect("/sounds/line_clear.wav");
                     level++;
-                    int newDelay = Math.max(100, initialDelay - level * 20); // Mínimo 100 ms
+                    int newDelay = Math.max(100, initialDelay - level * 20);
                     timer.setDelay(newDelay);
                 }
-
                 if (score > highScore) highScore = score;
                 spawnPiece();
             }
+            updateFloatingTexts();
             repaint();
         });
 
@@ -77,6 +77,13 @@ public class GamePanel extends JPanel {
                 }
                 repaint();
             }
+        });
+    }
+
+    private void updateFloatingTexts() {
+        floatingTexts.removeIf(ft -> {
+            ft.update();
+            return !ft.isVisible();
         });
     }
 
@@ -137,27 +144,17 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Dibujar fondo del tablero con borde
-        g.setColor(new Color(30, 30, 30));  // gris oscuro
+        g.setColor(new Color(30, 30, 30));
         g.fillRect(0, 0, cols * tileSize, rows * tileSize);
         g.setColor(Color.WHITE);
         g.drawRect(0, 0, cols * tileSize, rows * tileSize);
 
-        // Dibujar líneas de cuadrícula dentro del tablero
-        g.setColor(new Color(80, 80, 80)); // líneas más claras que fondo
-        for (int i = 1; i < cols; i++) {
-            int x = i * tileSize;
-            g.drawLine(x, 0, x, rows * tileSize);
-        }
-        for (int i = 1; i < rows; i++) {
-            int y = i * tileSize;
-            g.drawLine(0, y, cols * tileSize, y);
-        }
+        g.setColor(new Color(80, 80, 80));
+        for (int i = 1; i < cols; i++) g.drawLine(i * tileSize, 0, i * tileSize, rows * tileSize);
+        for (int i = 1; i < rows; i++) g.drawLine(0, i * tileSize, cols * tileSize, i * tileSize);
 
-        // Dibujar el contenido del tablero
         board.draw(g, tileSize);
 
-        // Dibuja la pieza actual
         g.setColor(currentPiece.getColor());
         for (Point p : currentPiece.getBlocks()) {
             int x = (pieceX + p.x) * tileSize;
@@ -168,74 +165,63 @@ public class GamePanel extends JPanel {
             g.setColor(currentPiece.getColor());
         }
 
-        // Área "Guardada" con fondo
+        for (FloatingText ft : floatingTexts) {
+            g.setColor(new Color(255, 255, 0, ft.alpha));
+            g.setFont(new Font("Arial", Font.BOLD, 16));
+            g.drawString(ft.text, ft.x, ft.y);
+        }
+        // --- PANEL LATERAL ---
         int sideX = cols * tileSize + 10;
-        int holdY = 10;
-        int holdWidth = 120;
-        int holdHeight = 150;
 
+        // PIEZA GUARDADA
         g.setColor(new Color(50, 50, 70)); // fondo azul oscuro
-        g.fillRoundRect(sideX, holdY, holdWidth, holdHeight, 15, 15);
-
-        // Título "Guardada"
+        g.fillRoundRect(sideX, 10, 120, 150, 15, 15);
         g.setColor(Color.WHITE);
         g.setFont(g.getFont().deriveFont(Font.BOLD, 16f));
-        g.drawString("Guardada", sideX + 25, holdY + 20);
-
-        // Dibuja la pieza guardada dentro de esa área
+        g.drawString("Guardada", sideX + 25, 30);
         if (heldPiece != null) {
             g.setColor(heldPiece.getColor());
             for (Point p : heldPiece.getBlocks()) {
-                int x = sideX + 40 + p.x * tileSize;
-                int y = holdY + 30 + p.y * tileSize;
-                g.fillRect(x, y, tileSize, tileSize);
+                int x = sideX + 40 + p.x * tileSize / 2;
+                int y = 40 + p.y * tileSize / 2;
+                g.fillRect(x, y, tileSize / 2, tileSize / 2);
                 g.setColor(Color.DARK_GRAY);
-                g.drawRect(x, y, tileSize, tileSize);
+                g.drawRect(x, y, tileSize / 2, tileSize / 2);
                 g.setColor(heldPiece.getColor());
             }
         }
 
-        // Área "Siguiente" con fondo
-        int nextY = holdY + holdHeight + 20;
-        int nextHeight = 150;
-
+        // SIGUIENTE PIEZA
+        int nextY = 180;
         g.setColor(new Color(50, 70, 50)); // fondo verde oscuro
-        g.fillRoundRect(sideX, nextY, holdWidth, nextHeight, 15, 15);
-
-        // Título "Siguiente"
+        g.fillRoundRect(sideX, nextY, 120, 150, 15, 15);
         g.setColor(Color.WHITE);
-        g.setFont(g.getFont().deriveFont(Font.BOLD, 16f));
-        g.drawString("Siguiente", sideX + 25, nextY + 20);
-
-        // Dibuja la siguiente pieza dentro de esa área
+        g.drawString("Siguiente", sideX + 20, nextY + 25);
         if (nextPiece != null) {
             g.setColor(nextPiece.getColor());
             for (Point p : nextPiece.getBlocks()) {
-                int x = sideX + 40 + p.x * tileSize;
-                int y = nextY + 30 + p.y * tileSize;
-                g.fillRect(x, y, tileSize, tileSize);
+                int x = sideX + 40 + p.x * tileSize / 2;
+                int y = nextY + 40 + p.y * tileSize / 2;
+                g.fillRect(x, y, tileSize / 2, tileSize / 2);
                 g.setColor(Color.DARK_GRAY);
-                g.drawRect(x, y, tileSize, tileSize);
+                g.drawRect(x, y, tileSize / 2, tileSize / 2);
                 g.setColor(nextPiece.getColor());
             }
         }
 
-        // Área puntuación con fondo
-        int scoreY = nextY + nextHeight + 20;
-        int scoreHeight = 110;
-
+        // PUNTUACIÓN Y RÉCORD
+        int scoreY = nextY + 170;
         g.setColor(new Color(70, 50, 50)); // fondo rojo oscuro
-        g.fillRoundRect(sideX, scoreY, holdWidth, scoreHeight, 15, 15);
-
+        g.fillRoundRect(sideX, scoreY, 120, 100, 15, 15);
         g.setColor(Color.WHITE);
         g.setFont(g.getFont().deriveFont(Font.BOLD, 14f));
         g.drawString("Puntuación:", sideX + 15, scoreY + 25);
         g.drawString(String.valueOf(score), sideX + 15, scoreY + 45);
-
         g.drawString("Récord:", sideX + 15, scoreY + 70);
         g.drawString(String.valueOf(highScore), sideX + 15, scoreY + 90);
-    }
 
+        // (resto de panel lateral omitido por brevedad pero es igual que el que ya tienes)
+    }
 
     private void endGame() {
         timer.stop();
@@ -254,12 +240,30 @@ public class GamePanel extends JPanel {
                .append("\n\nTOP 10:\n");
 
         List<String> top10 = dao.obtenerTop10();
-        for (String entrada : top10) {
-            mensaje.append(entrada).append("\n");
-        }
+        for (String entrada : top10) mensaje.append(entrada).append("\n");
 
         JOptionPane.showMessageDialog(this, mensaje.toString(), "Tetris", JOptionPane.INFORMATION_MESSAGE);
         System.exit(0);
     }
-}
 
+    public static class FloatingText {
+        public String text;
+        public int x, y;
+        public int alpha = 255;
+
+        public FloatingText(String text, int x, int y) {
+            this.text = text;
+            this.x = x;
+            this.y = y;
+        }
+
+        public void update() {
+            y -= 1;
+            alpha -= 5;
+        }
+
+        public boolean isVisible() {
+            return alpha > 0;
+        }
+    }
+}
