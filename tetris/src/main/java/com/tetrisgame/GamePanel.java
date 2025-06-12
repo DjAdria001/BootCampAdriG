@@ -28,7 +28,6 @@ public class GamePanel extends JPanel {
     private int score = 0;
     private int highScore = 0;
 
-    // Puntos extra por bajada forzada
     private final int pointsPerSoftDrop = 1;
     private final int pointsPerHardDrop = 2;
 
@@ -61,11 +60,11 @@ public class GamePanel extends JPanel {
                     floatingTexts.add(new FloatingText("+" + gained, pieceX * tileSize, pieceY * tileSize));
                     soundPlayer.playEffect("/sounds/line_clear.wav");
 
-                    int progressPercent = Math.min(100, (score * 100) / maxScore);
+                    int progressPercent = (score * 100) / maxScore;
                     level = Math.max(1, progressPercent / 10);
 
                     if (level != previousLevel) {
-                        int newDelay = Math.max(100, initialDelay - (level - 1) * 30);
+                        int newDelay = Math.max(50, initialDelay - (level - 1) * 30);
                         timer.setDelay(newDelay);
                         previousLevel = level;
                     }
@@ -86,9 +85,7 @@ public class GamePanel extends JPanel {
                     case KeyEvent.VK_RIGHT -> tryMove(1, 0);
                     case KeyEvent.VK_DOWN -> {
                         boolean movedDown = tryMove(0, 1);
-                        if (movedDown) {
-                            score += pointsPerSoftDrop;
-                        }
+                        if (movedDown) score += pointsPerSoftDrop;
                     }
                     case KeyEvent.VK_UP -> {
                         Tetromino rotated = currentPiece.copy();
@@ -100,9 +97,7 @@ public class GamePanel extends JPanel {
                     case KeyEvent.VK_C -> holdPiece();
                     case KeyEvent.VK_SPACE -> {
                         int dropDistance = 0;
-                        while (tryMove(0, 1)) {
-                            dropDistance++;
-                        }
+                        while (tryMove(0, 1)) dropDistance++;
                         if (dropDistance > 0) {
                             score += dropDistance * pointsPerHardDrop;
                             board.placeTetromino(currentPiece, pieceX, pieceY);
@@ -119,11 +114,11 @@ public class GamePanel extends JPanel {
                                 floatingTexts.add(new FloatingText("+" + gained, pieceX * tileSize, pieceY * tileSize));
                                 soundPlayer.playEffect("/sounds/line_clear.wav");
 
-                                int progressPercent = Math.min(100, (score * 100) / maxScore);
+                                int progressPercent = (score * 100) / maxScore;
                                 level = Math.max(1, progressPercent / 10);
 
                                 if (level != previousLevel) {
-                                    int newDelay = Math.max(100, initialDelay - (level - 1) * 30);
+                                    int newDelay = Math.max(50, initialDelay - (level - 1) * 30);
                                     timer.setDelay(newDelay);
                                     previousLevel = level;
                                 }
@@ -202,18 +197,15 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Fondo del tablero
         g.setColor(new Color(30, 30, 30));
         g.fillRect(0, 0, cols * tileSize, rows * tileSize);
 
-        // Borde y cuadrícula
         g.setColor(Color.WHITE);
         g.drawRect(0, 0, cols * tileSize, rows * tileSize);
         g.setColor(new Color(80, 80, 80));
         for (int i = 1; i < cols; i++) g.drawLine(i * tileSize, 0, i * tileSize, rows * tileSize);
         for (int i = 1; i < rows; i++) g.drawLine(0, i * tileSize, cols * tileSize, i * tileSize);
 
-        // Tablero y pieza actual
         board.draw(g, tileSize);
         g.setColor(currentPiece.getColor());
         for (Point p : currentPiece.getBlocks()) {
@@ -225,18 +217,15 @@ public class GamePanel extends JPanel {
             g.setColor(currentPiece.getColor());
         }
 
-        // Textos flotantes
         for (FloatingText ft : floatingTexts) {
             g.setColor(new Color(255, 255, 0, ft.getAlpha()));
             g.setFont(new Font("Arial", Font.BOLD, 16));
             g.drawString(ft.getText(), ft.getX(), ft.getY());
         }
 
-        // Área lateral
         int sideX = cols * tileSize + 10;
         int panelWidth = 140;
 
-        // Sección: Siguiente
         int nextY = 10;
         g.setColor(new Color(25, 25, 35));
         g.fillRoundRect(sideX, nextY, panelWidth, 140, 15, 15);
@@ -245,7 +234,6 @@ public class GamePanel extends JPanel {
         g.drawString("Siguiente:", sideX + 10, nextY + 20);
         drawMiniPiece(g, nextPiece, sideX, nextY + 20);
 
-        // Sección: Guardada
         int holdY = nextY + 150;
         g.setColor(new Color(35, 25, 25));
         g.fillRoundRect(sideX, holdY, panelWidth, 140, 15, 15);
@@ -253,7 +241,6 @@ public class GamePanel extends JPanel {
         g.drawString("Guardada:", sideX + 10, holdY + 20);
         drawMiniPiece(g, heldPiece, sideX, holdY + 20);
 
-        // Sección: Puntuación
         int scoreY = holdY + 150;
         g.setColor(new Color(20, 20, 30));
         g.fillRoundRect(sideX, scoreY, panelWidth, 130, 15, 15);
@@ -264,9 +251,24 @@ public class GamePanel extends JPanel {
         g.drawString("Récord: " + highScore, sideX + 10, scoreY + 45);
         g.setColor(Color.MAGENTA);
         g.drawString("Nivel: " + level, sideX + 10, scoreY + 65);
-        int progress = Math.min(100, (score * 100) / maxScore);
+        int progress = (score * 100) / maxScore;
         g.setColor(Color.WHITE);
         g.drawString("Progreso: " + progress + "%", sideX + 10, scoreY + 85);
+     // Sección: Controles
+        int controlsY = scoreY + 140;
+        g.setColor(new Color(15, 15, 20));
+        g.fillRoundRect(sideX, controlsY, panelWidth, 120, 15, 15);
+        g.setColor(Color.CYAN);
+        g.setFont(new Font("Arial", Font.BOLD, 13));
+        g.drawString("Controles:", sideX + 10, controlsY + 20);
+        g.setFont(new Font("Arial", Font.PLAIN, 12));
+        g.setColor(Color.LIGHT_GRAY);
+        g.drawString("←/→: Mover", sideX + 10, controlsY + 40);
+        g.drawString("↓: Bajar suave", sideX + 10, controlsY + 55);
+        g.drawString("↑: Girar", sideX + 10, controlsY + 70);
+        g.drawString("Espacio: Caída", sideX + 10, controlsY + 85);
+        g.drawString("C: Guardar", sideX + 10, controlsY + 100);
+
     }
 
     private void drawMiniPiece(Graphics g, Tetromino piece, int areaX, int areaY) {
@@ -322,7 +324,6 @@ public class GamePanel extends JPanel {
         System.exit(0);
     }
 
-    // Clase interna para mostrar textos flotantes con fade out
     private static class FloatingText {
         private final String text;
         private int x, y;
