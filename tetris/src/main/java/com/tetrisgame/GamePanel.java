@@ -192,6 +192,15 @@ public class GamePanel extends JPanel {
         }
         return false;
     }
+ // Dentro de GamePanel, antes de paintComponent, añade este método:
+    private int getGhostPieceY() {
+        int ghostY = pieceY;
+        while (board.isValidPosition(currentPiece, pieceX, ghostY + 1)) {
+            ghostY++;
+        }
+        return ghostY;
+    }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -207,6 +216,25 @@ public class GamePanel extends JPanel {
         for (int i = 1; i < rows; i++) g.drawLine(0, i * tileSize, cols * tileSize, i * tileSize);
 
         board.draw(g, tileSize);
+
+        // Dibuja bloque fantasma (ghost piece)
+        int ghostY = getGhostPieceY();
+        Color ghostColor = new Color(
+            currentPiece.getColor().getRed(),
+            currentPiece.getColor().getGreen(),
+            currentPiece.getColor().getBlue(),
+            80);  // transparencia ~30%
+        g.setColor(ghostColor);
+        for (Point p : currentPiece.getBlocks()) {
+            int x = (pieceX + p.x) * tileSize;
+            int y = (ghostY + p.y) * tileSize;
+            g.fillRect(x, y, tileSize, tileSize);
+            g.setColor(new Color(ghostColor.getRed(), ghostColor.getGreen(), ghostColor.getBlue(), 150));
+            g.drawRect(x, y, tileSize, tileSize);
+            g.setColor(ghostColor);
+        }
+
+        // Dibuja pieza actual
         g.setColor(currentPiece.getColor());
         for (Point p : currentPiece.getBlocks()) {
             int x = (pieceX + p.x) * tileSize;
@@ -217,6 +245,7 @@ public class GamePanel extends JPanel {
             g.setColor(currentPiece.getColor());
         }
 
+        // Dibuja textos flotantes
         for (FloatingText ft : floatingTexts) {
             g.setColor(new Color(255, 255, 0, ft.getAlpha()));
             g.setFont(new Font("Arial", Font.BOLD, 16));
@@ -226,6 +255,7 @@ public class GamePanel extends JPanel {
         int sideX = cols * tileSize + 10;
         int panelWidth = 140;
 
+        // Panel siguiente pieza
         int nextY = 10;
         g.setColor(new Color(25, 25, 35));
         g.fillRoundRect(sideX, nextY, panelWidth, 140, 15, 15);
@@ -234,6 +264,7 @@ public class GamePanel extends JPanel {
         g.drawString("Siguiente:", sideX + 10, nextY + 20);
         drawMiniPiece(g, nextPiece, sideX, nextY + 20);
 
+        // Panel pieza guardada
         int holdY = nextY + 150;
         g.setColor(new Color(35, 25, 25));
         g.fillRoundRect(sideX, holdY, panelWidth, 140, 15, 15);
@@ -241,6 +272,7 @@ public class GamePanel extends JPanel {
         g.drawString("Guardada:", sideX + 10, holdY + 20);
         drawMiniPiece(g, heldPiece, sideX, holdY + 20);
 
+        // Panel puntuación y nivel
         int scoreY = holdY + 150;
         g.setColor(new Color(20, 20, 30));
         g.fillRoundRect(sideX, scoreY, panelWidth, 130, 15, 15);
@@ -254,7 +286,8 @@ public class GamePanel extends JPanel {
         int progress = (score * 100) / maxScore;
         g.setColor(Color.WHITE);
         g.drawString("Progreso: " + progress + "%", sideX + 10, scoreY + 85);
-     // Sección: Controles
+
+        // Sección: Controles
         int controlsY = scoreY + 140;
         g.setColor(new Color(15, 15, 20));
         g.fillRoundRect(sideX, controlsY, panelWidth, 120, 15, 15);
@@ -268,8 +301,8 @@ public class GamePanel extends JPanel {
         g.drawString("↑: Girar", sideX + 10, controlsY + 70);
         g.drawString("Espacio: Caída", sideX + 10, controlsY + 85);
         g.drawString("C: Guardar", sideX + 10, controlsY + 100);
-
     }
+
 
     private void drawMiniPiece(Graphics g, Tetromino piece, int areaX, int areaY) {
         if (piece == null) return;
