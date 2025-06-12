@@ -355,8 +355,34 @@ public class GamePanel extends JPanel {
         for (String entrada : top10) mensaje.append(entrada).append("\n");
 
         JOptionPane.showMessageDialog(this, mensaje.toString(), "Tetris", JOptionPane.INFORMATION_MESSAGE);
-        System.exit(0);
+
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Quieres jugar otra vez?", "Reiniciar juego", JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
+            resetGame();
+        } else {
+            System.exit(0);
+        }
     }
+
+    private void resetGame() {
+        // Reinicia variables de juego
+        score = 0;
+        level = 1;
+        previousLevel = 1;
+        canHold = true;
+        heldPiece = null;
+        floatingTexts.clear();
+        board.clearAll();  // Necesitarás un método para limpiar el tablero
+        nextPiece = generateRandomPiece();
+        spawnPiece();
+
+        int newDelay = initialDelay;
+        timer.setDelay(newDelay);
+        timer.start();
+
+        repaint();
+    }
+
 
     private static class FloatingText {
         private final String text;

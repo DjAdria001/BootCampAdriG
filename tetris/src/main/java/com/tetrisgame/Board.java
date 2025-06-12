@@ -49,6 +49,15 @@ public class Board {
         return linesCleared;
     }
 
+    public void clearAll() {
+        // Limpia todas las piezas del tablero
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                grid[y][x] = null;  // Corregido: índices con y primero y luego x
+            }
+        }
+    }
+
     public void draw(Graphics g, int tileSize) {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
