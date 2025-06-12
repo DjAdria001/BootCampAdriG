@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@SuppressWarnings("serial")
 public class GamePanel extends JPanel {
     private final int tileSize = 30;
     private final int cols = 10;
