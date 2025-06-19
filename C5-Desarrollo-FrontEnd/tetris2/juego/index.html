@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tetris</title>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    canvas {
+      background: #222;
+      border: 2px solid #555;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .box {
+      width: 120px;
+      height: 120px;
+      background: #222;
+      border: 2px solid #555;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    h2 {
+      margin: 0 0 10px 0;
+      font-size: 1em;
+      text-align: center;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="game" width="300" height="600"></canvas>
+
+  <div class="sidebar">
+    <div class="box">
+      <h2>Próxima</h2>
+      <canvas id="next" width="120" height="120"></canvas>
+    </div>
+    <div class="box">
+      <h2>Guardada</h2>
+      <canvas id="hold" width="120" height="120"></canvas>
+    </div>
+    <div>
+      <p>Controles:</p>
+      <ul>
+        <li>← →: mover</li>
+        <li>↓: bajar</li>
+        <li>↑: rotar</li>
+        <li>C: guardar pieza</li>
+      </ul>
+    </div>
+  </div>
+
+  <script type="module">
+    import { GamePanel } from './GamePanel.js';
+
+    const gameCanvas = document.getElementById('game');
+    const nextCanvas = document.getElementById('next');
+    const holdCanvas = document.getElementById('hold');
+
+    const panel = new GamePanel(gameCanvas, nextCanvas, holdCanvas);
+  </script>
+</body>
+</html>

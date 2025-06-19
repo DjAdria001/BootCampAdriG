@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Créditos - Tetris</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    .tetris-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .tetrimino {
+      position: absolute;
+      top: -100px;
+      left: var(--left);
+      display: grid;
+      gap: 2px;
+      opacity: 0.4;
+      animation: fall linear infinite;
+      animation-duration: var(--duration);
+      animation-delay: var(--delay);
+    }
+
+    .tetrimino div {
+      width: 20px;
+      height: 20px;
+      background-color: currentColor;
+      border-radius: 2px;
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    .tetrimino.i { color: cyan; grid-template-columns: repeat(4, 20px); }
+    .tetrimino.o { color: yellow; grid-template-columns: repeat(2, 20px); grid-template-rows: repeat(2, 20px); }
+    .tetrimino.t { color: magenta; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+    .tetrimino.s { color: lime; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+    .tetrimino.z { color: red; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+
+    @keyframes fall {
+      0% { transform: translateY(-100px) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(360deg); }
+    }
+
+    main.creditos {
+      position: relative;
+      z-index: 10;
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .contenido {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+    }
+
+    h1, h2 {
+      text-align: center;
+      font-weight: bold;
+      text-shadow: 0 0 15px #00ffff, 0 0 25px #00ffff;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: cyan;
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: magenta;
+      margin-top: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .equipo-container {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .miembro-card {
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 1.5rem;
+        border-radius: 10px;
+        width: 250px;
+        height: 250px; /* Altura fija para consistencia */
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative; /* Necesario para posicionar la descripción */
+        overflow: hidden; /* Evita que el contenido se salga */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .miembro-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    }
+
+    .miembro-card h3 {
+        font-size: 1.5rem;
+        color: lime;
+        text-shadow: 0 0 10px currentColor;
+        margin: 10px 0;
+        transition: opacity 0.3s ease; /* Transición para desvanecer */
+    }
+    
+    .miembro-foto {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        object-fit: cover; /* Asegura que la imagen no se deforme */
+        transition: opacity 0.3s ease; /* Transición para desvanecer */
+    }
+    
+    /* Estilo para la descripción (oculta por defecto) */
+    .miembro-descripcion {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0; /* Oculta por defecto */
+        transition: opacity 0.3s ease-in-out;
+        padding: 1rem;
+        font-size: 1rem;
+        color: #f0f0f0;
+        line-height: 1.4;
+        width: 100%;
+    }
+
+    /* Al pasar el ratón por la tarjeta... */
+    .miembro-card:hover .miembro-foto,
+    .miembro-card:hover h3 {
+        opacity: 0; /* ...ocultar la foto y el nombre */
+    }
+
+    .miembro-card:hover .miembro-descripcion {
+        opacity: 1; /* ...mostrar la descripción */
+    }
+
+  </style>
+</head>
+<body>
+  <div class="tetris-bg" aria-hidden="true">
+    <div class="tetrimino i" style="--left: 5%; --duration: 7s; --delay: 0s;"><div></div><div></div><div></div><div></div></div>
+    <div class="tetrimino o" style="--left: 20%; --duration: 6s; --delay: 2s;"><div></div><div></div><div></div><div></div></div>
+    <div class="tetrimino t" style="--left: 35%; --duration: 8s; --delay: 1s;"><div></div><div></div><div></div><div></div></div>
+    <div class="tetrimino s" style="--left: 50%; --duration: 7.5s; --delay: 0.5s;"><div></div><div></div><div></div><div></div></div>
+    <div class="tetrimino z" style="--left: 65%; --duration: 9s; --delay: 3s;"><div></div><div></div><div></div><div></div></div>
+    <div class="tetrimino i" style="--left: 80%; --duration: 10s; --delay: 4s;"><div></div><div></div><div></div><div></div></div>
+  </div>
+
+  <main class="creditos">
+    <div class="contenido">
+      <h1>Sobre Nosotros</h1>
+      <p>
+        Este proyecto ha sido desarrollado por un equipo apasionado por la programación y los videojuegos clásicos.
+      </p>
+
+      <h2>El Equipo</h2>
+      <div class="equipo-container">
+
+        <div class="miembro-card">
+          <img class="miembro-foto" src="https://media.licdn.com/dms/image/v2/D4E03AQFATzhMIEaaFA/profile-displayphoto-shrink_400_400/B4EZU0wul4GgAs-/0/1740346944546?e=1755734400&v=beta&t=xZ8Z0SdcPPgzygbSzc9SxFx5Do3u9Cqtc4j-RYS7X3w" alt="Adria Galera">
+          <h3>Adria Galera</h3>
+          <p class="miembro-descripcion">Director Ejecutivo y Programador Jefe
+Visionario detrás del concepto original de Tetris —aunque los derechos no le acompañaron—, Adriá es un líder en formación con madera de macho alfa (en prácticas). Su enfoque técnico y estratégico ha sido clave para el desarrollo del equipo. Además, es poseedor de una valiosa colección de cartas Pokémon, cuyo valor de mercado podría rivalizar con el presupuesto anual de algunos estudios independientes. Es considerado un capo de la programación, hasta el punto de que los bugs le respetan.</p>
+        </div>
+
+        <div class="miembro-card">
+          <img class="miembro-foto" src="https://cdn.discordapp.com/attachments/1385177609536536696/1385181005773803560/image.png?ex=685521d7&is=6853d057&hm=05aaf3927f4e36f4812df83e65a82bd82a80e435cc9fb735cd5f55091075bf2c&" alt="Daniel Alvaro">
+          <h3>Daniel Alvaro</h3>
+          <p class="miembro-descripcion">Director de Diseño, el que te cuento que te lo cuenta.
+Hijo de la fusión cultural entre Galicia y Aragón, Daniel representa lo mejor del diseño gráfico con alma de cocido. Casero como las croquetas de su abuela, destaca por su enfoque detallista y cálido en cada proyecto. Su corazón late más fuerte por las tortugas y los michis, siendo su espacio de trabajo un santuario felino y testimonio visual de su amor por los caparazones. Sabe mover las cejas. </p>
+        </div>
+
+        <div class="miembro-card">
+          <img class="miembro-foto" src="https://media.licdn.com/dms/image/v2/C4D03AQErIAjXw8Z1Tg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1660089280674?e=1755734400&v=beta&t=TmYrydt0Yi_k2ONWbJKZuo-jvbt_gOjPj_dGmFwfg_0" alt="Alba Maydeu">
+          <h3>Alba Maydeu</h3>
+          <p class="miembro-descripcion">Project Manager y Publicista
+Alba coordina los proyectos con precisión quirúrgica y una carpeta de Excel que haría llorar de emoción a cualquier gestor de tiempo. Vegana por convicción y amante de los bolsos de diseño, su talón de Aquiles son los hombres con ingresos estables y declaración de la renta impecable. Experta en comunicación y análisis político, es la única capaz de citar a Marx mientras agenda una reunión de marketing.</p>
+        </div>
+
+        <div class="miembro-card">
+          <img class="miembro-foto" src="https://cdn.discordapp.com/attachments/1385177609536536696/1385180859988185169/1748283938154.png?ex=685521b4&is=6853d034&hm=3e75ab623a83fe5af83d7576548351f6765b47a874814051bcbc724d28ac9588&" alt="Enya Rodriguez">
+          <h3>Enya Rodriguez</h3>
+          <p class="miembro-descripcion">Directora de Arte, Maquillaje y Vestuario
+Originaria de México y defensora del picante como filosofía de vida, Enya es la responsable del impacto visual y estético del equipo. Su creatividad se extiende desde los pinceles hasta la gestión de vestuario, donde equilibra con maestría el arte y el estilo. Es la primera en proponer ideas audaces y la última en decirle no a una salsa picante.</p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</body>
+</html>
