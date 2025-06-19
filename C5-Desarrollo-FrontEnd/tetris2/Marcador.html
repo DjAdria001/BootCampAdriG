@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Marcador - Tetris</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    main.marcador {
+      position: relative;
+      z-index: 10;
+      padding: 2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: bold;
+      font-size: 3rem;
+      color: cyan;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 15px #00ffff, 0 0 25px #00ffff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    thead tr {
+      background-color: #00ffff;
+      color: #000;
+    }
+
+    tbody tr:nth-child(odd) {
+      background-color: rgba(0, 255, 255, 0.1);
+    }
+
+    tbody tr:hover {
+      background-color: rgba(0, 255, 255, 0.3);
+    }
+
+    th, td {
+      padding: 12px 8px;
+      border-bottom: 1px solid #00ffff;
+    }
+
+    .boton-volver {
+      display: block;
+      width: fit-content;
+      margin: 2rem auto 0;
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      color: #fff;
+      background-color: #1e90ff;
+      text-decoration: none;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #1e90ff, 0 0 30px #1e90ff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-align: center;
+    }
+
+    .boton-volver:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00ffff, 0 0 40px #00ffff;
+    }
+  </style>
+</head>
+<body>
+  <main class="marcador">
+    <h1>Top 10 Puntuaciones</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Posición</th>
+          <th>Jugador</th>
+          <th>Puntuación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Aquí se insertan las filas con los datos -->
+        <tr><td>1</td><td>DAN</td><td>8484</td></tr>
+        <tr><td>2</td><td>DjA</td><td>8067</td></tr>
+        <tr><td>3</td><td>Dan</td><td>7516</td></tr>
+        <tr><td>4</td><td>DjA</td><td>7216</td></tr>
+        <tr><td>5</td><td>mmm</td><td>6604</td></tr>
+        <tr><td>6</td><td>xDD</td><td>6590</td></tr>
+        <tr><td>7</td><td>Dan</td><td>6216</td></tr>
+        <tr><td>8</td><td>DjA</td><td>6000</td></tr>
+        <tr><td>9</td><td>dan</td><td>5685</td></tr>
+        <tr><td>10</td><td>Dan</td><td>5673</td></tr>
+      </tbody>
+    </table>
+    <a href="MainMenu.html" class="boton-volver">⬅ Volver al Menu</a>
+  </main>
+</body>
+</html>
