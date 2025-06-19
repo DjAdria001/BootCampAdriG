@@ -1,12 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Orbitron', sans-serif;
   background-color: #000;
-  color: #ffffff; /* texto blanco para que contraste con el fondo */
+  color: #fff;
   overflow-x: hidden;
 }
 
+/* Fondo de Tetriminos animados */
 .tetris-bg {
   position: fixed;
   top: 0; left: 0;
@@ -23,24 +26,25 @@ body {
   left: var(--left);
   display: grid;
   gap: 2px;
-  opacity: 0.5;
+  opacity: 0.4;
   animation: fall linear infinite;
   animation-duration: var(--duration);
   animation-delay: var(--delay);
+  filter: drop-shadow(0 0 5px currentColor) brightness(1.2);
 }
 
 .tetrimino div {
   width: 20px;
   height: 20px;
   background-color: currentColor;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
-.tetrimino.i { color: cyan; grid-template-columns: repeat(4, 20px); }
-.tetrimino.o { color: yellow; grid-template-columns: repeat(2, 20px); grid-template-rows: repeat(2, 20px); }
-.tetrimino.t { color: purple; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
-.tetrimino.s { color: lime; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
-.tetrimino.z { color: red; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+.tetrimino.i { color: #00ffff; grid-template-columns: repeat(4, 20px); }
+.tetrimino.o { color: #ffff00; grid-template-columns: repeat(2, 20px); grid-template-rows: repeat(2, 20px); }
+.tetrimino.t { color: #cc00ff; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+.tetrimino.s { color: #00ff00; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+.tetrimino.z { color: #ff0033; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
 
 @keyframes fall {
   0% {
@@ -54,40 +58,48 @@ body {
 main.instrucciones {
   position: relative;
   z-index: 10;
-  color: #fff; /* texto blanco para visibilidad */
   padding: 2rem;
   max-width: 900px;
   margin: 0 auto;
 }
 
+/* Contenedor con borde neón */
 .contenido {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: #000;
   padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  border: 2px solid #1e90ff;
+  box-shadow: 0 0 15px #1e90ff44, 0 0 25px #1e90ff22;
 }
 
+/* Título principal */
 h1 {
   text-align: center;
   font-size: 3rem;
   margin-bottom: 1.5rem;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  color: #ff00ff;
+  text-shadow: 0 0 8px #ff00ff, 0 0 16px #cc00cc;
 }
 
+/* Párrafos */
 p {
   font-size: 1.2rem;
   line-height: 1.6;
   margin-bottom: 1.5rem;
+  color: #fff;
 }
 
+/* Estilo del iframe */
 iframe {
   display: block;
   margin: 0 auto 2rem;
   max-width: 100%;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #00ffff99, 0 0 20px #00ffff44;
 }
 
+/* Controles */
 .controles {
   margin-top: 2rem;
 }
@@ -95,7 +107,8 @@ iframe {
 .controles h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #1e90ff;
+  color: #00ffff;
+  text-shadow: 0 0 5px #00ffff, 0 0 12px #009999;
 }
 
 .controles ul {
@@ -106,4 +119,15 @@ iframe {
 .controles ul li {
   margin-bottom: 0.8rem;
   font-size: 1.1rem;
+  padding-left: 1rem;
+  position: relative;
+  color: #fff;
+}
+
+.controles ul li::before {
+  content: "➤";
+  position: absolute;
+  left: 0;
+  color: #1e90ff;
+  text-shadow: 0 0 4px #1e90ff;
 }
