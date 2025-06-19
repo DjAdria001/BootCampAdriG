@@ -1,0 +1,109 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #000;
+  color: #ffffff; /* texto blanco para que contraste con el fondo */
+  overflow-x: hidden;
+}
+
+.tetris-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.tetrimino {
+  position: absolute;
+  top: -100px;
+  left: var(--left);
+  display: grid;
+  gap: 2px;
+  opacity: 0.5;
+  animation: fall linear infinite;
+  animation-duration: var(--duration);
+  animation-delay: var(--delay);
+}
+
+.tetrimino div {
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  border-radius: 2px;
+}
+
+.tetrimino.i { color: cyan; grid-template-columns: repeat(4, 20px); }
+.tetrimino.o { color: yellow; grid-template-columns: repeat(2, 20px); grid-template-rows: repeat(2, 20px); }
+.tetrimino.t { color: purple; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+.tetrimino.s { color: lime; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+.tetrimino.z { color: red; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+  }
+}
+
+main.instrucciones {
+  position: relative;
+  z-index: 10;
+  color: #fff; /* texto blanco para visibilidad */
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.contenido {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+h1 {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+iframe {
+  display: block;
+  margin: 0 auto 2rem;
+  max-width: 100%;
+  border: none;
+  border-radius: 10px;
+}
+
+.controles {
+  margin-top: 2rem;
+}
+
+.controles h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #1e90ff;
+}
+
+.controles ul {
+  list-style: none;
+  padding: 0;
+}
+
+.controles ul li {
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+}

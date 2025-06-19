@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Instrucciones - Tetris</title>
+<link rel="stylesheet" href="estiloIns.css" />
+</head>
+<body>
+  <div class="tetris-bg" aria-hidden="true">
+    <div class="tetrimino i" style="--left: 5%; --duration: 7s; --delay: 0s;">
+      <div></div><div></div><div></div><div></div>
+    </div>
+    <div class="tetrimino o" style="--left: 20%; --duration: 6s; --delay: 2s;">
+      <div></div><div></div><div></div><div></div>
+    </div>
+    <div class="tetrimino t" style="--left: 35%; --duration: 8s; --delay: 1s;">
+      <div></div><div></div><div></div><div></div>
+    </div>
+    <div class="tetrimino s" style="--left: 50%; --duration: 7.5s; --delay: 0.5s;">
+      <div></div><div></div><div></div><div></div>
+    </div>
+    <div class="tetrimino z" style="--left: 65%; --duration: 9s; --delay: 3s;">
+      <div></div><div></div><div></div><div></div>
+    </div>
+  </div>
+
+  <main class="instrucciones">
+    <div class="contenido">
+      <h1>¿Cómo se juega al Tetris?</h1>
+      <p>
+        El objetivo del Tetris es encajar piezas que caen del cielo llamadas "Tetriminos" en un tablero. 
+        Cuando completas una línea horizontal sin huecos, esa línea desaparece y ganas puntos.
+        El juego termina si los bloques llegan hasta la parte superior del tablero.
+      </p>
+
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/3wIkurG-FvE"
+        title="Video explicativo de Tetris" allowfullscreen>
+      </iframe>
+
+      <div class="controles">
+        <h2>Controles</h2>
+        <ul>
+        <li><strong>← / →</strong>: Mover</li>
+        <li><strong>↓</strong>: Bajar suave</li>
+        <li><strong>↑</strong>: Girar</li>
+        <li><strong>Espacio</strong>: Caída</li>
+        <li><strong>C</strong>: Guardar</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
