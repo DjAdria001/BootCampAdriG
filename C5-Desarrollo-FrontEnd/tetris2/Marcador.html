@@ -5,25 +5,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Marcador - Tetris</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #000;
-      color: #fff;
-      overflow-x: hidden;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #000;
+  color: #fff;
+  /* Quitar overflow:hidden para permitir scroll */
+  /* overflow: hidden; */
+  overflow-y: auto; /* o solo quítalo */
+}
+
+/* Opcional: para que el canvas siga fijo y no afecte scroll */
+canvas#fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none; /* Para que no interfiera con clicks */
+}
+
+
+header.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #0a0a0a;
+  border-bottom: 2px solid #0ff;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 15px #0ff;
+  font-family: 'Orbitron', sans-serif;
+  z-index: 20;
+}
+main.marcador {
+  margin-top: 80px; /* para dejar espacio al header fijo */
+}
+
+    header .logo img {
+      height: 50px;
+      filter: drop-shadow(0 0 5px #0ff);
     }
 
-    main.marcador {
-      position: relative;
-      z-index: 10;
-      padding: 2rem;
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: rgba(0, 0, 0, 0.7);
-      border-radius: 15px;
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+    header .nav-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
     }
+
+    header .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    header .nav-links a {
+      color: #0ff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-shadow: 0 0 5px #0ff;
+      transition: color 0.2s ease;
+    }
+
+    header .nav-links a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #0ff;
+    }
+
+
 
     h1 {
       text-align: center;
@@ -58,29 +111,25 @@
       padding: 12px 8px;
       border-bottom: 1px solid #00ffff;
     }
-
-    .boton-volver {
-      display: block;
-      width: fit-content;
-      margin: 2rem auto 0;
-      padding: 1rem 2rem;
-      font-size: 1.5rem;
-      color: #fff;
-      background-color: #1e90ff;
-      text-decoration: none;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #1e90ff, 0 0 30px #1e90ff;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      text-align: center;
-    }
-
-    .boton-volver:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px #00ffff, 0 0 40px #00ffff;
-    }
   </style>
 </head>
 <body>
+  <canvas id="fondo"></canvas>
+
+  <header class="main-header">
+    <div class="logo">
+      <img src="LogoTetris.png" alt="Logo Tetris" />
+    </div>
+    <div class="nav-container">
+      <nav class="nav-links">
+        <a href="MainMenu.html">Inicio</a>
+        <a href="Instrucciones.html">Jugar</a>
+        <a href="Marcador.html">Marcador</a>
+        <a href="Creditos.html">Créditos</a>
+      </nav>
+    </div>
+  </header>
+
   <main class="marcador">
     <h1>Top 10 Puntuaciones</h1>
     <table>
@@ -92,7 +141,6 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Aquí se insertan las filas con los datos -->
         <tr><td>1</td><td>DAN</td><td>8484</td></tr>
         <tr><td>2</td><td>DjA</td><td>8067</td></tr>
         <tr><td>3</td><td>Dan</td><td>7516</td></tr>
@@ -105,7 +153,67 @@
         <tr><td>10</td><td>Dan</td><td>5673</td></tr>
       </tbody>
     </table>
-    <a href="MainMenu.html" class="boton-volver">⬅ Volver al Menu</a>
   </main>
+
+  <script>
+    const canvas = document.getElementById('fondo');
+    const ctx = canvas.getContext('2d');
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    const pieces = [];
+
+    const shapes = [
+      [[1,1,1,1]], // I
+      [[1,1],[1,1]], // O
+      [[0,1,0],[1,1,1]], // T
+      [[1,0,0],[1,1,1]], // L
+      [[0,0,1],[1,1,1]], // J
+      [[1,1,0],[0,1,1]], // S
+      [[0,1,1],[1,1,0]]  // Z
+    ];
+
+    function createPiece() {
+      const shape = shapes[Math.floor(Math.random() * shapes.length)];
+      const size = 20;
+      const x = Math.random() * (width - size * shape[0].length);
+      const speed = 0.5 + Math.random();
+      return { shape, x, y: -size, speed, size };
+    }
+
+    function drawPiece(piece) {
+      ctx.fillStyle = 'rgba(0,255,255,0.6)';
+      piece.shape.forEach((row, i) => {
+        row.forEach((cell, j) => {
+          if (cell) {
+            ctx.fillRect(piece.x + j * piece.size, piece.y + i * piece.size, piece.size - 1, piece.size - 1);
+          }
+        });
+      });
+    }
+
+    function update() {
+      ctx.clearRect(0, 0, width, height);
+      if (pieces.length < 30) pieces.push(createPiece());
+      for (let i = 0; i < pieces.length; i++) {
+        const p = pieces[i];
+        p.y += p.speed;
+        drawPiece(p);
+        if (p.y > height) {
+          pieces.splice(i, 1);
+          i--;
+        }
+      }
+      requestAnimationFrame(update);
+    }
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    update();
+  </script>
 </body>
 </html>

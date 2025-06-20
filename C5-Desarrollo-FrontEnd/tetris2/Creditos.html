@@ -3,223 +3,361 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Créditos - Tetris</title>
+  <title>Creditos Deluxe 3D - Tetris</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #000;
-      color: #fff;
-      overflow-x: hidden;
+    :root {
+      --color-neon-cyan: cyan;
+      --color-neon-magenta: magenta;
+      --color-neon-lime: lime;
+      --color-neon-red: red;
+      --color-neon-yellow: yellow;
     }
 
-    .tetris-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
+    body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background-color: #000; color: #fff; overflow-x: hidden; }
+    body.modal-abierto { overflow: hidden; }
 
-    .tetrimino {
-      position: absolute;
-      top: -100px;
-      left: var(--left);
-      display: grid;
-      gap: 2px;
-      opacity: 0.4;
-      animation: fall linear infinite;
-      animation-duration: var(--duration);
-      animation-delay: var(--delay);
-    }
+    .tetris-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1; pointer-events: none; overflow: hidden; }
+    .tetrimino { position: absolute; top: -100px; left: var(--left); display: grid; gap: 2px; opacity: 0.4; animation: fall linear infinite; animation-duration: var(--duration); animation-delay: var(--delay); }
+    .tetrimino div { width: 20px; height: 20px; background-color: currentColor; border-radius: 2px; box-shadow: 0 0 10px currentColor; }
+    .tetrimino.i { color: var(--color-neon-cyan); grid-template-columns: repeat(4, 20px); }
+    .tetrimino.o { color: var(--color-neon-yellow); grid-template-columns: repeat(2, 20px); grid-template-rows: repeat(2, 20px); }
+    .tetrimino.t { color: var(--color-neon-magenta); grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+    .tetrimino.s { color: var(--color-neon-lime); grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+    .tetrimino.z { color: var(--color-neon-red); grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+    @keyframes fall { 0% { transform: translateY(-100px) rotate(0deg); } 100% { transform: translateY(110vh) rotate(360deg); } }
 
-    .tetrimino div {
-      width: 20px;
-      height: 20px;
-      background-color: currentColor;
-      border-radius: 2px;
-      box-shadow: 0 0 10px currentColor;
-    }
+    main.creditos { position: relative; z-index: 10; padding: 2rem; max-width: 900px; margin: 2rem auto; }
+    .contenido { background-color: rgba(0, 0, 0, 0.75); padding: 2rem; border-radius: 15px; border: 1px solid rgba(0, 255, 255, 0.3); box-shadow: 0 0 25px rgba(0, 255, 255, 0.2); }
+    
+    h1 { font-size: 3rem; color: var(--color-neon-cyan); margin-bottom: 1.5rem; text-align: center; font-weight: bold; text-shadow: 0 0 15px var(--color-neon-cyan), 0 0 25px var(--color-neon-cyan); min-height: 50px; }
+    h1 .cursor { display: inline-block; background-color: var(--color-neon-cyan); margin-left: 5px; animation: blink 1s infinite; width: 4px; vertical-align: bottom; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-    .tetrimino.i { color: cyan; grid-template-columns: repeat(4, 20px); }
-    .tetrimino.o { color: yellow; grid-template-columns: repeat(2, 20px); grid-template-rows: repeat(2, 20px); }
-    .tetrimino.t { color: magenta; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
-    .tetrimino.s { color: lime; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
-    .tetrimino.z { color: red; grid-template-columns: repeat(3, 20px); grid-template-rows: repeat(2, 20px); }
+    h2 { font-size: 2rem; color: var(--color-neon-magenta); margin-top: 2rem; margin-bottom: 1rem; text-align: center; font-weight: bold; text-shadow: 0 0 15px var(--color-neon-magenta); position: relative; }
+    h2::after { content: ''; display: block; width: 100px; height: 3px; background: var(--color-neon-magenta); margin: 1rem auto 0; border-radius: 2px; box-shadow: 0 0 15px var(--color-neon-magenta); }
+    
+    p.intro { font-size: 1.2rem; line-height: 1.6; margin-bottom: 1.5rem; text-align: center; }
 
-    @keyframes fall {
-      0% { transform: translateY(-100px) rotate(0deg); }
-      100% { transform: translateY(110vh) rotate(360deg); }
-    }
-
-    main.creditos {
-      position: relative;
-      z-index: 10;
-      padding: 2rem;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .contenido {
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
-    }
-
-    h1, h2 {
-      text-align: center;
-      font-weight: bold;
-      text-shadow: 0 0 15px #00ffff, 0 0 25px #00ffff;
-    }
-
-    h1 {
-      font-size: 3rem;
-      color: cyan;
-      margin-bottom: 1.5rem;
-    }
-
-    h2 {
-      font-size: 2rem;
-      color: magenta;
-      margin-top: 2rem;
-      margin-bottom: 1.5rem;
-    }
-
-    p {
-      font-size: 1.2rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    .equipo-container {
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        gap: 1.5rem;
-        margin-top: 2rem;
-    }
-
+    .equipo-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem; justify-items: center; align-items: center; margin-top: 2rem; perspective: 1000px; }
+    
     .miembro-card {
-        background-color: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 1.5rem;
-        border-radius: 10px;
-        width: 250px;
-        height: 250px; /* Altura fija para consistencia */
-        text-align: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        position: relative; /* Necesario para posicionar la descripción */
-        overflow: hidden; /* Evita que el contenido se salga */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        background: rgba(10, 20, 30, 0.5); border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 15px;
+        width: 280px; height: 350px; cursor: pointer; padding: 1.5rem;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        position: relative;
+        transform-style: preserve-3d; transition: transform 0.2s ease-out, box-shadow 0.4s ease;
     }
+    .miembro-card:hover { box-shadow: 0 0 30px var(--color-neon-magenta); }
+    .card-content { transform: translateZ(20px); transform-style: preserve-3d; }
+    .miembro-foto { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid var(--color-neon-cyan); transition: filter 0.4s ease; transform: translateZ(30px); }
+    .miembro-card:hover .miembro-foto { filter: blur(4px) brightness(0.7); }
+    .miembro-card h3 { font-size: 1.7rem; color: var(--color-neon-lime); text-shadow: 0 0 10px currentColor; margin: 15px 0 0 0; }
+    .miembro-preview { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 1.5rem; font-weight: bold; text-shadow: 0 0 10px #000; opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
+    .miembro-card:hover .miembro-preview { opacity: 1; }
 
-    .miembro-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-    }
+    .modal-contenedor { position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+    .modal-contenedor.activo { opacity: 1; pointer-events: auto; }
+    .modal-contenido { background-color: #0e101c; border: 2px solid var(--color-neon-cyan); box-shadow: 0 0 50px rgba(0, 255, 255, 0.5); border-radius: 15px; padding: 2rem 3rem; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(0.9); transition: transform 0.4s ease; }
+    .modal-contenido::-webkit-scrollbar { width: 10px; }
+    .modal-contenido::-webkit-scrollbar-track { background: #0e101c; }
+    .modal-contenido::-webkit-scrollbar-thumb { background-color: var(--color-neon-magenta); border-radius: 10px; border: 2px solid #0e101c; }
+    .modal-contenedor.activo .modal-contenido { transform: scale(1); }
+    .modal-cerrar { position: absolute; top: 15px; right: 20px; font-size: 2.5rem; color: var(--color-neon-magenta); cursor: pointer; transition: transform 0.2s ease, color 0.2s ease; }
+    .modal-cerrar:hover { transform: scale(1.2); color: var(--color-neon-red); }
+    .modal-header { display: flex; align-items: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap;}
+    .modal-foto { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--color-neon-magenta); flex-shrink: 0; }
+    .modal-header-info { text-align: left; }
+    .modal-nombre { font-size: 2.5rem; color: var(--color-neon-lime); text-shadow: 0 0 10px var(--color-neon-lime); margin: 0 0 1rem 0; }
+    .modal-descripcion { font-size: 1rem; line-height: 1.6; color: #ddd; text-align: left; margin-bottom: 1.5rem; }
+    .modal-social-links { display: flex; gap: 1.5rem; justify-content: flex-start; }
+    .modal-social-link svg { width: 35px; height: 35px; fill: var(--color-neon-cyan); transition: transform 0.3s ease, fill 0.3s ease; }
+    .modal-social-link:hover svg { fill: var(--color-neon-magenta); transform: scale(1.15); }
+    .skills-container { text-align: left; margin-top: 1.5rem; }
+    .skills-container h4 { font-size: 1.2rem; color: var(--color-neon-cyan); margin-bottom: 1rem; }
+    .skill { margin-bottom: 0.8rem; }
+    .skill p { font-size: 1rem; margin: 0 0 5px 0; }
+    .skill-bar { width: 100%; background-color: rgba(255, 255, 255, 0.2); border-radius: 5px; overflow: hidden; }
+    .skill-level { height: 10px; background-color: var(--color-neon-lime); border-radius: 5px; box-shadow: 0 0 10px var(--color-neon-lime); width: 0; animation: fill-bar 1.5s ease-out forwards; animation-delay: 0.5s; }
+    @keyframes fill-bar { from { width: 0; } to { width: var(--skill-level); } }
+    .modal-extra-info { margin-top: 2rem; border-top: 1px solid rgba(0, 255, 255, 0.3); padding-top: 1.5rem; text-align: left; }
+    .modal-fact { font-style: italic; color: #ccc; margin-bottom: 1.5rem; }
+    .modal-fact strong { color: var(--color-neon-magenta); }
+    .tetrimino-favorito { display: flex; align-items: center; gap: 10px; }
+    .tetrimino-favorito strong { color: var(--color-neon-magenta); font-size: 1.1rem; }
+    .tetrimino-favorito svg { width: 40px; height: 40px; }
 
-    .miembro-card h3 {
-        font-size: 1.5rem;
-        color: lime;
-        text-shadow: 0 0 10px currentColor;
-        margin: 10px 0;
-        transition: opacity 0.3s ease; /* Transición para desvanecer */
-    }
+    #control-sonido { position: fixed; bottom: 20px; right: 20px; z-index: 2000; cursor: pointer; }
+    #control-sonido svg { width: 30px; height: 30px; fill: var(--color-neon-cyan); transition: transform 0.2s, fill 0.2s; }
+    #control-sonido:hover svg { transform: scale(1.1); fill: var(--color-neon-yellow); }
+    #icono-sonido-off { display: none; }
+    #control-sonido.inactivo #icono-sonido-on { display: none; }
+    #control-sonido.inactivo #icono-sonido-off { display: block; }
     
-    .miembro-foto {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        margin-bottom: 10px;
-        object-fit: cover; /* Asegura que la imagen no se deforme */
-        transition: opacity 0.3s ease; /* Transición para desvanecer */
-    }
-    
-    /* Estilo para la descripción (oculta por defecto) */
-    .miembro-descripcion {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        opacity: 0; /* Oculta por defecto */
-        transition: opacity 0.3s ease-in-out;
-        padding: 1rem;
-        font-size: 1rem;
-        color: #f0f0f0;
-        line-height: 1.4;
-        width: 100%;
+    /* Header nuevo */
+    header.main-header {
+      width: 100%;
+      background: #0a0a0a;
+      border-bottom: 2px solid #0ff;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 0 15px #0ff;
+      font-family: 'Orbitron', sans-serif;
+      position: relative;
+      z-index: 20;
     }
 
-    /* Al pasar el ratón por la tarjeta... */
-    .miembro-card:hover .miembro-foto,
-    .miembro-card:hover h3 {
-        opacity: 0; /* ...ocultar la foto y el nombre */
+    header .logo img {
+      height: 50px;
+      filter: drop-shadow(0 0 5px #0ff);
     }
 
-    .miembro-card:hover .miembro-descripcion {
-        opacity: 1; /* ...mostrar la descripción */
+    header .nav-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
     }
 
+    header .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    header .nav-links a {
+      color: #0ff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-shadow: 0 0 5px #0ff;
+      transition: color 0.2s ease;
+    }
+
+    header .nav-links a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #0ff;
+    }
   </style>
 </head>
 <body>
-  <div class="tetris-bg" aria-hidden="true">
-    <div class="tetrimino i" style="--left: 5%; --duration: 7s; --delay: 0s;"><div></div><div></div><div></div><div></div></div>
-    <div class="tetrimino o" style="--left: 20%; --duration: 6s; --delay: 2s;"><div></div><div></div><div></div><div></div></div>
-    <div class="tetrimino t" style="--left: 35%; --duration: 8s; --delay: 1s;"><div></div><div></div><div></div><div></div></div>
-    <div class="tetrimino s" style="--left: 50%; --duration: 7.5s; --delay: 0.5s;"><div></div><div></div><div></div><div></div></div>
-    <div class="tetrimino z" style="--left: 65%; --duration: 9s; --delay: 3s;"><div></div><div></div><div></div><div></div></div>
-    <div class="tetrimino i" style="--left: 80%; --duration: 10s; --delay: 4s;"><div></div><div></div><div></div><div></div></div>
-  </div>
-
-  <main class="creditos">
-    <div class="contenido">
-      <h1>Sobre Nosotros</h1>
-      <p>
-        Este proyecto ha sido desarrollado por un equipo apasionado por la programación y los videojuegos clásicos.
-      </p>
-
-      <h2>El Equipo</h2>
-      <div class="equipo-container">
-
-        <div class="miembro-card">
-          <img class="miembro-foto" src="https://media.licdn.com/dms/image/v2/D4E03AQFATzhMIEaaFA/profile-displayphoto-shrink_400_400/B4EZU0wul4GgAs-/0/1740346944546?e=1755734400&v=beta&t=xZ8Z0SdcPPgzygbSzc9SxFx5Do3u9Cqtc4j-RYS7X3w" alt="Adria Galera">
-          <h3>Adria Galera</h3>
-          <p class="miembro-descripcion">Director Ejecutivo y Programador Jefe
-Visionario detrás del concepto original de Tetris —aunque los derechos no le acompañaron—, Adriá es un líder en formación con madera de macho alfa (en prácticas). Su enfoque técnico y estratégico ha sido clave para el desarrollo del equipo. Además, es poseedor de una valiosa colección de cartas Pokémon, cuyo valor de mercado podría rivalizar con el presupuesto anual de algunos estudios independientes. Es considerado un capo de la programación, hasta el punto de que los bugs le respetan.</p>
-        </div>
-
-        <div class="miembro-card">
-          <img class="miembro-foto" src="https://cdn.discordapp.com/attachments/1385177609536536696/1385181005773803560/image.png?ex=685521d7&is=6853d057&hm=05aaf3927f4e36f4812df83e65a82bd82a80e435cc9fb735cd5f55091075bf2c&" alt="Daniel Alvaro">
-          <h3>Daniel Alvaro</h3>
-          <p class="miembro-descripcion">Director de Diseño, el que te cuento que te lo cuenta.
-Hijo de la fusión cultural entre Galicia y Aragón, Daniel representa lo mejor del diseño gráfico con alma de cocido. Casero como las croquetas de su abuela, destaca por su enfoque detallista y cálido en cada proyecto. Su corazón late más fuerte por las tortugas y los michis, siendo su espacio de trabajo un santuario felino y testimonio visual de su amor por los caparazones. Sabe mover las cejas. </p>
-        </div>
-
-        <div class="miembro-card">
-          <img class="miembro-foto" src="https://media.licdn.com/dms/image/v2/C4D03AQErIAjXw8Z1Tg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1660089280674?e=1755734400&v=beta&t=TmYrydt0Yi_k2ONWbJKZuo-jvbt_gOjPj_dGmFwfg_0" alt="Alba Maydeu">
-          <h3>Alba Maydeu</h3>
-          <p class="miembro-descripcion">Project Manager y Publicista
-Alba coordina los proyectos con precisión quirúrgica y una carpeta de Excel que haría llorar de emoción a cualquier gestor de tiempo. Vegana por convicción y amante de los bolsos de diseño, su talón de Aquiles son los hombres con ingresos estables y declaración de la renta impecable. Experta en comunicación y análisis político, es la única capaz de citar a Marx mientras agenda una reunión de marketing.</p>
-        </div>
-
-        <div class="miembro-card">
-          <img class="miembro-foto" src="https://cdn.discordapp.com/attachments/1385177609536536696/1385180859988185169/1748283938154.png?ex=685521b4&is=6853d034&hm=3e75ab623a83fe5af83d7576548351f6765b47a874814051bcbc724d28ac9588&" alt="Enya Rodriguez">
-          <h3>Enya Rodriguez</h3>
-          <p class="miembro-descripcion">Directora de Arte, Maquillaje y Vestuario
-Originaria de México y defensora del picante como filosofía de vida, Enya es la responsable del impacto visual y estético del equipo. Su creatividad se extiende desde los pinceles hasta la gestión de vestuario, donde equilibra con maestría el arte y el estilo. Es la primera en proponer ideas audaces y la última en decirle no a una salsa picante.</p>
-        </div>
-
-      </div>
+  
+  <header class="main-header">
+    <div class="logo">
+      <img src="LogoTetris.png" alt="Logo Tetris" />
     </div>
-  </main>
+    <div class="nav-container">
+      <nav class="nav-links">
+        <a href="MainMenu.html">Inicio</a>
+        <a href="Instrucciones.html">Jugar</a>
+        <a href="Marcador.html">Marcador</a>
+        <a href="Creditos.html">Créditos</a>
+      </nav>
+    </div>
+  </header>
+    <div id="control-sonido">
+        <svg id="icono-sonido-on" viewBox="0 0 24 24"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z" /></svg>
+        <svg id="icono-sonido-off" viewBox="0 0 24 24"><path d="M12,4L7,9H3V15H7L12,20V4M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,12.28 18.98,12.55 18.94,12.82L19.71,13.59C20.42,12.91 21,12.05 21,11.96C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12M1.27,1.27L22.73,22.73L21.46,24L16,18.54V20L12,16L7,11H3V13.46L1.27,1.27Z" /></svg>
+    </div>
+
+    <div class="tetris-bg" aria-hidden="true">
+        <div class="tetrimino i" style="--left: 5%; --duration: 12s; --delay: 0s;"><div></div><div></div><div></div><div></div></div>
+        <div class="tetrimino o" style="--left: 20%; --duration: 8s; --delay: 2s;"><div></div><div></div><div></div><div></div></div>
+        <div class="tetrimino t" style="--left: 35%; --duration: 15s; --delay: 1s;"><div></div><div></div><div></div><div></div></div>
+        <div class="tetrimino s" style="--left: 50%; --duration: 10s; --delay: 0.5s;"><div></div><div></div><div></div><div></div></div>
+        <div class="tetrimino z" style="--left: 65%; --duration: 9s; --delay: 3s;"><div></div><div></div><div></div><div></div></div>
+        <div class="tetrimino i" style="--left: 80%; --duration: 11s; --delay: 4s;"><div></div><div></div><div></div><div></div></div>
+    </div>
+
+    <main class="creditos">
+        <div class="contenido">
+            <h1 id="titulo-principal" data-texto="Sobre Nosotros"></h1>
+            <p class="intro">Este proyecto ha sido desarrollado por un equipo apasionado por la programación y los videojuegos clásicos.</p>
+            <h2>El Equipo</h2>
+            <div class="equipo-container">
+                <div class="miembro-card"
+                     data-nombre="Adrià Galera"
+                     data-linkedin="https://www.linkedin.com/in/adriagalerasanchez/"
+                     data-github="https://github.com/DjAdria001"
+                     data-skills="Liderazgo, 85;JavaScript, 90;Estrategia, 75"
+                     data-fact="Su carta Pokémon más valiosa es un Moltres ex del Team Rocket."
+                     data-tetrimino="T">
+                    <div class="card-content">
+                        <img class="miembro-foto" src="https://media.licdn.com/dms/image/v2/D4E03AQFATzhMIEaaFA/profile-displayphoto-shrink_400_400/B4EZU0wul4GgAs-/0/1740346944546?e=1755734400&v=beta&t=xZ8Z0SdcPPgzygbSzc9SxFx5Do3u9Cqtc4j-RYS7X3w" alt="Adria Galera">
+                        <h3>Adrià Galera</h3>
+                    </div>
+                    <div class="miembro-preview">Ver Perfil</div>
+                    <p class="descripcion-oculta">Director Ejecutivo y Programador Jefe. Visionario detrÃ¡s del concepto original de Tetris â€”aunque los derechos no le acompaÃ±aronâ€”, AdriÃ¡ es un lÃ­der en formaciÃ³n con madera de macho alfa (en prÃ¡cticas). Su enfoque tÃ©cnico y estratÃ©gico ha sido clave para el desarrollo del equipo. AdemÃ¡s, es poseedor de una valiosa colecciÃ³n de cartas PokÃ©mon, cuyo valor de mercado podrÃ­a rivalizar con el presupuesto anual de algunos estudios independientes. Es considerado un capo de la programaciÃ³n, hasta el punto de que los bugs le respetan.</p>
+                </div>
+                <div class="miembro-card"
+                     data-nombre="Daniel Alvaro"
+                     data-linkedin="https://www.linkedin.com/in/daniel-garcia-alvaro/"
+                     data-github="https://github.com/DDDani130"
+                     data-skills="Diseño Gráfico, 95;UI/UX, 85;Creatividad, 90"
+                     data-fact="Me falta la falange del segundo dedo del pie izquierdo, no hay uña."
+                     data-tetrimino="Z">
+                    <div class="card-content">
+                        <img class="miembro-foto" src="https://cdn.discordapp.com/attachments/1385177609536536696/1385181005773803560/image.png?ex=685521d7&is=6853d057&hm=05aaf3927f4e36f4812df83e65a82bd82a80e435cc9fb735cd5f55091075bf2c&" alt="Daniel Alvaro">
+                        <h3>Daniel Alvaro</h3>
+                    </div>
+                    <div class="miembro-preview">Ver Perfil</div>
+                    <p class="descripcion-oculta">Director de DiseÃ±o, el que te cuento que te lo cuenta. Hijo de la fusiÃ³n cultural entre Galicia y AragÃ³n, Daniel representa lo mejor del diseÃ±o grÃ¡fico con alma de cocido. Casero como las croquetas de su abuela, destaca por su enfoque detallista y cÃ¡lido en cada proyecto. Su corazÃ³n late mÃ¡s fuerte por las tortugas y los michis, siendo su espacio de trabajo un santuario felino y testimonio visual de su amor por los reptiles. Si tienes dudas de Mario Bros, Ã©l es tu hombre. Sabe mover las cejas.</p>
+                </div>
+                <div class="miembro-card"
+                     data-nombre="Alba Maydeu"
+                     data-linkedin="https://www.linkedin.com/in/alba-maydeu-arino/"
+                     data-github="https://github.com/albamayari"
+                     data-skills="Project Management, 95;Marketing, 80;Comunicación, 90"
+                     data-fact="Su pastel favorito es de platano."
+                     data-tetrimino="T">
+                    <div class="card-content">
+                        <img class="miembro-foto" src="https://media.licdn.com/dms/image/v2/C4D03AQErIAjXw8Z1Tg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1660089280674?e=1755734400&v=beta&t=TmYrydt0Yi_k2ONWbJKZuo-jvbt_gOjPj_dGmFwfg_0" alt="Alba Maydeu">
+                        <h3>Alba Maydeu</h3>
+                    </div>
+                    <div class="miembro-preview">Ver Perfil</div>
+                    <p class="descripcion-oculta">Project Manager y Publicista. Alba coordina los proyectos con precisiÃ³n quirÃºrgica y una carpeta de Excel que harÃ­a llorar de emociÃ³n a cualquier gestor de tiempo. Vegana por convicciÃ³n y amante de los bolsos de diseÃ±o, su talÃ³n de Aquiles son los hombres con ingresos estables y declaraciÃ³n de la renta impecable. Experta en comunicaciÃ³n y anÃ¡lisis polÃ­tico, es la Ãºnica capaz de citar a Marx mientras agenda una reuniÃ³n de marketing.</p>
+                </div>
+                <div class="miembro-card"
+                     data-nombre="Enya Rodriguez"
+                     data-linkedin="https://www.linkedin.com/in/enya-stephanie-rodr%C3%ADguez/"
+                     data-github="https://github.com/EnyaRdz"
+                     data-skills="Dirección de Arte, 90;Estética Visual, 95;QA & Testing, 80"
+                     data-fact="Una vez comió un habanero sin beber agua."
+                     data-tetrimino="I">
+                    <div class="card-content">
+                        <img class="miembro-foto" src="https://cdn.discordapp.com/attachments/1385177609536536696/1385180859988185169/1748283938154.png?ex=685521b4&is=6853d034&hm=3e75ab623a83fe5af83d7576548351f6765b47a874814051bcbc724d28ac9588&" alt="Enya Rodriguez">
+                        <h3>Enya Rodriguez</h3>
+                    </div>
+                    <div class="miembro-preview">Ver Perfil</div>
+                    <p class="descripcion-oculta">Directora de Arte y Creatividad. Originaria de MÃ©xico y defensora del picante como filosofÃ­a de vida, Enya es la mente detrÃ¡s del impacto visual y conceptual del equipo. Su creatividad fluye tanto en la generaciÃ³n de ideas como en la puesta en escena, combinando sensibilidad artÃ­stica con una pasiÃ³n por los detalles. Es la primera en proponer ideas audaces y la Ãºltima en decirle no a una salsa picante.</p>
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-contenedor" id="miembro-modal">
+        <div class="modal-contenido">
+            <span class="modal-cerrar" id="modal-cerrar">&times;</span>
+            <div id="modal-cuerpo"></div>
+        </div>
+    </div>
+    
+    <style>.descripcion-oculta { display: none; }</style>
+
+    <audio id="sonido-hover" src="https://www.zapsplat.com/wp-content/uploads/2015/sound-design-elements/sfx_digital_button_beep_positive_001.mp3" preload="auto"></audio>
+    <audio id="sonido-abrir" src="https://www.zapsplat.com/wp-content/uploads/2015/sound-design-elements/sfx_digital_swoosh_fast_001.mp3" preload="auto"></audio>
+    <audio id="sonido-cerrar" src="https://www.zapsplat.com/wp-content/uploads/2015/sound-design-elements/sfx_digital_button_beep_negative_001.mp3" preload="auto"></audio>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let sonidoHabilitado = true;
+        const cards = document.querySelectorAll('.miembro-card');
+        const modalContenedor = document.getElementById('miembro-modal');
+        const modalCuerpo = document.getElementById('modal-cuerpo');
+        const modalCerrar = document.getElementById('modal-cerrar');
+        const controlSonido = document.getElementById('control-sonido');
+        const sonidos = {
+            hover: document.getElementById('sonido-hover'),
+            abrir: document.getElementById('sonido-abrir'),
+            cerrar: document.getElementById('sonido-cerrar')
+        };
+        const tetriminoSVGs = {
+            'I': '<svg viewBox="0 0 4 1" style="fill:var(--color-neon-cyan);"><path d="M0 0h4v1H0z"/></svg>',
+            'O': '<svg viewBox="0 0 2 2" style="fill:var(--color-neon-yellow);"><path d="M0 0h2v2H0z"/></svg>',
+            'T': '<svg viewBox="0 0 3 2" style="fill:var(--color-neon-magenta);"><path d="M0 1h3v1H0z M1 0h1v1H1z"/></svg>',
+            'L': '<svg viewBox="0 0 2 3" style="fill:orange;"><path d="M0 0h1v3H0zM0 2h2v1H0z"/></svg>',
+            'J': '<svg viewBox="0 0 2 3" style="fill:blue;"><path d="M1 0h1v3H1zM0 2h2v1H0z"/></svg>',
+            'S': '<svg viewBox="0 0 3 2" style="fill:var(--color-neon-lime);"><path d="M1 0h2v1H1z M0 1h2v1H0z"/></svg>',
+            'Z': '<svg viewBox="0 0 3 2" style="fill:var(--color-neon-red);"><path d="M0 0h2v1H0z M1 1h2v1H1z"/></svg>'
+        };
+        const githubIcon = `<svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>`;
+        const linkedinIcon = `<svg viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2ZM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 1 1 8.25 6.5 1.75 1.75 0 0 1 6.5 8.25ZM19 19h-3v-4.74c0-1.42-.6-2.08-1.55-2.08-1.09 0-1.45.8-1.45 2.08V19h-3v-9h2.9v1.3a3.11 3.11 0 0 1 2.8-1.5c2.2 0 3.3 1.42 3.3 4.16z"></path></svg>`;
+        
+        function reproducirSonido(sonido) {
+            if (sonidoHabilitado && sonido) {
+                sonido.currentTime = 0;
+                sonido.play().catch(e => console.error("Error al reproducir sonido:", e));
+            }
+        }
+        
+        const titulo = document.getElementById('titulo-principal');
+        const textoTitulo = titulo.dataset.texto;
+        titulo.innerHTML = '<span></span><span class="cursor"></span>';
+        let i = 0;
+        const typingInterval = setInterval(() => {
+            if (i < textoTitulo.length) {
+                titulo.firstElementChild.textContent += textoTitulo.charAt(i);
+                i++;
+            } else {
+                clearInterval(typingInterval);
+                titulo.querySelector('.cursor').style.animation = 'blink 1s infinite steps(1, end)';
+            }
+        }, 120);
+        
+        controlSonido.addEventListener('click', () => {
+            sonidoHabilitado = !sonidoHabilitado;
+            controlSonido.classList.toggle('inactivo', !sonidoHabilitado);
+        });
+
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const { width, height, left, top } = card.getBoundingClientRect();
+                const x = e.clientX - left;
+                const y = e.clientY - top;
+                const rotateX = (y / height - 0.5) * -25;
+                const rotateY = (x / width - 0.5) * 25;
+                card.style.transform = `scale(1.05) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1) rotateX(0) rotateY(0)';
+            });
+            card.addEventListener('mouseenter', () => reproducirSonido(sonidos.hover));
+            card.addEventListener('click', () => {
+                reproducirSonido(sonidos.abrir);
+                const nombre = card.dataset.nombre;
+                const foto = card.querySelector('.miembro-foto').src;
+                const linkedin = card.dataset.linkedin;
+                const github = card.dataset.github;
+                const skills = card.dataset.skills.split(';');
+                const fact = card.dataset.fact;
+                const tetrimino = card.dataset.tetrimino;
+                const descripcion = card.querySelector('.descripcion-oculta').innerHTML;
+                
+                let skillsHTML = '';
+                skills.forEach(skill => {
+                    const [name, level] = skill.split(',');
+                    skillsHTML += `<div class="skill"><p>${name.trim()}</p><div class="skill-bar"><div class="skill-level" style="--skill-level: ${level.trim()}%;"></div></div></div>`;
+                });
+
+                modalCuerpo.innerHTML = `
+                    <div class="modal-header">
+                        <img src="${foto}" alt="${nombre}" class="modal-foto">
+                        <div class="modal-header-info">
+                            <h3 class="modal-nombre">${nombre}</h3>
+                            <div class="modal-social-links">
+                                <a href="${linkedin}" class="modal-social-link" target="_blank" rel="noopener noreferrer" title="Perfil de LinkedIn">${linkedinIcon}</a>
+                                <a href="${github}" class="modal-social-link" target="_blank" rel="noopener noreferrer" title="Perfil de GitHub">${githubIcon}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="modal-descripcion">${descripcion}</p>
+                    <div class="skills-container"><h4>Habilidades</h4>${skillsHTML}</div>
+                    <div class="modal-extra-info">
+                        <p class="modal-fact"><strong>Dato Curioso:</strong> ${fact}</p>
+                        <div class="tetrimino-favorito"><strong>Tetrimino Favorito:</strong> ${tetriminoSVGs[tetrimino] || ''}</div>
+                    </div>`;
+                document.body.classList.add('modal-abierto');
+                modalContenedor.classList.add('activo');
+            });
+        });
+        
+        const cerrarModal = () => {
+            reproducirSonido(sonidos.cerrar);
+            modalContenedor.classList.remove('activo');
+            document.body.classList.remove('modal-abierto');
+        };
+        modalCerrar.addEventListener('click', cerrarModal);
+        modalContenedor.addEventListener('click', (e) => { if (e.target === modalContenedor) cerrarModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalContenedor.classList.contains('activo')) cerrarModal(); });
+    });
+    </script>
 </body>
 </html>

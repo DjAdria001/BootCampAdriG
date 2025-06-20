@@ -14,6 +14,50 @@
       overflow-x: hidden;
     }
 
+    /* Header nuevo */
+    header.main-header {
+      width: 100%;
+      background: #0a0a0a;
+      border-bottom: 2px solid #0ff;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 0 15px #0ff;
+      font-family: 'Orbitron', sans-serif;
+      position: relative;
+      z-index: 20;
+    }
+
+    header .logo img {
+      height: 50px;
+      filter: drop-shadow(0 0 5px #0ff);
+    }
+
+    header .nav-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    header .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    header .nav-links a {
+      color: #0ff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-shadow: 0 0 5px #0ff;
+      transition: color 0.2s ease;
+    }
+
+    header .nav-links a:hover {
+      color: #fff;
+      text-shadow: 0 0 10px #0ff;
+    }
+
     .tetris-bg {
       position: fixed;
       top: 0; left: 0;
@@ -60,7 +104,7 @@
       z-index: 10;
       padding: 2rem;
       max-width: 900px;
-      margin: 0 auto;
+      margin: 80px auto 0; /* espacio para header */
     }
 
     .contenido {
@@ -112,26 +156,40 @@
       margin-bottom: 0.8rem;
       font-size: 1.1rem;
     }
+
     .boton-jugar {
-  display: inline-block;
-  padding: 1rem 2rem;
-  font-size: 1.5rem;
-  color: #fff;
-  background-color: #1e90ff;
-  text-decoration: none;
-  border-radius: 10px;
-  box-shadow: 0 0 15px #1e90ff, 0 0 30px #1e90ff;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+      display: inline-block;
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      color: #fff;
+      background-color: #1e90ff;
+      text-decoration: none;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #1e90ff, 0 0 30px #1e90ff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
 
-.boton-jugar:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px #00ffff, 0 0 40px #00ffff;
-}
-
+    .boton-jugar:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00ffff, 0 0 40px #00ffff;
+    }
   </style>
 </head>
 <body>
+  <header class="main-header">
+    <div class="logo">
+      <img src="LogoTetris.png" alt="Logo Tetris" />
+    </div>
+    <div class="nav-container">
+      <nav class="nav-links">
+        <a href="MainMenu.html">Inicio</a>
+        <a href="Instrucciones.html">Jugar</a>
+        <a href="Marcador.html">Marcador</a>
+        <a href="Creditos.html">Créditos</a>
+      </nav>
+    </div>
+  </header>
+
   <div class="tetris-bg" aria-hidden="true">
     <div class="tetrimino i" style="--left: 5%; --duration: 7s; --delay: 0s;">
       <div></div><div></div><div></div><div></div>
@@ -160,9 +218,8 @@
       </p>
 
      <video controls width="560" style="display: block; margin: 0 auto 2rem; border-radius: 10px; box-shadow: 0 0 20px rgba(255,255,255,0.2);">
-  <source src="tetris.mp4" type="video/mp4">
-</video>
-
+      <source src="tetris.mp4" type="video/mp4">
+    </video>
 
       <div class="controles">
         <h2>Controles</h2>
@@ -176,9 +233,8 @@
       </div>
     </div>
     <div style="text-align: center; margin-top: 2rem;">
-  <a href="juego/index.html" class="boton-jugar">🎮 Jugar</a>
-</div>
-
+      <a href="juego/index.html" class="boton-jugar">🎮 Jugar</a>
+    </div>
   </main>
-  </body>
+</body>
 </html>
