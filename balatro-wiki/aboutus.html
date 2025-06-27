@@ -6,78 +6,154 @@
   <title>About Us</title>
   <link rel="stylesheet" href="css/styles.css" />
   <style>
-    /* Centrar la lista y eliminar estilos inline flex de li */
-    ul {
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0a0a0a;
+      color: white;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ul#clickableList {
+      list-style: none;
+      padding: 0;
+      margin: 2rem auto 4rem;
+      max-width: 1000px;
       display: flex;
       justify-content: center;
-      gap: 20px;
-      padding-left: 0;
+      gap: 24px;
       flex-wrap: wrap;
-      margin-top: 2rem;
     }
 
-    ul li {
+    ul#clickableList li {
+      background: linear-gradient(145deg, #111111, #222222);
+      border-radius: 18px;
+      box-shadow:
+        0 4px 8px rgba(0, 255, 255, 0.12),
+        inset 0 -2px 8px rgba(0, 255, 255, 0.15);
+      width: 320px;
+      height: 320px; /* Cuadrado fijo */
+      cursor: pointer;
+      padding: 16px;
+      box-sizing: border-box;
+      display: flex;
       flex-direction: column;
       align-items: center;
-      display: flex;
-      cursor: pointer;
-      width: 150px;
-      height: auto;
-      transition: transform 0.2s, background-color 0.2s;
+      transition:
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       user-select: none;
-      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
     }
 
-    ul li img {
-      border-radius: 8px;
-      margin-bottom: 8px;
+    /* Contenedor de imagen cuadrado y sin padding */
+    ul#clickableList li .img-container {
+      width: 100%;
+      height: 80%; /* Ocupa 80% de la altura del li */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #111;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0, 255, 255, 0.25);
+      overflow: hidden;
+      user-select: none;
+      margin-bottom: 6px;
+    }
+
+    /* Imagen contenida sin recortes, centrada y sin deformar */
+    ul#clickableList li img {
       max-width: 100%;
-      height: 120px;
-      object-fit: cover;
-      background-color: #222;
+      max-height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+      display: block;
+      border-radius: 14px;
+      transition: transform 0.3s ease;
     }
 
-    /* Modal fondo */
+    ul#clickableList li span {
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: cyan;
+      text-shadow:
+        0 0 6px rgba(0, 255, 255, 0.9),
+        0 2px 6px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      letter-spacing: 0.04em;
+      user-select: none;
+      flex-grow: 0;
+      line-height: 1.2;
+      margin-top: 6px;
+      width: 100%;
+    }
+
+    ul#clickableList li:hover {
+      transform: translateY(-10px);
+      box-shadow:
+        0 12px 28px rgba(0, 255, 255, 0.6),
+        inset 0 -4px 14px rgba(0, 255, 255, 0.3);
+    }
+
+    ul#clickableList li:hover img {
+      transform: scale(1.05) rotate(1deg);
+      box-shadow:
+        0 10px 30px rgba(0, 255, 255, 0.75);
+    }
+
+    /* Modal */
     #modal {
       display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0,0,0,0.75);
+      background: rgba(0,0,0,0.85);
       justify-content: center;
       align-items: center;
       z-index: 1000;
       padding: 1rem;
     }
 
-    /* Contenido modal */
     #modalContent {
-      background-color: rgba(0, 0, 0, 0.9);
+      animation: fadeIn 0.3s ease-out;
+      background: linear-gradient(145deg, #1a1a1a, #111);
       color: white;
       border: 2px solid cyan;
-      border-radius: 12px;
-      max-width: 700px;
+      border-radius: 16px;
+      max-width: 750px;
       width: 100%;
       display: flex;
+      flex-wrap: wrap;
       gap: 20px;
-      padding: 20px;
+      padding: 25px;
       box-sizing: border-box;
-      align-items: center;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
       position: relative;
     }
 
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.95);}
+      to {opacity: 1; transform: scale(1);}
+    }
+
     #modalContent img {
-      width: 220px;
-      height: 220px;
+      width: 250px;
+      height: auto;
       object-fit: cover;
       border-radius: 12px;
-      flex-shrink: 0;
       background-color: #222;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      flex-shrink: 0;
     }
 
     #modalText {
-      flex-grow: 1;
+      flex: 1;
+      min-width: 200px;
     }
 
     #modalText h3 {
@@ -89,29 +165,64 @@
 
     #modalText p {
       font-size: 1.1rem;
-      line-height: 1.4;
+      line-height: 1.5;
+      color: #ddd;
     }
 
-    /* Botón cerrar */
+    /* Aquí está la clase .multi global para que se vea en rojo y negrita */
+    .multi {
+      color: rgb(255, 0, 0);
+      font-weight: bold;
+    }
+
     #modalClose {
       position: absolute;
       top: 10px;
       right: 15px;
-      font-size: 2rem;
-      color: #ccc;
+      font-size: 2.5rem;
+      color: cyan;
       cursor: pointer;
       user-select: none;
-      transition: color 0.3s;
+      transition: color 0.3s, transform 0.2s;
+      z-index: 1001;
     }
 
     #modalClose:hover {
       color: white;
+      transform: scale(1.2);
     }
 
-    h2 {
-      text-align: center;
-      color: cyan;
-      margin-top: 1rem;
+    /* Responsive */
+    @media screen and (max-width: 1000px) {
+      ul#clickableList {
+        max-width: 100%;
+        gap: 20px;
+        justify-content: center;
+      }
+      ul#clickableList li {
+        width: 45%;
+        height: auto;
+      }
+      ul#clickableList li .img-container {
+        height: 280px;
+        margin-bottom: 10px;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      ul#clickableList {
+        flex-direction: column;
+        align-items: center;
+        margin: 1rem auto 3rem;
+      }
+      ul#clickableList li {
+        width: 90%;
+        height: auto;
+      }
+      ul#clickableList li .img-container {
+        height: 260px;
+        margin-bottom: 12px;
+      }
     }
   </style>
 </head>
@@ -127,21 +238,26 @@
     </nav>
   </header>
 
-  <main class="fondo-panel">
+  <main>
     <h2>Nuestro Equipo</h2>
-
     <ul id="clickableList">
-      <li data-title="Bloque Clickable 1" data-description="Descripción informativa para el bloque 1. Aquí puedes poner texto sobre esta sección o persona." data-img="imagenes/dani.png">
-        <img src="imagenes/dani.png" alt="Ejemplo Imagen 1" />
-        Bloque Clickable 1
+      <li data-title="Daniel Garcia" data-description="Cuando descartas una carta, el <span class='multi'>multi</span> cambia aleatoriamente entre <span class='multi'>x0.5 y x10</span>." data-img="imagenes/dani.png">
+        <div class="img-container">
+          <img src="imagenes/dani.png" alt="Daniel Garcia" />
+        </div>
+        <span>El Gambling</span>
       </li>
-      <li data-title="Bloque Clickable 2" data-description="Esta es la información del bloque 2, con detalles o descripción que quieras mostrar." data-img="https://via.placeholder.com/220">
-        <img src="https://via.placeholder.com/150" alt="Ejemplo Imagen 2" />
-        Bloque Clickable 2
+      <li data-title="Ivette Margalló" data-description="Al final de la ronda destruye una carta aleatoria de la última mano y aumenta <span class='multi'>+4 multi</span>." data-img="imagenes/ivette.png">
+        <div class="img-container">
+          <img src="imagenes/ivette.png" alt="Ivette Margalló" />
+        </div>
+        <span>Ivy</span>
       </li>
-      <li data-title="Bloque Clickable 3" data-description="Aquí puedes poner la descripción del bloque 3 para que el usuario la vea en el modal." data-img="imagenes/adri.png">
-        <img src="imagenes/adri.png" alt="Ejemplo Imagen 3" />
-        Bloque Clickable 3
+      <li data-title="Adrià Galera" data-description="Cuando descartas una Pareja, genera un sobre de Tarot." data-img="imagenes/adri.png">
+        <div class="img-container">
+          <img src="imagenes/adri.png" alt="Adrià Galera" />
+        </div>
+        <span>El Friky</span>
       </li>
     </ul>
   </main>
@@ -171,17 +287,13 @@
     const clickableList = document.getElementById("clickableList");
 
     clickableList.addEventListener("click", (e) => {
-      let li = e.target.closest("li");
+      const li = e.target.closest("li");
       if (!li) return;
-      // Extraemos info del bloque clickeado
-      const title = li.getAttribute("data-title");
-      const description = li.getAttribute("data-description");
-      const imgSrc = li.getAttribute("data-img");
 
-      modalTitle.textContent = title;
-      modalDesc.textContent = description;
-      modalImg.src = imgSrc;
-      modalImg.alt = title;
+      modalTitle.textContent = li.getAttribute("data-title");
+      modalDesc.innerHTML = li.getAttribute("data-description");
+      modalImg.src = li.getAttribute("data-img");
+      modalImg.alt = modalTitle.textContent;
 
       modal.style.display = "flex";
     });
@@ -190,8 +302,7 @@
       modal.style.display = "none";
     });
 
-    // Cerrar modal al clicar fuera del contenido
-    modal.addEventListener("click", e => {
+    modal.addEventListener("click", (e) => {
       if (e.target === modal) {
         modal.style.display = "none";
       }

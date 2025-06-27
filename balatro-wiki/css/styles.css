@@ -44,6 +44,18 @@ ul li {
   transition: transform 0.2s, background-color 0.2s;
   cursor: pointer;
 }
+h2 {
+  font-size: 3rem;
+  color: cyan;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  text-shadow:
+    0 0 10px rgba(0, 255, 255, 0.8),
+    0 2px 8px rgba(0, 0, 0, 0.6);
+  font-weight: 900;
+}
+
 
 ul li:hover {
   background-color: rgba(0, 255, 255, 0.2);
