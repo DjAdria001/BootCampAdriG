@@ -6,6 +6,58 @@
   <title>Comodines</title>
   <link rel="stylesheet" href="css/styles.css" />
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0a0a0a;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      line-height: 1.6;
+    }
+
+    header {
+      background: rgba(17, 17, 17, 0.874); /* Antes era #111, ahora con transparencia 0.8 */
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid cyan;
+    }
+
+    header h1 {
+      color: cyan;
+      font-size: 2rem;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: cyan;
+    }
+
+    main {
+      padding: 30px 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #fff;
+      font-size: 1.8rem;
+    }
+
     .grid {
       display: flex;
       flex-wrap: wrap;
@@ -23,15 +75,18 @@
       color: white;
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: center;
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
       cursor: pointer;
     }
 
     .joker-card img {
-      width: 100%;
+      width: 80%;
       height: auto;
       border-radius: 6px;
+      display: block;
+      margin: 0 auto;
     }
 
     .joker-card span {
@@ -39,15 +94,36 @@
       margin-top: 8px;
       color: yellow;
       font-weight: bold;
+      text-shadow: 0 0 5px #000;
+
+      /* Mejor salto de línea sin partir palabras */
+      white-space: normal;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      text-align: center;
     }
 
     .joker-card:hover {
       transform: scale(1.05);
+      box-shadow: 0 0 12px cyan;
     }
 
-    /* Modal */
+    .rarity {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+    .rarity.Común { background-color: #007BFF; }
+    .rarity.Inusual { background-color: #28a745; }
+    .rarity.Rara { background-color: #dc3545; }
+    .rarity.Legendario { background-color: #6f42c1; }
+
     #modal {
-      display: none; /* Oculto por defecto */
+      display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
@@ -62,15 +138,18 @@
       background: #111;
       padding: 20px;
       border-radius: 10px;
-      width: 300px;
+      width: 320px;
       color: white;
       text-align: center;
       position: relative;
+      border: 2px solid cyan;
+      box-shadow: 0 0 15px cyan;
     }
 
     #modalContent img {
       max-width: 100%;
       border-radius: 6px;
+      margin-bottom: 10px;
     }
 
     #modalContent h2 {
@@ -92,8 +171,29 @@
       cursor: pointer;
       user-select: none;
     }
+
     #modalClose:hover {
       color: white;
+    }
+
+    .multi { color: rgb(255, 0, 0); font-weight: bold; }
+    .fichas { color: rgb(0, 94, 255); font-weight: bold; }
+    .diamantes { color: rgb(255, 162, 0); font-weight: bold; }
+    .corazones { color: rgb(255, 47, 47); font-weight: bold; }
+    .picas { color: rgb(122, 0, 167); font-weight: bold; }
+    .treboles { color: rgb(0, 171, 126); font-weight: bold; }
+    .probabilidad { color: rgb(49, 225, 0); font-weight: bold; }
+    .valor { color: rgb(255, 225, 0); font-weight: bold; }
+
+    /* ANIMACIÓN DE LETRAS */
+    @keyframes subtleDance {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-1px) rotate(0.5deg); }
+    }
+
+    .dancing-letter {
+      display: inline-block;
+      animation: subtleDance 2s ease-in-out infinite;
     }
   </style>
 </head>
@@ -103,9 +203,10 @@
     <nav>
       <a href="index.html">Inicio</a>
       <a href="about.html">¿Qué es Balatro?</a>
-      <a href="cartas.html">Cartas</a>
+      <a href="cartas.html">Manos</a>
       <a href="jokers.html">Comodines</a>
       <a href="contacto.html">Contacto</a>
+      <a href="aboutus.html">Sobre Nosotros</a>
     </nav>
   </header>
 
@@ -116,7 +217,6 @@
     </section>
   </main>
 
-  <!-- Modal -->
   <div id="modal">
     <div id="modalContent">
       <div id="modalClose">&times;</div>
@@ -128,250 +228,284 @@
   </div>
 
   <script>
-
     const placeholderImg = "https://images.steamusercontent.com/ugc/2486628565689265736/42DE78B734C5901618FEADBB977117B5F76D848E/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false";
 
     const jokers = [
-  {
-    "nombre": "Comodín Codicioso",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "+3 multi por cada carta de diamantes (♦) en la mano puntuadora."
-  },
-  {
-    "nombre": "Comodín Lujurioso",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "+3 multi por cada carta de corazones (♥) en la mano puntuadora."
-  },
-  {
-    "nombre": "Comodín Irascible",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "+3 multi por cada carta de picas (♠) en la mano puntuadora."
-  },
-  {
-    "nombre": "Comodín Glotón",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "+3 multi por cada carta de tréboles (♣) en la mano puntuadora."
-  },
-  {
-    "nombre": "Medio Comodín",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "+20 Multi si la mano contiene 3 o menos cartas."
-  },
-  {
-    "nombre": "Mimo",
-    "imagen": "",
-    "rareza": "Inusual",
-    "descripcion": "Reactiva todas las habilidades de las cartas en la mano."
-  },
-  {
-    "nombre": "Error de Imprenta",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "Otorga un multiplicador aleatorio entre 0 y 23 en cada mano puntuadora."
-  },
-  {
-    "nombre": "Daga Ceremonial",
-    "imagen": "",
-    "rareza": "Inusual",
-    "descripcion": "Cuando se selecciona la ciega, destruye al comodin de la derecha y agrega para siempre el doble del valor de venta a este multi."
-  },
-  {
-    "nombre": "Comodín abstracto",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "+3 multi por cada comodín."
-  },
-  {
-    "nombre": "Pareidolia",
-    "imagen": "",
-    "rareza": "Inusual",
-    "descripcion": "Todas las cartas se consideran de figura."
-  },
-  {
-    "nombre": "Banano",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "+15 Multi, tiene 1 en 6 de probabilidades de que la carta se destruya al final de la ronda."
-  },
-  {
-    "nombre": "Cavendish",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "x3 Multi, tiene 1 en 1000 de probabilidades de que la carta se destruya al final de la ronda."
-  },
-  {
-    "nombre": "Pares",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "+4 multi por cada carta de categoria par cuando anota (10, 8, 6, 4, 2)."
-  },
-  {
-    "nombre": "Nones",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "+31 fichas por cada carta de categoria impar cuando anota (A, 9, 7, 5, 3)."
-  },
-  {
-    "nombre": "Comediante",
-    "imagen": "",
-    "rareza": "Inusual",
-    "descripcion": "Reactiva todas las cartas 2, 3, 4 y 5 cuando se juegan."
-  },
-  {
-    "nombre": "Huevo",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "Gana 3$ del valor de venta al final de la ronda."
-  },
-  {
-    "nombre": "Salpicadura",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "Cada carta jugada cuenta para la puntuación."
-  },
-  {
-    "nombre": "Holograma",
-    "imagen": "",
-    "rareza": "Inusual",
-    "descripcion": "Este comodín consigue un x0.25 cada vez que se añada una carta de juego a tu baraja."
-  },
-  {
-    "nombre": "Gentuza",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "Cuando se selecciona la ciega, crea 2 comodines comunes. (Debes tener espacio)"
-  },
-  {
-    "nombre": "Adivino",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "+1 multi por cada carta de tarot usada."
-  },
-  {
-    "nombre": "Comodín Dorado",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "Gana 4$ al final de la ronda."
-  },
-  {
-    "nombre": "Ramen",
-    "imagen": "",
-    "rareza": "Inusual",
-    "descripcion": "×2 multi. Pierde multi x0.01 por cada carta descartada."
-  },
-  {
-    "nombre": "Palomitas de Maíz",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "Multi +20. Multi -4 por cada ronda jugada."
-  },
-  {
-    "nombre": "Papel Perforado",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "Reactiva la primera carta jugada que uses para puntuar 2 veces más."
-  },
-  {
-    "nombre": "Tragicomedia",
-    "imagen": "",
-    "rareza": "Inusual",
-    "descripcion": "Reactiva todas las cartas de figura jugadas"
-  },
-  {
-    "nombre": "Aventurero",
-    "imagen": "",
-    "rareza": "Común",
-    "descripcion": "Añade el valor de venta al multi de todos los comodines que tengas."
-  },
-  {
-    "nombre": "Comodín borroso",
-    "imagen": "",
-    "rareza": "Inusual",
-    "descripcion": "Corazones (♥) y Diamantes (♦) <br>cuentan como un mismo Palo. <br>Picas (♠) y Tréboles (♣)<br>cuentan como un mismo palo."
-  },
-  {
-    "nombre": "Plano",
-    "imagen": "",
-    "rareza": "Rara",
-    "descripcion": "Copia la habilidad del comodín de la derecha."
-  },
-  {
-    "nombre": "Chicot",
-    "imagen": "",
-    "rareza": "Legendario",
-    "descripcion": "Desactiva el efecto de cada ciega jefe."
-  },
-  //Continuar desde aqui
-  {
-    "nombre": "Triboulet",
-    "imagen": "",
-    "rareza": "Legendario",
-    "descripcion": "×2× multiplicador si en la mano hay una Reina o un Rey."
-  },
-  {
-    "nombre": "Yorick",
-    "imagen": "",
-    "rareza": "Legendario",
-    "descripcion": "Otorga ×1× multiplicador por cada 23 descartes realizados."
-  },
-  {
-    "nombre": "Perkeo",
-    "imagen": "",
-    "rareza": "Legendario",
-    "descripcion": "Copia los efectos negativos del comodín situado a su derecha."
-  }
-]
-;
+      {
+        "nombre": "Comodín",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/e/ef/Joker.png/revision/latest?cb=20250619163211",
+        "rareza": "Común",
+        "descripcion": "<span class='multi'>+4 multi</span>"
+      },
+      {
+        "nombre": "Comodín Codicioso",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/4/43/Greedy_Joker.png/revision/latest?cb=20240320232231",
+        "rareza": "Común",
+        "descripcion": "<span class='multi'>+3 multi</span> por cada carta de <span class='diamantes'>Diamante ♦</span> en la mano puntuadora."
+      },
+      {
+        "nombre": "Comodín Lujurioso",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/f/fd/Lusty_Joker.png/revision/latest?cb=20240320232232",
+        "rareza": "Común",
+        "descripcion": "<span class='multi'>+3 multi</span> por cada carta de <span class='corazones'>Corazón♥</span> en la mano puntuadora."
+      },
+      {
+        "nombre": "Comodín Irascible",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/7/7b/Wrathful_Joker.png/revision/latest?cb=20240320232232",
+        "rareza": "Común",
+        "descripcion": "<span class='multi'>+3 multi</span> por cada carta de <span class='picas'>Pica ♠</span> en la mano puntuadora."
+      },
+      {
+        "nombre": "Comodín Glotón",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/a/ac/Gluttonous_Joker.png/revision/latest?cb=20240320232233",
+        "rareza": "Común",
+        "descripcion": "<span class='multi'>+3 multi</span> por cada carta de <span class='treboles'>Trebol ♣</span> en la mano puntuadora."
+      },
+      {
+        "nombre": "Medio Comodín",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/a/a0/Half_Joker.png/revision/latest?cb=20240502193610",
+        "rareza": "Común",
+        "descripcion": "<span class='multi'>+20 Multi</span> si la mano contiene 3 o menos cartas."
+      },
+      {
+        "nombre": "Mimo",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/6/65/Mime.png/revision/latest?cb=20230925010010",
+        "rareza": "Inusual",
+        "descripcion": "Reactiva todas las habilidades de las cartas en la mano."
+      },
+      {
+        "nombre": "Error de Imprenta",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/e/e1/Misprint.png/revision/latest?cb=20230925011346",
+        "rareza": "Común",
+        "descripcion": "Otorga un <span class='multi'>multi</span> aleatorio entre <span class='multi'>0</span> y <span class='multi'>23</span> en cada mano puntuadora."
+      },
+      {
+        "nombre": "Daga Ceremonial",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/7/76/Ceremonial_Dagger.png/revision/latest?cb=20240429133046",
+        "rareza": "Inusual",
+        "descripcion": "Cuando se selecciona la ciega, destruye al comodin de la derecha y agrega para siempre el doble del valor de venta a este <span class='multi'>multi</span>."
+      },
+      {
+        "nombre": "Comodín abstracto",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/c/ca/Abstract_Joker.png/revision/latest?cb=20230925013704",
+        "rareza": "Común",
+        "descripcion": "<span class='multi'>+3 multi</span> por cada comodín."
+      },
+      {
+        "nombre": "Pareidolia",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/8/81/Pareidolia.png/revision/latest?cb=20240429132936",
+        "rareza": "Inusual",
+        "descripcion": "Todas las cartas se consideran de figura."
+      },
+      {
+        "nombre": "Banano",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/6/6f/Gros_Michel.png/revision/latest?cb=20230925031850",
+        "rareza": "Común",
+        "descripcion": "<span class='multi'>+15 Multi</span>, tiene <span class='probabilidad'>1 en 6 de probabilidades</span> de que la carta se destruya al final de la ronda."
+      },
+      {
+        "nombre": "Cavendish",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/1/13/Cavendish.png/revision/latest?cb=20240320232317",
+        "rareza": "Común",
+        "descripcion": "<span class='multi'>x3 Multi</span>, tiene <span class='probabilidad'>1 en 1000 de probabilidades</span> de que la carta se destruya al final de la ronda."
+      },
+      {
+        "nombre": "Pares",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/2/20/Even_Steven.png/revision/latest?cb=20230925021257",
+        "rareza": "Común",
+        "descripcion": "<span class='multi'>+4 multi</span> por cada carta de categoria par cuando anota (10, 8, 6, 4, 2)."
+      },
+      {
+        "nombre": "Nones",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/1/17/Odd_Todd.png/revision/latest?cb=20230925021342",
+        "rareza": "Común",
+        "descripcion": "<span class='fichas'>+31 fichas</span> por cada carta de categoria impar cuando anota (A, 9, 7, 5, 3)."
+      },
+      {
+        "nombre": "Comediante",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/f/fd/Hack.png/revision/latest?cb=20230925011231",
+        "rareza": "Inusual",
+        "descripcion": "Reactiva todas las cartas 2, 3, 4 y 5 cuando se juegan."
+      },
+      {
+        "nombre": "Huevo",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/2/26/Egg.png/revision/latest?cb=20230925034821",
+        "rareza": "Común",
+        "descripcion": "Gana <span class='valor'>3$</span> del valor de venta al final de la ronda."
+      },
+      {
+        "nombre": "Salpicadura",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/0/01/Splash.png/revision/latest?cb=20230925035324",
+        "rareza": "Común",
+        "descripcion": "Cada carta jugada cuenta para la puntuación."
+      },
+      {
+        "nombre": "Holograma",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/0/07/Hologram.gif/revision/latest?cb=20240413030441",
+        "rareza": "Inusual",
+        "descripcion": "Este comodín consigue un <span class='multi'>x0.25</span> cada vez que se añada una carta de juego a tu baraja."
+      },
+      {
+        "nombre": "Gentuza",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/d/d2/Riff-Raff.png/revision/latest?cb=20240502123959",
+        "rareza": "Común",
+        "descripcion": "Cuando se selecciona la ciega, crea 2 comodines comunes. (Debes tener espacio)"
+      },
+      {
+        "nombre": "Adivino",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/8/8b/Fortune_Teller.png/revision/latest?cb=20230925030949",
+        "rareza": "Común",
+        "descripcion": "<span class='multi'>+1 multi</span> por cada carta de tarot usada."
+      },
+      {
+        "nombre": "Comodín Dorado",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/9/9a/Golden_Joker.png/revision/latest?cb=20230925013018",
+        "rareza": "Común",
+        "descripcion": "Gana <span class='valor'>4$</span> al final de la ronda."
+      },
+      {
+        "nombre": "Ramen",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/f/f8/Ramen.png/revision/latest?cb=20240320232403",
+        "rareza": "Inusual",
+        "descripcion": "<span class='multi'>×2 multi</span>. Pierde <span class='multi'>multi x0.01</span> por cada carta descartada."
+      },
+      {
+        "nombre": "Palomitas de Maíz",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/8/85/Popcorn.png/revision/latest?cb=20240320232401",
+        "rareza": "Común",
+        "descripcion": "<span class='multi'>Multi +20</span>. <span class='multi'>Multi -4</span> por cada ronda jugada."
+      },
+      {
+        "nombre": "Papel Perforado",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/1/15/Hanging_Chad.png/revision/latest?cb=20230925032056",
+        "rareza": "Común",
+        "descripcion": "Reactiva la primera carta jugada que uses para puntuar 2 veces más."
+      },
+      {
+        "nombre": "Tragicomedia",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/4/48/Sock_and_Buskin.png/revision/latest?cb=20240429133023",
+        "rareza": "Inusual",
+        "descripcion": "Reactiva todas las cartas de figura jugadas"
+      },
+      {
+        "nombre": "Aventurero",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/8/88/Swashbuckler.png/revision/latest?cb=20230925031133",
+        "rareza": "Común",
+        "descripcion": "Añade el valor de venta al <span class='multi'>multi</span> de todos los comodines que tengas."
+      },
+      {
+        "nombre": "Comodín borroso",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/7/7d/Smeared_Joker.png/revision/latest?cb=20230925031538",
+        "rareza": "Inusual",
+        "descripcion": "<span class='corazones'>Corazones (♥)</span> y <span class='diamantes'>Diamantes (♦)</span> <br>cuentan como un mismo Palo. <br><span class='picas'>Picas (♠)</span> y <span class='treboles'>Tréboles (♣)</span><br>cuentan como un mismo palo."
+      },
+      {
+        "nombre": "Plano",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/9/98/Blueprint.png/revision/latest?cb=20250619053653",
+        "rareza": "Rara",
+        "descripcion": "Copia la habilidad del comodín de la derecha."
+      },
+      {
+        "nombre": "El Trio",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/8/81/The_Trio.png/revision/latest?cb=20230925022247",
+        "rareza": "Rara",
+        "descripcion": "<span class='multi'>x3 Multi</span> si la mano contiene 1 Trio"
+      },
+      {
+        "nombre": "Permiso de Conducir",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/e/e0/Driver%27s_License.png/revision/latest?cb=20240418121827",
+        "rareza": "Rara",
+        "descripcion": "<span class='multi'>x3 Multi</span> si tienes al menos 16 cartas mejoradas."
+      },
+      {
+        "nombre": "Chicot",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/8/8e/Chicot.png/revision/latest?cb=20250619162619",
+        "rareza": "Legendario",
+        "descripcion": "Desactiva el efecto de cada ciega jefe."
+      },
+      {
+        "nombre": "Triboulet",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/9/9f/Triboulet.png/revision/latest?cb=20250619142213",
+        "rareza": "Legendario",
+        "descripcion": "Los Reyes y las reinas jugados otorgan <span class='multi'>multi x2</span> cuando anotan."
+      },
+      {
+        "nombre": "Yorick",
+        "imagen": "https://static.wikia.nocookie.net/balatrogame/images/a/ad/Yorick.png/revision/latest?cb=20250619142345",
+        "rareza": "Legendario",
+        "descripcion": "Este comodín consigue un <span class='multi'>multi x1</span> por cada 23 cartas que descartes."
+      },
+      {
+        "nombre": "Perkeo",
+        "imagen": "https://preview.redd.it/perkeo-smash-or-pass-v0-epa27prs4lue1.png?auto=webp&s=8718192988863ee6d7dcb8a6965ade495e81a6c7",
+        "rareza": "Legendario",
+        "descripcion": "Genera una copia negativa de 1 carta consumible al azar que tengas al final de la tienda."
+      }
+    ];
 
-    const grid = document.getElementById('jokerGrid');
-    const modal = document.getElementById('modal');
-    const modalName = document.getElementById('modalName');
-    const modalImage = document.getElementById('modalImage');
-    const modalRarity = document.getElementById('modalRarity');
-    const modalDescription = document.getElementById('modalDescription');
-    const modalClose = document.getElementById('modalClose');
+    const jokerGrid = document.getElementById("jokerGrid");
+    const modal = document.getElementById("modal");
+    const modalName = document.getElementById("modalName");
+    const modalImage = document.getElementById("modalImage");
+    const modalRarity = document.getElementById("modalRarity");
+    const modalDescription = document.getElementById("modalDescription");
+    const modalClose = document.getElementById("modalClose");
 
-    function crearCartas() {
-      jokers.forEach((joker, index) => {
-        const card = document.createElement('div');
-        card.classList.add('joker-card');
-        card.setAttribute('data-index', index);
+    jokers.forEach(joker => {
+      const card = document.createElement("div");
+      card.classList.add("joker-card");
 
-        const imgSrc = joker.imagen && joker.imagen.trim() !== "" ? joker.imagen : placeholderImg;
+      const img = document.createElement("img");
+      img.src = joker.imagen || placeholderImg;
+      img.alt = joker.nombre;
 
-        card.innerHTML = `
-          <img src="${imgSrc}" alt="${joker.nombre || 'Comodín'}" />
-          <span>${joker.nombre || 'Nombre comodín'}</span>
-        `;
+      const name = document.createElement("span");
+      name.textContent = joker.nombre;
 
-        card.addEventListener('click', () => {
-          modalName.textContent = joker.nombre || 'Nombre comodín';
-          modalImage.src = imgSrc;
-          modalRarity.textContent = joker.rareza || 'Rareza';
-          modalDescription.innerHTML = joker.descripcion || 'Descripción del comodín.';
-          modal.style.display = 'flex';
-        });
+      card.appendChild(img);
+      card.appendChild(name);
 
-        grid.appendChild(card);
+      card.addEventListener("click", () => {
+        modalName.textContent = joker.nombre;
+        modalImage.src = joker.imagen || placeholderImg;
+        modalRarity.textContent = joker.rareza;
+        modalRarity.className = "rarity " + joker.rareza;
+        modalDescription.innerHTML = joker.descripcion;
+        modal.style.display = "flex";
       });
-    }
 
-    modalClose.addEventListener('click', () => {
-      modal.style.display = 'none';
+      jokerGrid.appendChild(card);
     });
 
-    modal.addEventListener('click', (e) => {
+    modalClose.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    modal.addEventListener("click", e => {
       if (e.target === modal) {
-        modal.style.display = 'none';
+        modal.style.display = "none";
       }
     });
 
-    crearCartas();
+    // 💃 Letras que bailan sutilmente (con espacios)
+    function makeLettersDance(selector) {
+      document.querySelectorAll(selector).forEach(el => {
+        const letters = el.textContent.split("");
+        el.innerHTML = "";
+        letters.forEach((char, i) => {
+          const span = document.createElement("span");
+          span.className = "dancing-letter";
+          span.style.animationDelay = `${i * 0.05}s`;
+          span.innerHTML = char === " " ? "&nbsp;" : char;
+          el.appendChild(span);
+        });
+      });
+    }
+
+    makeLettersDance("header h1");
+    makeLettersDance("h2");
+    // makeLettersDance(".joker-card span"); // <-- Animación desactivada para evitar cortes feos en nombres
+    makeLettersDance("#modalContent h2");
   </script>
 </body>
 </html>

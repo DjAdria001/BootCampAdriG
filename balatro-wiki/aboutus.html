@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* Centrar la lista y eliminar estilos inline flex de li */
+    ul {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding-left: 0;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    ul li {
+      flex-direction: column;
+      align-items: center;
+      display: flex;
+      cursor: pointer;
+      width: 150px;
+      height: auto;
+      transition: transform 0.2s, background-color 0.2s;
+      user-select: none;
+      border-radius: 12px;
+    }
+
+    ul li img {
+      border-radius: 8px;
+      margin-bottom: 8px;
+      max-width: 100%;
+      height: 120px;
+      object-fit: cover;
+      background-color: #222;
+    }
+
+    /* Modal fondo */
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.75);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    /* Contenido modal */
+    #modalContent {
+      background-color: rgba(0, 0, 0, 0.9);
+      color: white;
+      border: 2px solid cyan;
+      border-radius: 12px;
+      max-width: 700px;
+      width: 100%;
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      box-sizing: border-box;
+      align-items: center;
+      position: relative;
+    }
+
+    #modalContent img {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      flex-shrink: 0;
+      background-color: #222;
+    }
+
+    #modalText {
+      flex-grow: 1;
+    }
+
+    #modalText h3 {
+      margin-top: 0;
+      color: cyan;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #modalText p {
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    /* Botón cerrar */
+    #modalClose {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 2rem;
+      color: #ccc;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.3s;
+    }
+
+    #modalClose:hover {
+      color: white;
+    }
+
+    h2 {
+      text-align: center;
+      color: cyan;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>About Us</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="about.html">¿Qué es Balatro?</a>
+      <a href="cartas.html">Manos</a>
+      <a href="jokers.html">Comodines</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="aboutus.html">Sobre Nosotros</a>
+    </nav>
+  </header>
+
+  <main class="fondo-panel">
+    <h2>Nuestro Equipo</h2>
+
+    <ul id="clickableList">
+      <li data-title="Bloque Clickable 1" data-description="Descripción informativa para el bloque 1. Aquí puedes poner texto sobre esta sección o persona." data-img="https://via.placeholder.com/220">
+        <img src="https://via.placeholder.com/150" alt="Ejemplo Imagen 1" />
+        Bloque Clickable 1
+      </li>
+      <li data-title="Bloque Clickable 2" data-description="Esta es la información del bloque 2, con detalles o descripción que quieras mostrar." data-img="https://via.placeholder.com/220">
+        <img src="https://via.placeholder.com/150" alt="Ejemplo Imagen 2" />
+        Bloque Clickable 2
+      </li>
+      <li data-title="Bloque Clickable 3" data-description="Aquí puedes poner la descripción del bloque 3 para que el usuario la vea en el modal." data-img="imagenes/adri.png">
+        <img src="imagenes/adri.png" alt="Ejemplo Imagen 3" />
+        Bloque Clickable 3
+      </li>
+    </ul>
+  </main>
+
+  <footer>
+    &copy; 2025 Balatro Game. Todos los derechos reservados.
+  </footer>
+
+  <!-- Modal -->
+  <div id="modal">
+    <div id="modalContent">
+      <div id="modalClose">&times;</div>
+      <img src="" alt="Imagen modal" id="modalImg" />
+      <div id="modalText">
+        <h3 id="modalTitle"></h3>
+        <p id="modalDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modalImg");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalClose = document.getElementById("modalClose");
+    const clickableList = document.getElementById("clickableList");
+
+    clickableList.addEventListener("click", (e) => {
+      let li = e.target.closest("li");
+      if (!li) return;
+      // Extraemos info del bloque clickeado
+      const title = li.getAttribute("data-title");
+      const description = li.getAttribute("data-description");
+      const imgSrc = li.getAttribute("data-img");
+
+      modalTitle.textContent = title;
+      modalDesc.textContent = description;
+      modalImg.src = imgSrc;
+      modalImg.alt = title;
+
+      modal.style.display = "flex";
+    });
+
+    modalClose.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    // Cerrar modal al clicar fuera del contenido
+    modal.addEventListener("click", e => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
