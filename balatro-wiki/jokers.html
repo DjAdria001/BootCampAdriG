@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comodines</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .joker-card {
+      width: 150px;
+      border: 2px solid cyan;
+      border-radius: 12px;
+      background-color: rgba(0, 0, 0, 0.7);
+      text-align: center;
+      padding: 10px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+
+    .joker-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+
+    .joker-card span {
+      font-size: 0.9rem;
+      margin-top: 8px;
+      color: yellow;
+      font-weight: bold;
+    }
+
+    .joker-card:hover {
+      transform: scale(1.05);
+    }
+
+    /* Modal */
+    #modal {
+      display: none; /* Oculto por defecto */
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #modalContent {
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+
+    #modalContent img {
+      max-width: 100%;
+      border-radius: 6px;
+    }
+
+    #modalContent h2 {
+      margin-top: 0;
+      color: yellow;
+    }
+
+    #modalContent p {
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+
+    #modalClose {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      color: #ccc;
+      cursor: pointer;
+      user-select: none;
+    }
+    #modalClose:hover {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Comodines</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="about.html">¿Qué es Balatro?</a>
+      <a href="cartas.html">Cartas</a>
+      <a href="jokers.html">Comodines</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Galería de Comodines</h2>
+      <div class="grid" id="jokerGrid"></div>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal">
+    <div id="modalContent">
+      <div id="modalClose">&times;</div>
+      <h2 id="modalName"></h2>
+      <img id="modalImage" src="" alt="Imagen comodín" />
+      <p><strong>Rareza:</strong> <span id="modalRarity"></span></p>
+      <p id="modalDescription"></p>
+    </div>
+  </div>
+
+  <script>
+
+    const placeholderImg = "https://images.steamusercontent.com/ugc/2486628565689265736/42DE78B734C5901618FEADBB977117B5F76D848E/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false";
+
+    const jokers = [
+  {
+    "nombre": "Comodín Codicioso",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "+3 multi por cada carta de diamantes (♦) en la mano puntuadora."
+  },
+  {
+    "nombre": "Comodín Lujurioso",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "+3 multi por cada carta de corazones (♥) en la mano puntuadora."
+  },
+  {
+    "nombre": "Comodín Irascible",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "+3 multi por cada carta de picas (♠) en la mano puntuadora."
+  },
+  {
+    "nombre": "Comodín Glotón",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "+3 multi por cada carta de tréboles (♣) en la mano puntuadora."
+  },
+  {
+    "nombre": "Medio Comodín",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "+20 Multi si la mano contiene 3 o menos cartas."
+  },
+  {
+    "nombre": "Mimo",
+    "imagen": "",
+    "rareza": "Inusual",
+    "descripcion": "Reactiva todas las habilidades de las cartas en la mano."
+  },
+  {
+    "nombre": "Error de Imprenta",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "Otorga un multiplicador aleatorio entre 0 y 23 en cada mano puntuadora."
+  },
+  {
+    "nombre": "Daga Ceremonial",
+    "imagen": "",
+    "rareza": "Inusual",
+    "descripcion": "Cuando se selecciona la ciega, destruye al comodin de la derecha y agrega para siempre el doble del valor de venta a este multi."
+  },
+  {
+    "nombre": "Comodín abstracto",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "+3 multi por cada comodín."
+  },
+  {
+    "nombre": "Pareidolia",
+    "imagen": "",
+    "rareza": "Inusual",
+    "descripcion": "Todas las cartas se consideran de figura."
+  },
+  {
+    "nombre": "Banano",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "+15 Multi, tiene 1 en 6 de probabilidades de que la carta se destruya al final de la ronda."
+  },
+  {
+    "nombre": "Cavendish",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "x3 Multi, tiene 1 en 1000 de probabilidades de que la carta se destruya al final de la ronda."
+  },
+  {
+    "nombre": "Pares",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "+4 multi por cada carta de categoria par cuando anota (10, 8, 6, 4, 2)."
+  },
+  {
+    "nombre": "Nones",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "+31 fichas por cada carta de categoria impar cuando anota (A, 9, 7, 5, 3)."
+  },
+  {
+    "nombre": "Comediante",
+    "imagen": "",
+    "rareza": "Inusual",
+    "descripcion": "Reactiva todas las cartas 2, 3, 4 y 5 cuando se juegan."
+  },
+  {
+    "nombre": "Huevo",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "Gana 3$ del valor de venta al final de la ronda."
+  },
+  {
+    "nombre": "Salpicadura",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "Cada carta jugada cuenta para la puntuación."
+  },
+  {
+    "nombre": "Holograma",
+    "imagen": "",
+    "rareza": "Inusual",
+    "descripcion": "Este comodín consigue un x0.25 cada vez que se añada una carta de juego a tu baraja."
+  },
+  {
+    "nombre": "Gentuza",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "Cuando se selecciona la ciega, crea 2 comodines comunes. (Debes tener espacio)"
+  },
+  {
+    "nombre": "Adivino",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "+1 multi por cada carta de tarot usada."
+  },
+  {
+    "nombre": "Comodín Dorado",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "Gana 4$ al final de la ronda."
+  },
+  {
+    "nombre": "Ramen",
+    "imagen": "",
+    "rareza": "Inusual",
+    "descripcion": "×2 multi. Pierde multi x0.01 por cada carta descartada."
+  },
+  {
+    "nombre": "Palomitas de Maíz",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "Multi +20. Multi -4 por cada ronda jugada."
+  },
+  {
+    "nombre": "Papel Perforado",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "Reactiva la primera carta jugada que uses para puntuar 2 veces más."
+  },
+  {
+    "nombre": "Tragicomedia",
+    "imagen": "",
+    "rareza": "Inusual",
+    "descripcion": "Reactiva todas las cartas de figura jugadas"
+  },
+  {
+    "nombre": "Aventurero",
+    "imagen": "",
+    "rareza": "Común",
+    "descripcion": "Añade el valor de venta al multi de todos los comodines que tengas."
+  },
+  {
+    "nombre": "Comodín borroso",
+    "imagen": "",
+    "rareza": "Inusual",
+    "descripcion": "Corazones (♥) y Diamantes (♦) <br>cuentan como un mismo Palo. <br>Picas (♠) y Tréboles (♣)<br>cuentan como un mismo palo."
+  },
+  {
+    "nombre": "Plano",
+    "imagen": "",
+    "rareza": "Rara",
+    "descripcion": "Copia la habilidad del comodín de la derecha."
+  },
+  {
+    "nombre": "Chicot",
+    "imagen": "",
+    "rareza": "Legendario",
+    "descripcion": "Desactiva el efecto de cada ciega jefe."
+  },
+  //Continuar desde aqui
+  {
+    "nombre": "Triboulet",
+    "imagen": "",
+    "rareza": "Legendario",
+    "descripcion": "×2× multiplicador si en la mano hay una Reina o un Rey."
+  },
+  {
+    "nombre": "Yorick",
+    "imagen": "",
+    "rareza": "Legendario",
+    "descripcion": "Otorga ×1× multiplicador por cada 23 descartes realizados."
+  },
+  {
+    "nombre": "Perkeo",
+    "imagen": "",
+    "rareza": "Legendario",
+    "descripcion": "Copia los efectos negativos del comodín situado a su derecha."
+  }
+]
+;
+
+    const grid = document.getElementById('jokerGrid');
+    const modal = document.getElementById('modal');
+    const modalName = document.getElementById('modalName');
+    const modalImage = document.getElementById('modalImage');
+    const modalRarity = document.getElementById('modalRarity');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalClose = document.getElementById('modalClose');
+
+    function crearCartas() {
+      jokers.forEach((joker, index) => {
+        const card = document.createElement('div');
+        card.classList.add('joker-card');
+        card.setAttribute('data-index', index);
+
+        const imgSrc = joker.imagen && joker.imagen.trim() !== "" ? joker.imagen : placeholderImg;
+
+        card.innerHTML = `
+          <img src="${imgSrc}" alt="${joker.nombre || 'Comodín'}" />
+          <span>${joker.nombre || 'Nombre comodín'}</span>
+        `;
+
+        card.addEventListener('click', () => {
+          modalName.textContent = joker.nombre || 'Nombre comodín';
+          modalImage.src = imgSrc;
+          modalRarity.textContent = joker.rareza || 'Rareza';
+          modalDescription.innerHTML = joker.descripcion || 'Descripción del comodín.';
+          modal.style.display = 'flex';
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    modalClose.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    crearCartas();
+  </script>
+</body>
+</html>

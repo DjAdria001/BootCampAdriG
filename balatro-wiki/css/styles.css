@@ -1,0 +1,57 @@
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-image: url('https://enosistudio.com/wp-content/uploads/2025/04/capture-1.gif');
+  background-size: cover;
+  background-attachment: fixed;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+header, footer {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 1rem;
+  text-align: center;
+}
+nav a {
+  margin: 0 1rem;
+  color: cyan;
+  text-decoration: none;
+}
+main {
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  min-height: 70vh;
+}
+input, textarea {
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+}
+ul li {
+  list-style: none;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 2px solid cyan;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 10px;
+  width: 150px;
+  height: 150px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: transform 0.2s, background-color 0.2s;
+  cursor: pointer;
+}
+
+ul li:hover {
+  background-color: rgba(0, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+.fondo-panel {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  margin: 2rem;
+  border-radius: 12px;
+}
