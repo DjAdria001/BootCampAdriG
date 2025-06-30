@@ -1,0 +1,141 @@
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+.fondo-gif {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  background: url('https://enosistudio.com/wp-content/uploads/2025/04/capture-1.gif') no-repeat center center;
+  background-size: cover;
+   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.capa-media {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background: url('https://static.wixstatic.com/media/c0c025_ac5ac837aa2947d29bb6fa4d1aa0977a~mv2.gif') no-repeat center center;
+  background-size: cover;
+  }
+
+.contenido {
+  flex: 1;
+  z-index: 1;
+  padding: 20px;
+}
+    body {
+      background-color: #0a0a0a;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      line-height: 1.6;
+    }
+    header {
+      background: rgba(17, 17, 17, 0.874); /* Antes era #111, ahora con transparencia 0.8 */
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid cyan;
+    }
+
+    header h1 {
+      color: cyan;
+      font-size: 2rem;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: cyan;
+    }
+
+    main {
+      padding: 30px 20px;
+    }
+
+
+.intro {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  margin: 2rem auto;
+  border-radius: 12px;
+  max-width: 800px;
+  color: white;
+}
+
+.contenedor-cartas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
+  margin-bottom: 60px; /* Espacio para tooltip y separación */
+}
+
+/* Cada carta/icono */
+.card-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s;
+  max-width: 120px;
+  cursor: pointer;
+}
+
+.card-icon img {
+  width: 100px;
+  height: 140px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.card-icon p {
+  margin: 0;
+  font-weight: bold;
+}
+
+.card-icon:hover {
+  transform: scale(1.1);
+}
+
+.tooltip-text {
+  margin: 20px auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 15px 25px;
+  border-radius: 10px;
+  max-width: 600px;
+  font-size: 1.2em;
+  text-align: center;
+  color: white;
+  min-height: 30px;  /* Esto asegura que siempre tenga altura */
+  display: block;    /* Siempre visible */
+  transition: all 0.3s ease;
+  
+}
+
+footer {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 0.9em;
+}

@@ -3,36 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Balatro Wiki - Inicio</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <title>Balatro Wiki</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+  <link rel="icon" href="images/icono.png" type="image/x-icon" />
 </head>
-<body>
-  <header>
-    <h1>Balatro Wiki</h1>
-    <nav>
+<body class="index-page layout">
+
+  <!-- Fondo animado base -->
+  <div class="fondo-gif"></div>
+  
+    <header>
+      <h1>Balatro Wiki</h1>
+      <nav>
       <a href="index.html">Inicio</a>
       <a href="about.html">¿Qué es Balatro?</a>
       <a href="jokers.html">Comodines</a>
       <a href="contacto.html">Contacto</a>
       <a href="aboutus.html">Sobre Nosotros</a>
-    </nav>
-  </header>
+      </nav>
+    </header>
+<div class="contenido"></div>
+    <main>
+      <section class="intro">
+        <h2>Bienvenido a la Wiki de Balatro</h2>
+        <p>Explora cartas, Jokers y estrategias para dominar este juego único de póker roguelike.</p>
+      </section>
 
-  <main>
-  <section class="fondo-panel">
-    <h2>Bienvenido a la Wiki de Balatro</h2>
-    <p>Explora cartas, Jokers y estrategias para dominar este juego único de póker roguelike.</p>
-    <input type="text" id="buscador" placeholder="Buscar joker..." oninput="buscarJoker()">
-    <ul id="resultados"></ul>
-  </section>
-</main>
+      <section class="contenedor-cartas">
+        <div class="card-icon" data-tipo="jokers">
+          <img src="images/joker.png" alt="Jokers">
+          <p>Jokers</p>
+        </div>
+        <div class="card-icon" data-tipo="decks">
+          <img src="images/deck.png" alt="Decks">
+          <p>Decks</p>
+        </div>
+        <div class="card-icon" data-tipo="pokerHands">
+          <img src="images/hands.png" alt="Poker Hands">
+          <p>Poker Hands</p>
+        </div>
+        <div class="card-icon" data-tipo="cardModifiers">
+          <img src="images/modifiers.png" alt="Card Modifiers">
+          <p>Card Modifiers</p>
+        </div>
+        <div class="card-icon" data-tipo="shop">
+          <img src="images/shop.png" alt="The Shop">
+          <p>The Shop</p>
+        </div>
+        <div class="card-icon" data-tipo="tarot">
+          <img src="images/tarot.png" alt="Tarot Cards">
+          <p>Tarot Cards</p>
+        </div>
+        <div class="card-icon" data-tipo="planet">
+          <img src="images/planet.png" alt="Planet Cards">
+          <p>Planet Cards</p>
+        </div>
+        <div class="card-icon" data-tipo="spectral">
+          <img src="images/spectral.png" alt="Spectral Cards">
+          <p>Spectral Cards</p>
+        </div>
+        <div class="card-icon" data-tipo="vouchers">
+          <img src="images/voucher.png" alt="Vouchers">
+          <p>Vouchers</p>
+        </div>
+      </section>
 
-
+      <!-- Texto dinámico al pasar el ratón -->
+      <div id="descripcion" class="tooltip-text"></div>
+    </main>
+  </div>
 
   <footer>
-    <p>&copy; 2025 Balatro Wiki</p>
+    <p>© 2025 Balatro Wiki</p>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="js/scripts.js"></script>
 </body>
 </html>
