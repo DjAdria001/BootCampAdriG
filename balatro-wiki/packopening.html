@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pack Opening - Comodines</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      background: url('https://enosistudio.com/wp-content/uploads/2025/04/capture-1.gif') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+    }
+        /* Header adaptado del primer código */
+    .capa-media {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .fondo-superior {
+      height: 40px;
+      background: linear-gradient(to right, cyan, #0ff);
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    header {
+      background: rgba(17, 17, 17, 0.874);
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid cyan;
+
+      margin-bottom: 2rem;
+      margin-top: -1pt;
+    }
+
+    header h1 {
+      color: cyan;
+      font-size: 2rem;
+      margin: 0 0 10px 0;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+      transition: color 0.2s;
+      font-size: 1rem;
+    }
+
+    nav a:hover {
+      color: cyan;
+    }
+    h1 {
+      color: cyan;
+      margin-bottom: 1rem;
+    }
+    footer {
+      margin-top: 5pt;
+    }
+
+    .pack-button {
+      background: cyan;
+      color: black;
+      font-weight: bold;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      transition: transform 0.2s ease;
+    }
+
+    .pack-button:hover {
+      transform: scale(1.05);
+    }
+
+    .card-container {
+      perspective: 1000px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .card {
+      width: 320px;
+      height: 460px;
+      transform-style: preserve-3d;
+      transition: transform 1s;
+      position: relative;
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      backface-visibility: hidden;
+      box-shadow: 0 0 20px rgba(0,255,255,0.3);
+    }
+
+    .card-front {
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card-front img {
+      width: 200px;
+      height: auto;
+    }
+
+    .card-back {
+      background: #111;
+      transform: rotateY(180deg);
+      padding: 1rem;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-back img {
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+
+    .rareza {
+      font-weight: bold;
+      color: gold;
+      margin-bottom: 0.5rem;
+    }
+
+    .nombre {
+      font-size: 1.3rem;
+      color: cyan;
+      margin-bottom: 0.5rem;
+    }
+
+    .descripcion {
+      font-size: 1rem;
+      color: #ddd;
+    }
+
+    .multi {
+      color: red;
+      font-weight: bold;
+    }
+
+    details {
+      margin-top: 2rem;
+      text-align: left;
+      max-width: 800px;
+      margin-inline: auto;
+    }
+
+    summary {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: cyan;
+      cursor: pointer;
+    }
+
+    .inventario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    .inventario-carta {
+      background: #222;
+      border-radius: 10px;
+      padding: 0.5rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .inventario-carta img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 0.5rem;
+    }
+
+    .gris {
+      filter: grayscale(100%) brightness(0.5);
+    }
+
+    .contador {
+      margin-top: 0.3rem;
+      color: #ccc;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Packs</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="about.html">¿Qué es Balatro?</a>
+      <a href="jokers.html">Comodines</a>
+      <a href="packopening.html">Sobres</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="aboutus.html">Sobre Nosotros</a>
+    </nav>
+  </header>
+
+  <h1>¡Pack Opening!</h1>
+  <div class="card-container">
+    <div class="card" id="jokerCard">
+      <div class="card-face card-front">
+        <img src="https://static.wikia.nocookie.net/balatrogame/images/a/a9/Buffoon_Normal_2.png/revision/latest?cb=20240309052429" alt="Sobre" />
+      </div>
+      <div class="card-face card-back">
+        <div class="rareza" id="jokerRareza"></div>
+        <img id="jokerImagen" src="" alt="Joker" />
+        <div class="nombre" id="jokerNombre"></div>
+        <div class="descripcion" id="jokerDescripcion"></div>
+      </div>
+    </div>
+  </div>
+  <button class="pack-button" id="packBtn" onclick="abrirPack()">Abrir Pack</button>
+
+  <details>
+    <summary>Inventario</summary>
+    <div class="inventario-grid" id="inventario"></div>
+  </details>
+
+  <script>
+    const comodines = [
+  {"nombre":"Comodín","imagen":"https://static.wikia.nocookie.net/balatrogame/images/e/ef/Joker.png/revision/latest?cb=20250619163211","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='multi'>+4 multi</span>"},
+  {"nombre":"Comodín Codicioso","imagen":"https://static.wikia.nocookie.net/balatrogame/images/4/43/Greedy_Joker.png/revision/latest?cb=20240320232231","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='multi'>+3 multi</span> por cada carta de <span class='diamantes'>Diamante ♦</span> en la mano puntuadora."},
+  {"nombre":"Comodín Lujurioso","imagen":"https://static.wikia.nocookie.net/balatrogame/images/f/fd/Lusty_Joker.png/revision/latest?cb=20240320232232","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='multi'>+3 multi</span> por cada carta de <span class='corazones'>Corazón♥</span> en la mano puntuadora."},
+  {"nombre":"Comodín Irascible","imagen":"https://static.wikia.nocookie.net/balatrogame/images/7/7b/Wrathful_Joker.png/revision/latest?cb=20240320232232","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='multi'>+3 multi</span> por cada carta de <span class='picas'>Pica ♠</span> en la mano puntuadora."},
+  {"nombre":"Comodín Glotón","imagen":"https://static.wikia.nocookie.net/balatrogame/images/a/ac/Gluttonous_Joker.png/revision/latest?cb=20240320232233","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='multi'>+3 multi</span> por cada carta de <span class='treboles'>Trebol ♣</span> en la mano puntuadora."},
+  {"nombre":"Medio Comodín","imagen":"https://static.wikia.nocookie.net/balatrogame/images/a/a0/Half_Joker.png/revision/latest?cb=20240502193610","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='multi'>+20 Multi</span> si la mano contiene 3 o menos cartas."},
+  {"nombre":"Mimo","imagen":"https://static.wikia.nocookie.net/balatrogame/images/6/65/Mime.png/revision/latest?cb=20230925010010","rareza":"Inusual","probabilidad":0.25,"descripcion":"Reactiva todas las habilidades de las cartas en la mano."},
+  {"nombre":"Error de Imprenta","imagen":"https://static.wikia.nocookie.net/balatrogame/images/e/e1/Misprint.png/revision/latest?cb=20230925011346","rareza":"Común","probabilidad":0.55,"descripcion":"Otorga un <span class='multi'>multi</span> aleatorio entre <span class='multi'>0</span> y <span class='multi'>23</span> en cada mano puntuadora."},
+  {"nombre":"Daga Ceremonial","imagen":"https://static.wikia.nocookie.net/balatrogame/images/7/76/Ceremonial_Dagger.png/revision/latest?cb=20240429133046","rareza":"Inusual","probabilidad":0.25,"descripcion":"Cuando se selecciona la ciega, destruye al comodin de la derecha y agrega para siempre el doble del valor de venta a este <span class='multi'>multi</span>."},
+  {"nombre":"Comodín abstracto","imagen":"https://static.wikia.nocookie.net/balatrogame/images/c/ca/Abstract_Joker.png/revision/latest?cb=20230925013704","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='multi'>+3 multi</span> por cada comodín."},
+  {"nombre":"Pareidolia","imagen":"https://static.wikia.nocookie.net/balatrogame/images/8/81/Pareidolia.png/revision/latest?cb=20240429132936","rareza":"Inusual","probabilidad":0.25,"descripcion":"Todas las cartas se consideran de figura."},
+  {"nombre":"Banano","imagen":"https://static.wikia.nocookie.net/balatrogame/images/6/6f/Gros_Michel.png/revision/latest?cb=20230925031850","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='multi'>+15 Multi</span>, tiene <span class='probabilidad'>1 en 6 de probabilidades</span> de que la carta se destruya al final de la ronda."},
+  {"nombre":"Cavendish","imagen":"https://static.wikia.nocookie.net/balatrogame/images/1/13/Cavendish.png/revision/latest?cb=20240320232317","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='multi'>x3 Multi</span>, tiene <span class='probabilidad'>1 en 1000 de probabilidades</span> de que la carta se destruya al final de la ronda."},
+  {"nombre":"Pares","imagen":"https://static.wikia.nocookie.net/balatrogame/images/2/20/Even_Steven.png/revision/latest?cb=20230925021257","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='multi'>+4 multi</span> por cada carta de categoria par cuando anota (10, 8, 6, 4, 2)."},
+  {"nombre":"Nones","imagen":"https://static.wikia.nocookie.net/balatrogame/images/1/17/Odd_Todd.png/revision/latest?cb=20230925021342","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='fichas'>+31 fichas</span> por cada carta de categoria impar cuando anota (A, 9, 7, 5, 3)."},
+  {"nombre":"Comediante","imagen":"https://static.wikia.nocookie.net/balatrogame/images/f/fd/Hack.png/revision/latest?cb=20230925011231","rareza":"Inusual","probabilidad":0.25,"descripcion":"Reactiva todas las cartas 2, 3, 4 y 5 cuando se juegan."},
+  {"nombre":"Huevo","imagen":"https://static.wikia.nocookie.net/balatrogame/images/2/26/Egg.png/revision/latest?cb=20230925034821","rareza":"Común","probabilidad":0.55,"descripcion":"Gana <span class='valor'>3$</span> del valor de venta al final de la ronda."},
+  {"nombre":"Salpicadura","imagen":"https://static.wikia.nocookie.net/balatrogame/images/0/01/Splash.png/revision/latest?cb=20230925035324","rareza":"Común","probabilidad":0.55,"descripcion":"Cada carta jugada cuenta para la puntuación."},
+  {"nombre":"Holograma","imagen":"https://static.wikia.nocookie.net/balatrogame/images/0/07/Hologram.gif/revision/latest?cb=20240413030441","rareza":"Inusual","probabilidad":0.25,"descripcion":"Este comodín consigue un <span class='multi'>x0.25</span> cada vez que se añada una carta de juego a tu baraja."},
+  {"nombre":"Gentuza","imagen":"https://static.wikia.nocookie.net/balatrogame/images/d/d2/Riff-Raff.png/revision/latest?cb=20240502123959","rareza":"Común","probabilidad":0.55,"descripcion":"Cuando se selecciona la ciega, crea 2 comodines comunes. (Debes tener espacio)"},
+  {"nombre":"Adivino","imagen":"https://static.wikia.nocookie.net/balatrogame/images/8/8b/Fortune_Teller.png/revision/latest?cb=20230925030949","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='multi'>+1 multi</span> por cada carta de tarot usada."},
+  {"nombre":"Comodín Dorado","imagen":"https://static.wikia.nocookie.net/balatrogame/images/9/9a/Golden_Joker.png/revision/latest?cb=20230925013018","rareza":"Común","probabilidad":0.55,"descripcion":"Gana <span class='valor'>4$</span> al final de la ronda."},
+  {"nombre":"Ramen","imagen":"https://static.wikia.nocookie.net/balatrogame/images/f/f8/Ramen.png/revision/latest?cb=20240320232403","rareza":"Inusual","probabilidad":0.25,"descripcion":"<span class='multi'>×2 multi</span>. Pierde <span class='multi'>multi x0.01</span> por cada carta descartada."},
+  {"nombre":"Palomitas de Maíz","imagen":"https://static.wikia.nocookie.net/balatrogame/images/8/85/Popcorn.png/revision/latest?cb=20240320232401","rareza":"Común","probabilidad":0.55,"descripcion":"<span class='multi'>Multi +20</span>. <span class='multi'>Multi -4</span> por cada ronda jugada."},
+  {"nombre":"Papel Perforado","imagen":"https://static.wikia.nocookie.net/balatrogame/images/1/15/Hanging_Chad.png/revision/latest?cb=20230925032056","rareza":"Común","probabilidad":0.55,"descripcion":"Reactiva la primera carta jugada que uses para puntuar 2 veces más."},
+  {"nombre":"Tragicomedia","imagen":"https://static.wikia.nocookie.net/balatrogame/images/4/48/Sock_and_Buskin.png/revision/latest?cb=20240429133023","rareza":"Inusual","probabilidad":0.25,"descripcion":"Reactiva todas las cartas de figura jugadas"},
+  {"nombre":"Aventurero","imagen":"https://static.wikia.nocookie.net/balatrogame/images/8/88/Swashbuckler.png/revision/latest?cb=20230925031133","rareza":"Común","probabilidad":0.55,"descripcion":"Añade el valor de venta al <span class='multi'>multi</span> de todos los comodines que tengas."},
+  {"nombre":"Comodín borroso","imagen":"https://static.wikia.nocookie.net/balatrogame/images/7/7d/Smeared_Joker.png/revision/latest?cb=20230925031538","rareza":"Inusual","probabilidad":0.25,"descripcion":"<span class='corazones'>Corazones (♥)</span> y <span class='diamantes'>Diamantes (♦)</span> cuentan como un mismo Palo. <span class='picas'>Picas (♠)</span> y <span class='treboles'>Tréboles (♣)</span> cuentan como un mismo palo."},
+  {"nombre":"Plano","imagen":"https://static.wikia.nocookie.net/balatrogame/images/9/98/Blueprint.png/revision/latest?cb=20250619053653","rareza":"Rara","probabilidad":0.12,"descripcion":"Copia la habilidad del comodín de la derecha."},
+  {"nombre":"El Trio","imagen":"https://static.wikia.nocookie.net/balatrogame/images/8/81/The_Trio.png/revision/latest?cb=20230925022247","rareza":"Rara","probabilidad":0.12,"descripcion":"<span class='multi'>x3 Multi</span> si la mano contiene 1 Trio"},
+  {"nombre":"Permiso de Conducir","imagen":"https://static.wikia.nocookie.net/balatrogame/images/e/e0/Driver%27s_License.png/revision/latest?cb=20240418121827","rareza":"Rara","probabilidad":0.12,"descripcion":"<span class='multi'>x3 Multi</span> si tienes al menos 16 cartas mejoradas."},
+  {"nombre":"Lluvia de ideas","imagen":"https://static.wikia.nocookie.net/balatrogame/images/8/84/Brainstorm.png/revision/latest?cb=20230925033425","rareza":"Rara","probabilidad":0.12,"descripcion":"Copia la habilidad del comodin del extremo izquierdo."},
+  {"nombre":"Chicot","imagen":"https://static.wikia.nocookie.net/balatrogame/images/8/8e/Chicot.png/revision/latest?cb=20250619162619","rareza":"Legendario","probabilidad":0.08,"descripcion":"Desactiva el efecto de cada ciega jefe."},
+  {"nombre":"Triboulet","imagen":"https://static.wikia.nocookie.net/balatrogame/images/9/9f/Triboulet.png/revision/latest?cb=20250619142213","rareza":"Legendario","probabilidad":0.08,"descripcion":"Los Reyes y las reinas jugados otorgan <span class='multi'>multi x2</span> cuando anotan."},
+  {"nombre":"Yorick","imagen":"https://static.wikia.nocookie.net/balatrogame/images/a/ad/Yorick.png/revision/latest?cb=20250619142345","rareza":"Legendario","probabilidad":0.08,"descripcion":"Este comodín consigue un <span class='multi'>multi x1</span> por cada 23 cartas que descartes."},
+  {"nombre":"Perkeo","imagen":"https://preview.redd.it/perkeo-smash-or-pass-v0-epa27prs4lue1.png?auto=webp&s=8718192988863ee6d7dcb8a6965ade495e81a6c7","rareza":"Legendario","probabilidad":0.08,"descripcion":"Genera una copia negativa de 1 carta consumible al azar que tengas al final de la tienda."}
+    ];
+
+    const inventarioConteo = {};
+    comodines.forEach(c => inventarioConteo[c.nombre] = 0);
+
+    const card = document.getElementById("jokerCard");
+    const nombre = document.getElementById("jokerNombre");
+    const descripcion = document.getElementById("jokerDescripcion");
+    const imagen = document.getElementById("jokerImagen");
+    const rareza = document.getElementById("jokerRareza");
+    const btn = document.getElementById("packBtn");
+
+function abrirPack() {
+  // Si ya está volteada, reiniciar
+  if (card.classList.contains("flipped")) {
+    card.classList.remove("flipped");
+    imagen.src = "https://static.wikia.nocookie.net/balatrogame/images/a/a9/Buffoon_Normal_2.png/revision/latest?cb=20240309052429";
+    rareza.textContent = "";
+    nombre.innerHTML = "";
+    descripcion.innerHTML = "";
+    btn.textContent = "Abrir Pack";
+    return;
+  }
+
+  const carta = getCartaAleatoria();
+  rareza.textContent = carta.rareza;
+  nombre.innerHTML = carta.nombre;
+  descripcion.innerHTML = carta.descripcion;
+  imagen.src = carta.imagen;
+  inventarioConteo[carta.nombre]++;
+  actualizarInventario();
+
+  // Activar animación
+  void card.offsetWidth;
+  card.classList.add("flipped");
+
+  // Cambiar texto del botón
+  btn.textContent = "Siguiente Pack";
+}
+
+
+    function getCartaAleatoria() {
+      const total = comodines.reduce((acc, c) => acc + c.probabilidad, 0);
+      const rand = Math.random() * total;
+      let sum = 0;
+      for (const c of comodines) {
+        sum += c.probabilidad;
+        if (rand <= sum) return c;
+      }
+    }
+
+    function actualizarInventario() {
+      const contenedor = document.getElementById("inventario");
+      contenedor.innerHTML = "";
+      comodines.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "inventario-carta" + (inventarioConteo[c.nombre] === 0 ? " gris" : "");
+        const img = document.createElement("img");
+        img.src = inventarioConteo[c.nombre] === 0 ? "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg" : c.imagen;
+        const nombre = document.createElement("div");
+        nombre.innerHTML = inventarioConteo[c.nombre] === 0 ? "????" : c.nombre;
+        const cantidad = document.createElement("div");
+        cantidad.className = "contador";
+        cantidad.textContent = `x${inventarioConteo[c.nombre]}`;
+        div.appendChild(img);
+        div.appendChild(nombre);
+        div.appendChild(cantidad);
+        contenedor.appendChild(div);
+      });
+    }
+
+    actualizarInventario();
+  </script>
+      <footer>
+    &copy; 2025 Balatro Game. Todos los derechos reservados.
+  </footer>
+</body>
+</html>
